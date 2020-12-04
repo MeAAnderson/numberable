@@ -1,3 +1,9 @@
+// per game and per round prize 
+// 1 per round overRule
+// 3 per game nominate
+// 1 per round free wrong answer
+// final round 2x category options
+
 function displayGame() {
   let roundName = document.getElementById("roundName").value;
   let round = getRound(roundName);
