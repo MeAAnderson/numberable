@@ -42,9 +42,19 @@ function tryGuess() {
       console.log("testing " + (i + 1));
       count += 1;
       if (count === round.length) {
-        console.log(userGuess + " incorrect");
+          wrongAnswer();
       }
     }
   }
+
+  function wrongAnswer(){
+    console.log(userGuess + " incorrect");
+    document.getElementById('wrongTriangle').style.backgroundColor = 'tomato';
+    window.setTimeout(tryAgain, 1000);
+}
+function tryAgain(){
+    console.log('try again');
+    document.getElementById('wrongTriangle').style.visibility = 'hidden';
+}
 }
 

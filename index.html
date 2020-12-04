@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Numberable</title>
-  <script src="script.js"></script>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Numberable</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <h1>Numberable</h1>
-    <input id="roundName" type="text">
+    <input id="roundName" type="text" />
     <button id="display" onclick="displayGame()">enter</button>
     <h2></h2>
-    <div id="triangle">
-        
+    <div id="wrongTriangle"></div>
+    <div id="triangle"></div>
+    <div id="guess">
+      <input id="input" type="text" />
+      <button onclick="tryGuess()">enter</button>
     </div>
-    <input id="input" type="text">
-    <button onclick="tryGuess()">enter</button>
-</body>
+  </body>
 </html>
