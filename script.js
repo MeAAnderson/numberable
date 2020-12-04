@@ -1,7 +1,16 @@
 function displayGame() {
   let roundName = document.getElementById("roundName").value;
   let round = getRound(roundName);
-  console.log(round);
+  const triangle = document.getElementById("triangle");
+  document.getElementById('display').disabled = 'true'
+
+  for (i = 1; i < round.length; i++) {
+    answer = document.createElement("div");
+    triangle.appendChild(answer);
+    answer.textContent = round[i];
+    answer.className = 'answer';
+    answer.id = round[i];
+  }
 }
 
 function getRound(x) {
@@ -12,8 +21,8 @@ function getRound(x) {
     round = roundTestOne;
     return round;
   } else if (x === roundTestTwo[0]) {
-    round = roundTestTwo
-    return round
+    round = roundTestTwo;
+    return round;
   }
 }
 
@@ -26,6 +35,8 @@ function tryGuess() {
   for (i = 0; i < round.length; i++) {
     if (userGuess === round[i]) {
       console.log(userGuess + " correct");
+      a = document.getElementById(userGuess);
+      a.style.visibility = 'visible';
       break;
     } else {
       console.log("testing " + (i + 1));
@@ -37,4 +48,3 @@ function tryGuess() {
   }
 }
 
-//let roundTest = ["a", "b", "c", 'd', 'e', 'f']; //get me out of global memory please!
