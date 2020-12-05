@@ -1,19 +1,24 @@
-.answer{
+.answer, .wrongAnswer{
     position: relative;
     width: 60%;
-    margin-left: 20%;
-    background-color: greenyellow;
+    margin-left: 21%;
     margin-top: 1em;
     visibility: hidden;
+
+    background-color: chartreuse;
+    border: solid darkcyan 3px;
+    border-radius: 4px;
 }
-#wrongTriangle{
-    position: absolute;
-    height: 14em;
+#triangle, #wrongTriangle{
+    position: fixed;
+    top: 10em;
     width: 60%;
     margin-left: 20%;
-    border: solid blueviolet 3px;
+    border: solid;
+}
+#wrongTriangle{
     z-index: 1;
 }
 #guess{
-    margin-top: 1.5em;
+    visibility: hidden;
 }
