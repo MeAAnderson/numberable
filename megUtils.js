@@ -40,6 +40,20 @@ function setSessionCurrentQuestion(move) {
   });
 }
 
+function setSessionCurrentContestant(userPath) {
+  const userRef = firebase.firestore().doc(userPath);
+  onMasterSessionRef((ref) => {
+    ref.get({ source: "server" }).then((snap) =>
+      ref
+        .set({
+          ...snap.data(),
+          CurrentContestant: userRef,
+        })
+        .catch((err) => console.log(err))
+    );
+  });
+}
+
 function setMasterlistCurrentSession() {
   const value = document.getElementById(
     "sm_masterlist_setmasterlistcurrentsession"

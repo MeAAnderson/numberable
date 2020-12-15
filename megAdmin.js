@@ -56,9 +56,6 @@ class MegAdmin {
         document.getElementById(
           "firestore_masterlist"
         ).innerText = `Master: ${doc.ref.path} is currently: ${ref.path}\n`;
-        /*ref.onSnapshot(snap => {
-          element.innerText += `Snap: ${snap.data().Questions} \n`;
-        });*/
       });
   }
   initSessions() {

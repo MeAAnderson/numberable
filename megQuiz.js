@@ -15,14 +15,17 @@ class MegQuiz {
         <button onclick="viewerLogOut()">Log Out</button>
       </div>
     </div>
-    <div style="height:30px;"></div>
+    <div style="height:20px;"></div>
     <div id="available_game">
       <h2>Available Games</h2>
         <div id="isPlaying" style="display:none;">Currently Playing</div>
         <div id="available_game_name"></div>
         <div id="firestore_setInMasterSession" style="display:none;">
           <button onclick="setInMasterSession()">Join Game</button>
-      </div>
+        </div>
+    </div>
+    <div id="whose_turn">
+        Current Turn:
     </div>`;
 
     firebase

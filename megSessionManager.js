@@ -6,15 +6,31 @@ class MegSessionManager {
   }
   processCurrentSessionUsers({ Users }) {
     let users = {};
-    Users.map((user) =>
-      user.onSnapshot((userSnap) => {
-        users[userSnap.id] = userSnap.data().Name;
+    Users.map((userRef) =>
+      userRef.onSnapshot((userSnap) => {
+        users[userRef.path] = userSnap.data().Name;
         const values = Object.values(users);
+        const keys = Object.keys(users);
         document.getElementById(
           "sm_masterlist_users"
         ).innerText = `Users: ${values} \n`;
+
+        document.getElementById("sm_contestantbuttons").innerHTML =
+          "Select Current Contestant:";
+          keys.map((path) => {
+          document.getElementById(
+            "sm_contestantbuttons"
+          ).innerHTML += `<button onclick="setSessionCurrentContestant('${path}')">${users[path]}</button>`;
+        });
       })
     );
+  }
+  processCurrentSessionContestant({ CurrentContestant }) {
+    CurrentContestant.onSnapshot((user) => {
+      document.getElementById(
+        "sm_currentcontestant"
+      ).innerText = `Current Contestant: ${user.data().Name} (${user.id}) \n`;
+    });
   }
   processCurrentSessionQuestion({ CurrentQuestion, QuestionCollection }) {
     QuestionCollection.onSnapshot((qc) => {
@@ -43,6 +59,7 @@ class MegSessionManager {
             "sm_masterlist"
           ).innerText = `Current master: ${ref.id}, Name: ${currentSessionData.Name}`;
           this.processCurrentSessionQuestion(currentSessionData);
+          this.processCurrentSessionContestant(currentSessionData);
           this.processCurrentSessionUsers(currentSessionData);
         });
       });
