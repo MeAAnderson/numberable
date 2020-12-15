@@ -2,6 +2,29 @@
 
 class MegQuiz {
   constructor() {
+    document.getElementById("header_root").innerHTML = `
+    <div style="border:#000 1px solid;margin:10px;position:fixed;top:0px;height:20px;">
+      <div id="firestore_login" style="float:left;">
+        <div id="currentName"  style="float:left;margin-right:10px;">
+        </div>
+        <div style="float:left;">Enter Name:</div>
+        <input id="viewerNameInput" type="text" />
+        <button onclick="viewerNameInput()">Change</button>
+      </div>
+      <div id="firestore_logout" style="float:left;">
+        <button onclick="viewerLogOut()">Log Out</button>
+      </div>
+    </div>
+    <div style="height:30px;"></div>
+    <div id="available_game">
+      <h2>Available Games</h2>
+        <div id="isPlaying" style="display:none;">Currently Playing</div>
+        <div id="available_game_name"></div>
+        <div id="firestore_setInMasterSession" style="display:none;">
+          <button onclick="setInMasterSession()">Join Game</button>
+      </div>
+    </div>`;
+
     firebase
       .firestore()
       .enablePersistence({ synchronizeTabs: true })
@@ -25,17 +48,20 @@ class MegQuiz {
       .onSnapshot(function (doc) {
         doc.data().CurrentSession.onSnapshot((session) => {
           session.data().QuestionCollection.onSnapshot((collection) => {
+            const CurrentQuestion = session.data().CurrentQuestion;
             collection
               .data()
-              .Questions[session.data().CurrentQuestion].onSnapshot(
-                (question) => {
+              .Questions[CurrentQuestion].onSnapshot((question) => {
+                if (CurrentQuestion == -1) {
+                  setRound();
+                } else {
                   setRound([
                     question.id,
                     question.data().Question,
                     ...question.data().Answers,
                   ]);
                 }
-              );
+              });
           });
         });
       });

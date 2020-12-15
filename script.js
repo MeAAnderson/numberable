@@ -8,12 +8,11 @@ let incorrects = 0;
 // final round 2x category options
 
 function displayGame() {
-  let incorrects = 0;
-  let corrects = 0;
-  let roundPrize = 0;
+  //let incorrects = 0;
+  //let corrects = 0;
+  //let roundPrize = 0;
 
-  let roundName = document.getElementById("roundName").value;
-  let round = getRound(roundName);
+  let round = roundData;
 
   const triangle = document.getElementById("triangle");
   const wrongTriangle = document.getElementById("wrongTriangle");
@@ -48,49 +47,9 @@ function setRound(data) {
   roundData = data;
   displayGame();
 }
-function getRound(x) {
-  return roundData;
-  let round;
-  let One = [
-    "One",
-    "Guess the first ten symbols of the periodic table",
-    "H",
-    "He",
-    "Li",
-    "Be",
-    "B",
-    "C",
-    "N",
-    "O",
-    "F",
-    "Ne",
-  ];
-  let Two = [
-    "Two",
-    "Guess the most popular boys names in the UK, 1954",
-    "David",
-    "John",
-    "Stephen",
-    "Michael",
-    "Peter",
-    "Robert",
-    "Paul",
-    "Alan",
-    "Christopher",
-    "Richard",
-  ];
-  if (x === One[0]) {
-    round = One;
-    return round;
-  } else if (x === Two[0]) {
-    round = Two;
-    return round;
-  }
-}
 
 function tryGuess() {
-  let roundName = document.getElementById("roundName").value;
-  let round = getRound(roundName);
+  let round = roundData;
   let userGuess = document.getElementById("input").value;
   let count = 0;
 

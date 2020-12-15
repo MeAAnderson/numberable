@@ -19,6 +19,27 @@ function viewerLogOut() {
   firebase.auth().signOut();
 }
 
+function setSessionPreviousQuestion() {
+  setSessionCurrentQuestion(-1);
+}
+
+function setSessionNextQuestion() {
+  setSessionCurrentQuestion(1);
+}
+
+function setSessionCurrentQuestion(move) {
+  onMasterSessionRef((ref) => {
+    ref.get({ source: "server" }).then((snap) =>
+      ref
+        .set({
+          ...snap.data(),
+          CurrentQuestion: snap.data().CurrentQuestion + move,
+        })
+        .catch((err) => console.log(err))
+    );
+  });
+}
+
 function setMasterlistCurrentSession() {
   const value = document.getElementById(
     "sm_masterlist_setmasterlistcurrentsession"
@@ -34,6 +55,15 @@ function setMasterlistCurrentSession() {
     })
     .catch(function (error) {
       console.error("Error adding document: ", error);
+    });
+}
+
+function onMasterSessionRef(fn) {
+  firebase
+    .firestore()
+    .doc("quizSessions/Masterlist")
+    .onSnapshot((doc) => {
+      fn(doc.data().CurrentSession);
     });
 }
 

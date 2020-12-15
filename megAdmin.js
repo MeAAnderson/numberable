@@ -72,10 +72,10 @@ class MegAdmin {
           if (doc.id === "Masterlist") {
             return;
           }
-          const data = doc.data();
+          const {QuestionCollection} = doc.data();
           element.innerText += `Session: ${
             doc.ref.path
-          } \n Question: ${data.Questions?.map((q) => ` ${q.path}`)} \n\n`;
+          } \n QuestionCollection: ${QuestionCollection.id} \n\n`;
         });
       });
   }
