@@ -4,10 +4,50 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Numberable</title>
-    <script src="script.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-analytics.js"></script>
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyBQy7bAMgy3Qv3ULqaniHLTlp06eQ8xZnc",
+        authDomain: "meganquiz.firebaseapp.com",
+        projectId: "meganquiz",
+        storageBucket: "meganquiz.appspot.com",
+        messagingSenderId: "45732516864",
+        appId: "1:45732516864:web:a9f797ef738a1ba5efb4e5",
+        measurementId: "G-SK05T2YHL1"
+      };
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
+    <script src="script.js"></script>
+
+    <div style="border:#000 1px solid;margin:10px;position:fixed;top:0px;height:20px;">
+      <div id="firestore_login" style="float:left;">
+        <div id="currentName"  style="float:left;margin-right:10px;">
+        </div>
+        <div style="float:left;">Enter Name:</div>
+        <input id="viewerNameInput" type="text" />
+        <button onclick="viewerNameInput()">Change</button>
+      </div>
+      <div id="firestore_logout" style="float:left;">
+        <button onclick="viewerLogOut()">Log Out</button>
+      </div>
+    </div>
+    <div style="height:30px;"></div>
+    <div id="available_game">
+      <h2>Available Games</h2>
+        <div id="isPlaying" style="display:none;">Currently Playing</div>
+        <div id="available_game_name"></div>
+        <div id="firestore_setInMasterSession" style="display:none;">
+          <button onclick="setInMasterSession()">Join Game</button>
+      </div>
+    </div>
+
     <h1>Numberable</h1>
     <div id="select">Type in "One" or "Two" then click enter
     <input id="roundName" type="text" />
@@ -20,5 +60,7 @@
       <input id="input" type="text" />
       <button onclick="tryGuess()">enter</button>
     </div>
+    <script src="megUtils.js"></script>
+    <script src="megQuiz.js"></script>
   </body>
 </html>

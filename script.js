@@ -23,6 +23,7 @@ function displayGame() {
   document.getElementById("guess").style.visibility = "visible";
 
   const questionSection = document.getElementById("questionSection");
+  questionSection.innerHTML = '';
   question = document.createElement("div");
   questionSection.append(question);
   question.textContent = round[1];
@@ -42,7 +43,13 @@ function displayGame() {
   }
 }
 
+let roundData;
+function setRound(data) {
+  roundData = data;
+  displayGame();
+}
 function getRound(x) {
+  return roundData;
   let round;
   let One = [
     "One",
