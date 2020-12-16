@@ -19,58 +19,93 @@
         storageBucket: "meganquiz.appspot.com",
         messagingSenderId: "45732516864",
         appId: "1:45732516864:web:a9f797ef738a1ba5efb4e5",
-        measurementId: "G-SK05T2YHL1"
+        measurementId: "G-SK05T2YHL1",
       };
       firebase.initializeApp(firebaseConfig);
       firebase.analytics();
     </script>
 
-  <div style="background-color:rgb(166, 216, 162);padding:5px;margin: 5px;">
-    <H3 onclick="ToggleShow('session_manager_content')">Session Manager</H3>
-    <div id="session_manager_content">
-      <div style="background-color:rgb(230, 140, 124);padding:5px;margin:5px;">
-        Masterlist:
-        <input id="sm_masterlist_setmasterlistcurrentsession" type="text" size="40" />
-        <button onclick="setMasterlistCurrentSession()">Set</button>
+    <div
+      style="background-color: rgb(166, 216, 162); padding: 5px; margin: 5px"
+    >
+      <h3 onclick="ToggleShow('session_manager_content')">Session Manager</h3>
+      <div id="session_manager_content">
+        <div
+          style="
+            background-color: rgb(230, 140, 124);
+            padding: 5px;
+            margin: 5px;
+          "
+        >
+          Masterlist:
+          <input
+            id="sm_masterlist_setmasterlistcurrentsession"
+            type="text"
+            size="40"
+          />
+          <button onclick="setMasterlistCurrentSession()">Set</button>
+        </div>
+        <div
+          id="sm_masterlist"
+          style="background-color: rgb(230, 140, 124); padding: 5px"
+        ></div>
+        <div
+          id="sm_masterlist_users"
+          style="background-color: rgb(230, 140, 124); padding: 5px"
+        ></div>
+        <div style="background-color: rgb(228, 230, 124); padding: 5px">
+          <div id="sm_currentquestion"></div>
+          <button onclick="setSessionPreviousQuestion()">Prev Question</button>
+          <button onclick="setSessionNextQuestion()">Next Question</button>
+        </div>
+        <div
+          id="sm_currentcontestant"
+          style="background-color: rgb(230, 211, 124); padding: 5px"
+        ></div>
+        <div
+          id="sm_currentguess"
+          style="background-color: rgb(124, 152, 230); padding: 5px"
+        ></div>
+        <div style="background-color: rgb(124, 230, 198); padding: 5px">
+          <div id="sm_acceptingguess"></div>
+          <button onclick="setSessionAcceptingGuess(true)">Open</button>
+          <button onclick="setSessionAcceptingGuess(false)">Close</button>
+        </div>
+        <div
+          id="sm_contestantbuttons"
+          style="background-color: rgb(230, 158, 124); padding: 5px"
+        ></div>
       </div>
-      <div id="sm_masterlist" style="background-color:rgb(230, 140, 124);padding:5px;">
-      </div>
-      <div id="sm_masterlist_users" style="background-color:rgb(230, 140, 124);padding:5px;">
-      </div>
-      <div id="sm_currentquestion" style="background-color:rgb(228, 230, 124);padding:5px;">
-      </div>
-      <div style="background-color:rgb(228, 230, 124);padding:5px;">
-      </div>
-      <button onclick="setSessionPreviousQuestion()">Previous Question</button>
-      <button onclick="setSessionNextQuestion()">Next Question</button>
     </div>
-  </div>
-    <div style="background-color:rgb(238, 197, 243);padding:5px;margin: 5px;">
-      <H3 onclick="ToggleShow('all_data_content')">All Data</H3>
+    <div
+      style="background-color: rgb(238, 197, 243); padding: 5px; margin: 5px"
+    >
+      <h3 onclick="ToggleShow('all_data_content')">All Data</h3>
       <div id="all_data_content">
-        <div id="firestore_viewer" style="background-color:rgb(230, 140, 124);padding:5px;">
-        </div>
-        <div id="firestore_masterlist"  style="background-color:rgb(124, 218, 230);padding:5px;">
-        </div>
-        <div id="firestore_users" style="background-color:rgb(124, 230, 181);padding:5px;">
-        </div>
-        <div id="firestore_sessions"  style="background-color:rgb(124, 230, 133);padding:5px;">
-        </div>
-        <div id="firestore_questions"  style="background-color:rgb(228, 230, 124);padding:5px;">
-        </div>
+        <div
+          id="firestore_viewer"
+          style="background-color: rgb(230, 140, 124); padding: 5px"
+        ></div>
+        <div
+          id="firestore_masterlist"
+          style="background-color: rgb(124, 218, 230); padding: 5px"
+        ></div>
+        <div
+          id="firestore_users"
+          style="background-color: rgb(124, 230, 181); padding: 5px"
+        ></div>
+        <div
+          id="firestore_sessions"
+          style="background-color: rgb(124, 230, 133); padding: 5px"
+        ></div>
+        <div
+          id="firestore_questions"
+          style="background-color: rgb(228, 230, 124); padding: 5px"
+        ></div>
       </div>
     </div>
     <script src="megUtils.js"></script>
     <script src="megSessionManager.js"></script>
     <script src="megAdmin.js"></script>
-    <script>
-      function ToggleShow (element) {
-        if (document.getElementById(element).style.display !== "none") {
-          document.getElementById(element).style.display = "none";
-        } else {
-          document.getElementById(element).style.display = "block";
-        }
-      }
-    </script>
   </body>
 </html>

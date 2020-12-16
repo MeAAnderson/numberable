@@ -15,14 +15,21 @@ class MegQuiz {
         <button onclick="viewerLogOut()">Log Out</button>
       </div>
     </div>
-    <div style="height:30px;"></div>
+    <div style="height:20px;"></div>
     <div id="available_game">
       <h2>Available Games</h2>
         <div id="isPlaying" style="display:none;">Currently Playing</div>
         <div id="available_game_name"></div>
         <div id="firestore_setInMasterSession" style="display:none;">
           <button onclick="setInMasterSession()">Join Game</button>
-      </div>
+        </div>
+    </div>
+    <div id="whose_turn">
+    </div>
+    <div id="current_guess">
+    </div>
+    <div id="viewer_turn" style="background-color:rgb(228, 230, 124);padding:5px;display:none;">
+    It's your turn!
     </div>`;
 
     firebase
@@ -72,14 +79,31 @@ class MegQuiz {
       .doc("quizSessions/Masterlist")
       .onSnapshot(function (doc) {
         doc.data().CurrentSession.onSnapshot((session) => {
+          const {
+            Name,
+            Users,
+            CurrentGuess,
+            CurrentContestant,
+          } = session.data();
           const userRef = firebase
             .firestore()
             .doc("quizUsers/" + firebase.auth().currentUser.uid);
+          document.getElementById("available_game_name").innerText = Name;
+
+          CurrentContestant.onSnapshot((turn) => {
+            document.getElementById("whose_turn").innerText = `Current Turn: ${
+              turn.data().Name
+            }`;
+            SetShowing(
+              "viewer_turn",
+              turnUser.id === firebase.auth().currentUser.uid
+            );
+          });
           document.getElementById(
-            "available_game_name"
-          ).innerText = session.data().Name;
-          const users = session.data().Users;
-          if (!users.map((user) => user.path).includes(userRef.path)) {
+            "current_guess"
+          ).innerText = `Current Guess: ${CurrentGuess}`;
+
+          if (!Users.map((user) => user.path).includes(userRef.path)) {
             document.getElementById("isPlaying").style.display = "none";
             document.getElementById(
               "firestore_setInMasterSession"

@@ -27,6 +27,19 @@ function setSessionNextQuestion() {
   setSessionCurrentQuestion(1);
 }
 
+function setSessionAcceptingGuess(guess) {
+  onMasterSessionRef((ref) => {
+    ref.get({ source: "server" }).then((snap) =>
+      ref
+        .set({
+          ...snap.data(),
+          CurrentlyAcceptingGuess: guess,
+        })
+        .catch((err) => console.log(err))
+    );
+  });
+}
+
 function setSessionCurrentQuestion(move) {
   onMasterSessionRef((ref) => {
     ref.get({ source: "server" }).then((snap) =>
@@ -34,6 +47,20 @@ function setSessionCurrentQuestion(move) {
         .set({
           ...snap.data(),
           CurrentQuestion: snap.data().CurrentQuestion + move,
+        })
+        .catch((err) => console.log(err))
+    );
+  });
+}
+
+function setSessionCurrentContestant(userPath) {
+  const userRef = firebase.firestore().doc(userPath);
+  onMasterSessionRef((ref) => {
+    ref.get({ source: "server" }).then((snap) =>
+      ref
+        .set({
+          ...snap.data(),
+          CurrentContestant: userRef,
         })
         .catch((err) => console.log(err))
     );
@@ -89,4 +116,23 @@ function setInMasterSession() {
         }
       });
     });
+}
+
+function ToggleShow(element) {
+  if (document.getElementById(element).style.display !== "none") {
+    document.getElementById(element).style.display = "none";
+  } else {
+    document.getElementById(element).style.display = "block";
+  }
+}
+function SetShowing(element, direction) {
+  if (direction) {
+    document.getElementById(element).style.display = "block";
+  } else {
+    document.getElementById(element).style.display = "none";
+  }
+}
+
+function setText(element, text) {
+  document.getElementById(element).innerText = text;
 }
