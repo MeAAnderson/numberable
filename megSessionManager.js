@@ -11,13 +11,11 @@ class MegSessionManager {
         users[userRef.path] = userSnap.data().Name;
         const values = Object.values(users);
         const keys = Object.keys(users);
-        document.getElementById(
-          "sm_masterlist_users"
-        ).innerText = `Users: ${values} \n`;
+        setText("sm_masterlist_users", `Users: ${values} \n`);
 
         document.getElementById("sm_contestantbuttons").innerHTML =
           "Select Current Contestant:";
-          keys.map((path) => {
+        keys.map((path) => {
           document.getElementById(
             "sm_contestantbuttons"
           ).innerHTML += `<button onclick="setSessionCurrentContestant('${path}')">${users[path]}</button>`;
@@ -27,22 +25,22 @@ class MegSessionManager {
   }
   processCurrentSessionContestant({ CurrentContestant }) {
     CurrentContestant.onSnapshot((user) => {
-      document.getElementById(
-        "sm_currentcontestant"
-      ).innerText = `Current Contestant: ${user.data().Name} (${user.id}) \n`;
+      setText(
+        "sm_currentcontestant",
+        `Current Contestant: ${user.data().Name} (${user.id}) \n`
+      );
     });
   }
   processCurrentSessionQuestion({ CurrentQuestion, QuestionCollection }) {
     QuestionCollection.onSnapshot((qc) => {
       if (CurrentQuestion === -1) {
-        document.getElementById(
-          "sm_currentquestion"
-        ).innerText = `Current Question: null (-1) \n`;
+        setText("sm_currentquestion", `Current Question: null (-1)`);
       } else {
         qc.data().Questions[CurrentQuestion].onSnapshot((cq) => {
-          document.getElementById(
-            "sm_currentquestion"
-          ).innerText = `Current Question: ${cq.data().Question} \n`;
+          setText(
+            "sm_currentquestion",
+            `Current Question: ${cq.data().Question}`
+          );
         });
       }
     });
@@ -55,9 +53,19 @@ class MegSessionManager {
         const ref = doc.data().CurrentSession;
         ref.onSnapshot((currentSessionSnap) => {
           const currentSessionData = currentSessionSnap.data();
-          document.getElementById(
-            "sm_masterlist"
-          ).innerText = `Current master: ${ref.id}, Name: ${currentSessionData.Name}`;
+          const {
+            Name,
+            CurrentGuess,
+            CurrentlyAcceptingGuess,
+          } = currentSessionData;
+
+          setText("sm_masterlist", `Current master: ${ref.id}, Name: ${Name}`);
+          setText("sm_currentguess", `Current Guess: ${CurrentGuess}`);
+          setText(
+            "sm_acceptingguess",
+            `Accepting Guess: ${CurrentlyAcceptingGuess}`
+          );
+
           this.processCurrentSessionQuestion(currentSessionData);
           this.processCurrentSessionContestant(currentSessionData);
           this.processCurrentSessionUsers(currentSessionData);

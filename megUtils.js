@@ -27,6 +27,19 @@ function setSessionNextQuestion() {
   setSessionCurrentQuestion(1);
 }
 
+function setSessionAcceptingGuess(guess) {
+  onMasterSessionRef((ref) => {
+    ref.get({ source: "server" }).then((snap) =>
+      ref
+        .set({
+          ...snap.data(),
+          CurrentlyAcceptingGuess: guess,
+        })
+        .catch((err) => console.log(err))
+    );
+  });
+}
+
 function setSessionCurrentQuestion(move) {
   onMasterSessionRef((ref) => {
     ref.get({ source: "server" }).then((snap) =>
@@ -105,17 +118,21 @@ function setInMasterSession() {
     });
 }
 
-function ToggleShow (element) {
+function ToggleShow(element) {
   if (document.getElementById(element).style.display !== "none") {
     document.getElementById(element).style.display = "none";
   } else {
     document.getElementById(element).style.display = "block";
   }
 }
-function SetShowing (element, direction) {
+function SetShowing(element, direction) {
   if (direction) {
     document.getElementById(element).style.display = "block";
   } else {
     document.getElementById(element).style.display = "none";
   }
+}
+
+function setText(element, text) {
+  document.getElementById(element).innerText = text;
 }
