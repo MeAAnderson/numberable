@@ -8,7 +8,7 @@ class MegSessionManager {
     let users = {};
     Users.map((userRef) =>
       userRef.onSnapshot((userSnap) => {
-        users[userRef.path] = userSnap.data().Name;
+        users[userRef.path] = userSnap.data()?.Name || "Guest";
         const values = Object.values(users);
         const keys = Object.keys(users);
         setText("sm_masterlist_users", `Users: ${values} \n`);
@@ -33,8 +33,14 @@ class MegSessionManager {
   }
   processCurrentSessionQuestion({ CurrentQuestion, QuestionCollection }) {
     QuestionCollection.onSnapshot((qc) => {
-      if (CurrentQuestion === -1) {
-        setText("sm_currentquestion", `Current Question: null (-1)`);
+      if (
+        CurrentQuestion === -1 ||
+        qc.data().Questions.length <= CurrentQuestion
+      ) {
+        setText(
+          "sm_currentquestion",
+          `Current Question: null (${CurrentQuestion})`
+        );
       } else {
         qc.data().Questions[CurrentQuestion].onSnapshot((cq) => {
           setText(
