@@ -104,3 +104,18 @@ function setInMasterSession() {
       });
     });
 }
+
+function ToggleShow (element) {
+  if (document.getElementById(element).style.display !== "none") {
+    document.getElementById(element).style.display = "none";
+  } else {
+    document.getElementById(element).style.display = "block";
+  }
+}
+function SetShowing (element, direction) {
+  if (direction) {
+    document.getElementById(element).style.display = "block";
+  } else {
+    document.getElementById(element).style.display = "none";
+  }
+}

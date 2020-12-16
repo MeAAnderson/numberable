@@ -25,7 +25,9 @@ class MegQuiz {
         </div>
     </div>
     <div id="whose_turn">
-        Current Turn:
+    </div>
+    <div id="viewer_turn" style="background-color:rgb(228, 230, 124);padding:5px;display:none;">
+    It's your turn!
     </div>`;
 
     firebase
@@ -82,6 +84,12 @@ class MegQuiz {
             "available_game_name"
           ).innerText = session.data().Name;
           const users = session.data().Users;
+
+          session.data().CurrentContestant.onSnapshot(turnUser => {
+            document.getElementById("whose_turn").innerText = `Current Turn: ${turnUser.data().Name}`;
+            SetShowing("viewer_turn", turnUser.id === firebase.auth().currentUser.uid)
+          });
+          
           if (!users.map((user) => user.path).includes(userRef.path)) {
             document.getElementById("isPlaying").style.display = "none";
             document.getElementById(
