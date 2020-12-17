@@ -38,19 +38,14 @@
           "
         >
           Masterlist:
-          <input
+          <select
             id="sm_masterlist_setmasterlistcurrentsession"
-            type="text"
-            size="40"
-          />
-          <button onclick="setMasterlistCurrentSession()">Set</button>
+            onchange="setMasterlistCurrentSession()"
+          ></select>
+          <button onclick="createNewSession()">New</button>
         </div>
         <div
           id="sm_masterlist"
-          style="background-color: rgb(230, 140, 124); padding: 5px"
-        ></div>
-        <div
-          id="sm_masterlist_users"
           style="background-color: rgb(230, 140, 124); padding: 5px"
         ></div>
         <div style="background-color: rgb(228, 230, 124); padding: 5px">
@@ -62,9 +57,13 @@
           id="sm_currentcontestant"
           style="background-color: rgb(230, 211, 124); padding: 5px"
         ></div>
+        <div style="background-color: rgb(124, 152, 230); padding: 5px">
+          <div id="sm_currentguess"></div>
+          <div id="sm_guessoptions"></div>
+        </div>
         <div
-          id="sm_currentguess"
-          style="background-color: rgb(124, 152, 230); padding: 5px"
+          id="sm_wrongguesses"
+          style="background-color: rgb(230, 124, 198); padding: 5px"
         ></div>
         <div style="background-color: rgb(124, 230, 198); padding: 5px">
           <div id="sm_acceptingguess"></div>

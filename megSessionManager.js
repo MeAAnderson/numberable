@@ -6,25 +6,24 @@ class MegSessionManager {
   }
   processCurrentSessionUsers({ Users }) {
     let users = {};
-    Users.map((userRef) =>
-      userRef.onSnapshot((userSnap) => {
-        users[userRef.path] = userSnap.data()?.Name || "Guest";
+    setHTML("sm_contestantbuttons", "Select Current Contestant:");
+    Users?.forEach((userRef) =>
+      userRef.get().then((userSnap) => {
+        users[userRef.path] = userSnap.data()?.Name || "undefined";
         const values = Object.values(users);
-        const keys = Object.keys(users);
-        setText("sm_masterlist_users", `Users: ${values} \n`);
-
-        document.getElementById("sm_contestantbuttons").innerHTML =
-          "Select Current Contestant:";
-        keys.map((path) => {
-          document.getElementById(
-            "sm_contestantbuttons"
-          ).innerHTML += `<button onclick="setSessionCurrentContestant('${path}')">${users[path]}</button>`;
-        });
+        const buttons = Object.keys(users).map(
+          (key) =>
+            `<button onclick="setCurrentContestant('${key}')">${users[key]}</button>`
+        );
+        setHTML(
+          "sm_contestantbuttons",
+          `Select Current Contestant: ${buttons}`
+        );
       })
     );
   }
   processCurrentSessionContestant({ CurrentContestant }) {
-    CurrentContestant.onSnapshot((user) => {
+    CurrentContestant?.get().then((user) => {
       setText(
         "sm_currentcontestant",
         `Current Contestant: ${user.data().Name} (${user.id}) \n`
@@ -32,26 +31,67 @@ class MegSessionManager {
     });
   }
   processCurrentSessionQuestion({ CurrentQuestion, QuestionCollection }) {
-    QuestionCollection.onSnapshot((qc) => {
+    document.getElementById(
+      "sm_guessoptions"
+    ).innerHTML = `<button onclick="setSubmitWrongAnswer()">Wrong Answer</button>`;
+    if (QuestionCollection == null || QuestionCollection.empty) {
+      setText("sm_currentquestion", `Question Collection undefined`);
+    }
+    QuestionCollection.get().then((snap) => {
       if (
-        CurrentQuestion === -1 ||
-        qc.data().Questions.length <= CurrentQuestion
+        CurrentQuestion < 0 ||
+        CurrentQuestion >= snap.data().Questions.length
       ) {
         setText(
           "sm_currentquestion",
           `Current Question: null (${CurrentQuestion})`
         );
       } else {
-        qc.data().Questions[CurrentQuestion].onSnapshot((cq) => {
-          setText(
-            "sm_currentquestion",
-            `Current Question: ${cq.data().Question}`
-          );
-        });
+        snap
+          .data()
+          .Questions[CurrentQuestion].get()
+          .then((question) => {
+            question.data().Answers.forEach((answer) => {
+              document.getElementById(
+                "sm_guessoptions"
+              ).innerHTML += `<button onclick="setSubmitCorrectAnswer('${answer}')">${answer}</button>`;
+            });
+          });
+        snap
+          .data()
+          .Questions[CurrentQuestion].get()
+          .then((cq) => {
+            setText(
+              "sm_currentquestion",
+              `Current Question: ${cq.data().Question}`
+            );
+          });
       }
     });
   }
   initMasterlist() {
+    firebase
+      .firestore()
+      .collection("quizSessions")
+      .onSnapshot((sessions) => {
+        firebase
+          .firestore()
+          .doc("quizSessions/Masterlist")
+          .get()
+          .then((masterSnap) => {
+            const masterSession = masterSnap.data().CurrentSession;
+            const elem = "sm_masterlist_setmasterlistcurrentsession";
+            document.getElementById(elem).innerHTML = "";
+            sessions.forEach(({ id, ref: { path } }) => {
+              if (id !== "Masterlist") {
+                document.getElementById(
+                  elem
+                ).innerHTML += `<option value="${path}">${id}</option>`;
+              }
+            });
+            document.getElementById(elem).value = masterSession.path;
+          });
+      });
     firebase
       .firestore()
       .doc("quizSessions/Masterlist")
@@ -59,19 +99,27 @@ class MegSessionManager {
         const ref = doc.data().CurrentSession;
         ref.onSnapshot((currentSessionSnap) => {
           const currentSessionData = currentSessionSnap.data();
+          if (currentSessionData == null) {
+            return;
+          }
           const {
-            Name,
             CurrentGuess,
             CurrentlyAcceptingGuess,
+            CurrentWrongGuesses,
           } = currentSessionData;
-
-          setText("sm_masterlist", `Current master: ${ref.id}, Name: ${Name}`);
+          setText("sm_masterlist", `Current master: ${ref.id}`);
           setText("sm_currentguess", `Current Guess: ${CurrentGuess}`);
+          setText(
+            "sm_wrongguesses",
+            `Current Wrong Guesses: ${CurrentWrongGuesses}`
+          );
           setText(
             "sm_acceptingguess",
             `Accepting Guess: ${CurrentlyAcceptingGuess}`
           );
-
+          document.getElementById(
+            "sm_masterlist_setmasterlistcurrentsession"
+          ).value = ref.path;
           this.processCurrentSessionQuestion(currentSessionData);
           this.processCurrentSessionContestant(currentSessionData);
           this.processCurrentSessionUsers(currentSessionData);

@@ -79,16 +79,11 @@ class MegQuiz {
       .doc("quizSessions/Masterlist")
       .onSnapshot(function (doc) {
         doc.data().CurrentSession.onSnapshot((session) => {
-          const {
-            Name,
-            Users,
-            CurrentGuess,
-            CurrentContestant,
-          } = session.data();
+          const { Users, CurrentGuess, CurrentContestant } = session.data();
           const userRef = firebase
             .firestore()
             .doc("quizUsers/" + firebase.auth().currentUser.uid);
-          document.getElementById("available_game_name").innerText = Name;
+          document.getElementById("available_game_name").innerText = session.id;
 
           CurrentContestant.onSnapshot((turn) => {
             document.getElementById("whose_turn").innerText = `Current Turn: ${
@@ -96,13 +91,12 @@ class MegQuiz {
             }`;
             SetShowing(
               "viewer_turn",
-              turnUser.id === firebase.auth().currentUser.uid
+              turn.id === firebase.auth().currentUser.uid
             );
           });
           document.getElementById(
             "current_guess"
           ).innerText = `Current Guess: ${CurrentGuess}`;
-
           if (!Users.map((user) => user.path).includes(userRef.path)) {
             document.getElementById("isPlaying").style.display = "none";
             document.getElementById(

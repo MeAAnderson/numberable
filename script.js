@@ -85,10 +85,15 @@ function setRound(data) {
   roundData = data;
   displayGame();
 }
+function sendUserGuess(guess){
+  console.log(`Sending ${guess} to server.`);
+  setCurrentGuess(guess);
+}
 
 function tryGuess() {
   let round = roundData;
   let userGuess = document.getElementById("input").value;
+  sendUserGuess(userGuess);
   let count = 0;
 
   for (i = 0; i < round.length; i++) {
