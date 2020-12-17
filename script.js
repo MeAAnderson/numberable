@@ -1,7 +1,7 @@
 
 function setPageLayout(){
   let body = document.getElementsByTagName("body");
-
+  console.log("layout");
   let header = document.createElement("div");
   document.body.appendChild(header);
   header.id = "header";
@@ -52,14 +52,14 @@ function displayGame() {
 
   let round = roundData;
 
-  const triangle = document.getElementById("triangle");
-  const wrongTriangle = document.getElementById("wrongTriangle");
+  const triangle = document.createElement("triangle");
+  const wrongTriangle = document.createElement("wrongTriangle");
 
-  const select = document.getElementById("select");
+  const select = document.createElement("select");
   select.style.visibility = "hidden";
-  document.getElementById("guess").style.visibility = "visible";
+  document.createElement("guess").style.visibility = "visible";
 
-  const questionSection = document.getElementById("questionSection");
+  const questionSection = document.createElement("questionSection");
   questionSection.innerHTML = '';
   question = document.createElement("div");
   questionSection.append(question);
@@ -80,7 +80,7 @@ function displayGame() {
   }
 }
 
-let roundData;
+
 function setRound(data) {
   roundData = data;
   displayGame();
@@ -92,14 +92,14 @@ function sendUserGuess(guess){
 
 function tryGuess() {
   let round = roundData;
-  let userGuess = document.getElementById("input").value;
+  let userGuess = document.createElement("input").value;
   sendUserGuess(userGuess);
   let count = 0;
 
   for (i = 0; i < round.length; i++) {
     if (userGuess === round[i]) {
       console.log(userGuess + " correct");
-      a = document.getElementById(userGuess);
+      a = document.createElement(userGuess);
       a.style.visibility = "visible";
       break;
     } else {
@@ -113,8 +113,8 @@ function tryGuess() {
   function wrongAnswer() {
     incorrects += 1;
     console.log(incorrects);
-    document.getElementById("wrongTriangle").style.backgroundColor = "tomato";
-    document.getElementById("wrongTriangle").style.visibility = "visible";
+    document.createElement("wrongTriangle").style.backgroundColor = "tomato";
+    document.createElement("wrongTriangle").style.visibility = "visible";
     if (incorrects < 2) {
       window.setTimeout(tryAgain, 1000);
       incorrects += 1;
@@ -122,6 +122,6 @@ function tryGuess() {
   }
   function tryAgain() {
     console.log("try again");
-    document.getElementById("wrongTriangle").style.visibility = "hidden";
+    document.createElement("wrongTriangle").style.visibility = "hidden";
   }
 }
