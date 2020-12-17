@@ -54,16 +54,20 @@ function displayGame() {
 
   const triangle = document.createElement("triangle");
   const wrongTriangle = document.createElement("wrongTriangle");
+  document.body.appendChild(triangle);
+  document.body.appendChild(wrongTriangle);
 
   const select = document.createElement("select");
   select.style.visibility = "hidden";
   document.createElement("guess").style.visibility = "visible";
+  document.body.appendChild(select);
 
   const questionSection = document.createElement("questionSection");
   questionSection.innerHTML = '';
   question = document.createElement("div");
   questionSection.append(question);
   question.textContent = round[1];
+  document.body.appendChild(questionSection);
 
   for (i = 2; i < round.length; i++) {
     answer = document.createElement("div");
@@ -80,7 +84,7 @@ function displayGame() {
   }
 }
 
-
+let roundData;
 function setRound(data) {
   roundData = data;
   displayGame();
