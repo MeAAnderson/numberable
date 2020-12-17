@@ -69,10 +69,8 @@ class MegAdmin {
           if (doc.id === "Masterlist") {
             return;
           }
-          const {QuestionCollection} = doc.data();
-          element.innerText += `Session: ${
-            doc.ref.path
-          } \n QuestionCollection: ${QuestionCollection.id} \n\n`;
+          const { QuestionCollection } = doc.data();
+          element.innerText += `Session: ${doc.ref.path} \n QuestionCollection: ${QuestionCollection?.id} \n\n`;
         });
       });
   }
