@@ -102,9 +102,17 @@ class MegSessionManager {
           if (currentSessionData == null) {
             return;
           }
-          const { CurrentGuess, CurrentlyAcceptingGuess } = currentSessionData;
+          const {
+            CurrentGuess,
+            CurrentlyAcceptingGuess,
+            CurrentWrongGuesses,
+          } = currentSessionData;
           setText("sm_masterlist", `Current master: ${ref.id}`);
           setText("sm_currentguess", `Current Guess: ${CurrentGuess}`);
+          setText(
+            "sm_wrongguesses",
+            `Current Wrong Guesses: ${CurrentWrongGuesses}`
+          );
           setText(
             "sm_acceptingguess",
             `Accepting Guess: ${CurrentlyAcceptingGuess}`

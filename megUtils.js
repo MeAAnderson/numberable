@@ -70,6 +70,14 @@ function setMasterSessionFields(fields) {
   });
 }
 
+function incrementMasterSessionField(field) {
+  withMasterSessionRef((ref) => {
+    ref
+      .update(field, firebase.firestore.FieldValue.increment(1))
+      .catch((err) => console.log(err));
+  });
+}
+
 function setSubmitCorrectAnswer(answer) {
   setMasterSessionFields({
     CurrentGuess: "",
@@ -79,6 +87,7 @@ function setSubmitCorrectAnswer(answer) {
 
 function setSubmitWrongAnswer() {
   setMasterSessionFields({ CurrentGuess: "" });
+  incrementMasterSessionField("CurrentWrongGuesses");
 }
 
 function setCurrentContestant(userPath) {
