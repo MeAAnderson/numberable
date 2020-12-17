@@ -22,3 +22,12 @@
 #guess{
     visibility: hidden;
 }
+*{
+    visibility: ;
+    border-style: solid;
+}
+body{
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    grid-template-rows: 10vw 60vw 30vw;
+}

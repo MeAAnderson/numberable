@@ -1,11 +1,49 @@
-// per game and per round prize
-let gamePrize = 0;
-// 1 per round overRule
-// 3 per game nominate
-let nominate = 0;
-// 1 per round free wrong answer
-let incorrects = 0;
-// final round 2x category options
+
+function setPageLayout(){
+  let body = document.getElementsByTagName("body");
+
+  let header = document.createElement("div");
+  document.body.appendChild(header);
+  header.id = "header";
+  header.style.gridColumn =  "1 / span 3";
+  header.style.gridRow = "1";
+  header.innerHTML = "current question, also title";
+
+  let info = document.createElement("div");
+  document.body.appendChild(info);
+  info.id = "info";
+  info.style.gridColumn = "1";
+  info.style.gridRow = "2 / span 2";
+  info.innerHTML = "game information goes here. who's playing, whose round, prize from previous rounds, ";
+
+  let content = document.createElement("div");
+  document.body.appendChild(content);
+  content.id = "content";
+  content.style.gridColumn = "2";
+  content.style.gridRow = "2 / span 2";
+  content.innerHTML = "pyramid goes here";
+
+  let interact = document.createElement("div");
+  document.body.appendChild(interact);
+  interact.id = "interact";
+  interact.style.gridColumn = "2";
+  interact.style.gridRow = "3";
+  interact.innerHTML = "guesses go in here"
+
+  let current = document.createElement("div");
+  document.body.appendChild(current);
+  current.id = "current";
+  current.style.gridColumn = "3";
+  current.style.gridRow = "2 / span 2";
+  current.innerHTML = "this is where current lives + correct out of ten/prize for the round so far goes";
+
+  displayLoginPage();
+}
+
+function displayLoginPage(){
+
+  //header.style.visibility = "visible";
+}
 
 function displayGame() {
   //let incorrects = 0;
