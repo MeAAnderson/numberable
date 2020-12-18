@@ -1,33 +1,38 @@
-.answer, .wrongAnswer{
-    position: relative;
-    width: 60%;
-    margin-left: 21%;
-    margin-top: 1em;
-    visibility: hidden;
-
-    background-color: chartreuse;
-    border: solid darkcyan 3px;
-    border-radius: 4px;
-}
-#triangle, #wrongTriangle{
-    position: fixed;
-    top: 20em;
-    width: 60%;
-    margin-left: 20%;
-    border: solid;
-}
-#wrongTriangle{
-    z-index: 1;
-}
-#guess{
-    visibility: hidden;
-}
 *{
-    visibility:;
+    visibility: inherit;
     border-style: solid;
+    display: grid;
+    justify-items: stretch;
+    align-items: stretch;
+    text-align: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
 }
 body{
     display: grid;
     grid-template-columns: 20% 60% 20%;
     grid-template-rows: 10vw 60vw 30vw;
+    visibility: ;
+}
+body>div{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+    visibility: inherit;
+}
+#header{
+    grid-template-rows: repeat(3, 1fr);
+}
+#interact{
+    grid-template-rows: repeat(5, 1fr);
+}
+#triangle{
+    
+}
+#wrong-triangle{
+    
+}
+.answer{
+    height: 1fr;
+    
 }
