@@ -1,18 +1,17 @@
 "use strict";
 
+function doc(document) {
+  return firebase.firestore().doc(document);
+}
+
 function viewerNameInput() {
-  const value = document.getElementById("viewerNameInput").value;
-  firebase
-    .firestore()
-    .collection("quizUsers")
-    .doc(firebase.auth().currentUser.uid)
+  doc("quizUsers/" + firebase.auth().currentUser.uid)
     .set(
       {
-        Name: value,
+        Name: document.getElementById("viewerNameInput").value,
       },
       { merge: true }
     )
-    .then(function () {})
     .catch(function (error) {
       console.error("Error setting username. ", error);
     });
@@ -23,42 +22,33 @@ function viewerLogOut() {
 }
 
 function setSessionPreviousQuestion() {
-  setSessionCurrentQuestion(-1);
+  incrementMasterSessionField("CurrentQuestion", -1);
+  resetCurrentValuesInMasterSesssion();
 }
 
 function setSessionNextQuestion() {
-  setSessionCurrentQuestion(1);
-}
-
-function setSessionCurrentQuestion(move) {
-  withMasterSessionRef((ref) => {
-    ref.get().then((snap) =>
-      ref
-        .set(
-          {
-            CurrentQuestion: snap.data().CurrentQuestion + move,
-          },
-          { merge: true }
-        )
-        .catch((err) => console.log(err))
-    );
-  });
+  incrementMasterSessionField("CurrentQuestion", 1);
+  resetCurrentValuesInMasterSesssion();
 }
 
 function setMasterlistCurrentSession() {
-  const value = document.getElementById(
-    "sm_masterlist_setmasterlistcurrentsession"
-  ).value;
-  const CurrentSession = firebase.firestore().doc(value);
-  firebase
-    .firestore()
-    .doc("quizSessions/Masterlist")
+  setMasterlist(
+    doc(
+      document.getElementById("sm_masterlist_setmasterlistcurrentsession").value
+    ),
+    () => {}
+  );
+}
+
+function setMasterlist(masterRef, thenFn) {
+  doc("quizSessions/Masterlist")
     .set(
       {
-        CurrentSession,
+        CurrentSession: masterRef,
       },
       { merge: true }
     )
+    .then(thenFn)
     .catch(function (error) {
       console.error("Error adding document: ", error);
     });
@@ -70,10 +60,17 @@ function setMasterSessionFields(fields) {
   });
 }
 
-function incrementMasterSessionField(field) {
+function incrementMasterSessionField(field, value) {
   withMasterSessionRef((ref) => {
     ref
-      .update(field, firebase.firestore.FieldValue.increment(1))
+      .update(field, firebase.firestore.FieldValue.increment(value))
+      .catch((err) => console.log(err));
+  });
+}
+function arrayUnionMasterSessionField(field, value) {
+  withMasterSessionRef((ref) => {
+    ref
+      .update(field, firebase.firestore.FieldValue.arrayUnion(value))
       .catch((err) => console.log(err));
   });
 }
@@ -81,18 +78,19 @@ function incrementMasterSessionField(field) {
 function setSubmitCorrectAnswer(answer) {
   setMasterSessionFields({
     CurrentGuess: "",
-    CurrentAnswers: { "/questions/A": ["ABC"] },
   });
+  arrayUnionMasterSessionField("CurrentAnswers", answer);
+  incrementMasterSessionField("CurrentCorrectGuesses", 1);
 }
 
 function setSubmitWrongAnswer() {
   setMasterSessionFields({ CurrentGuess: "" });
-  incrementMasterSessionField("CurrentWrongGuesses");
+  incrementMasterSessionField("CurrentWrongGuesses", 1);
 }
 
 function setCurrentContestant(userPath) {
   setMasterSessionFields({
-    CurrentContestant: firebase.firestore().doc(userPath),
+    CurrentContestant: doc(userPath),
   });
 }
 function setCurrentGuess(guess) {
@@ -103,8 +101,21 @@ function setSessionAcceptingGuess(accepting) {
   setMasterSessionFields({ CurrentlyAcceptingGuess: accepting });
 }
 
+function resetCurrentValuesInMasterSesssion() {
+  setMasterSessionFields({
+    CurrentAnswers: [],
+    //CurrentContestant:
+    CurrentCorrectGuesses: 0,
+    CurrentGuess: "",
+    //CurrentQuestion: -1,
+    CurrentWrongGuesses: 0,
+    CurrentlyAcceptingGuess: false,
+    //QuestionCollection:
+    //Users:
+  });
+}
+
 function createNewSession() {
-  const CurrentQuestion = -1;
   firebase
     .firestore()
     .collection("quizQuestionCollection")
@@ -112,13 +123,14 @@ function createNewSession() {
     .get()
     .then((collectionQuery) => {
       collectionQuery.forEach((qc) => {
-        firebase
-          .firestore()
-          .collection("quizSessions")
-          .doc()
+        var newMaster = firebase.firestore().collection("quizSessions").doc();
+        newMaster
           .set({
-            CurrentQuestion: CurrentQuestion,
             QuestionCollection: qc.ref,
+            CurrentQuestion: -1,
+          })
+          .then(() => {
+            setMasterlist(newMaster, resetCurrentValuesInMasterSesssion);
           })
           .catch(function (error) {
             console.error("Error adding document: ", error);
@@ -129,9 +141,7 @@ function createNewSession() {
 }
 
 function withMasterSessionRef(fn) {
-  firebase
-    .firestore()
-    .doc("quizSessions/Masterlist")
+  doc("quizSessions/Masterlist")
     .get()
     .then((doc) => {
       fn(doc.data().CurrentSession);
@@ -139,38 +149,14 @@ function withMasterSessionRef(fn) {
 }
 
 function setInMasterSession() {
-  firebase
-    .firestore()
-    .doc("quizSessions/Masterlist")
-    .get()
-    .then(function (doc) {
-      doc
-        .data()
-        .CurrentSession.get()
-        .then((currentSession) => {
-          const userRef = firebase
-            .firestore()
-            .doc("quizUsers/" + firebase.auth().currentUser.uid);
-          const users = currentSession.data().Users;
-          if (!users.map((user) => user.path).includes(userRef.path)) {
-            currentSession.ref
-              .set({
-                ...currentSession.data(),
-                Users: [...users, userRef],
-              })
-              .catch(function (error) {
-                console.error("Error adding document: ", error);
-              });
-          }
-        });
-    });
+  arrayUnionMasterSessionField(
+    "Users",
+    doc("quizUsers/" + firebase.auth().currentUser.uid)
+  );
 }
 
-function ToggleShow(element) {
-  SetShowing(
-    element,
-    document.getElementById(element).style.display === "none"
-  );
+function ToggleShow(elem) {
+  SetShowing(elem, document.getElementById(elem).style.display === "none");
 }
 function SetShowing(element, direction) {
   document.getElementById(element).style.display = direction ? "block" : "none";

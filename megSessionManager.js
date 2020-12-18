@@ -2,6 +2,7 @@
 
 class MegSessionManager {
   constructor() {
+    this.masterlistHook = null;
     this.initMasterlist();
   }
   processCurrentSessionUsers({ Users }) {
@@ -23,6 +24,7 @@ class MegSessionManager {
     );
   }
   processCurrentSessionContestant({ CurrentContestant }) {
+    setText("sm_currentcontestant", `Current Contestant:`);
     CurrentContestant?.get().then((user) => {
       setText(
         "sm_currentcontestant",
@@ -30,43 +32,71 @@ class MegSessionManager {
       );
     });
   }
-  processCurrentSessionQuestion({ CurrentQuestion, QuestionCollection }) {
-    document.getElementById(
-      "sm_guessoptions"
-    ).innerHTML = `<button onclick="setSubmitWrongAnswer()">Wrong Answer</button>`;
+  processCurrentSessionQuestion({
+    CurrentQuestion,
+    QuestionCollection,
+    CurrentGuess,
+    CurrentAnswers,
+  }) {
+    setText("sm_currentguess", `Current Guess: ${CurrentGuess}`);
+    const wrongAns = `<button onclick="setSubmitWrongAnswer()">Wrong Answer</button>`;
     if (QuestionCollection == null || QuestionCollection.empty) {
       setText("sm_currentquestion", `Question Collection undefined`);
     }
-    QuestionCollection.get().then((snap) => {
-      if (
-        CurrentQuestion < 0 ||
-        CurrentQuestion >= snap.data().Questions.length
-      ) {
+    QuestionCollection.get().then((collection) => {
+      const { Questions } = collection.data();
+      if (CurrentQuestion < 0 || CurrentQuestion >= Questions.length) {
+        setHTML("sm_guessoptions", wrongAns);
         setText(
           "sm_currentquestion",
           `Current Question: null (${CurrentQuestion})`
         );
       } else {
-        snap
-          .data()
-          .Questions[CurrentQuestion].get()
-          .then((question) => {
-            question.data().Answers.forEach((answer) => {
-              document.getElementById(
-                "sm_guessoptions"
-              ).innerHTML += `<button onclick="setSubmitCorrectAnswer('${answer}')">${answer}</button>`;
-            });
+        Questions[CurrentQuestion].get().then((question) => {
+          const { Question, Answers } = question.data();
+          setHTML("sm_guessoptions", wrongAns);
+          setText("sm_currentquestion", `Current Question: ${Question}`);
+          Answers.forEach((answer) => {
+            const disabled = CurrentAnswers.includes(answer) ? "disabled" : "";
+            document.getElementById(
+              "sm_guessoptions"
+            ).innerHTML += `<button onclick="setSubmitCorrectAnswer('${answer}')" ${disabled}>${answer}</button>`;
           });
-        snap
-          .data()
-          .Questions[CurrentQuestion].get()
-          .then((cq) => {
-            setText(
-              "sm_currentquestion",
-              `Current Question: ${cq.data().Question}`
-            );
-          });
+        });
       }
+    });
+  }
+  updateMasterlistHook(masterlist) {
+    const ref = masterlist.data().CurrentSession;
+    if (this.masterlistHook != null) {
+      this.masterlistHook();
+    }
+    this.masterlistHook = ref.onSnapshot((currentSessionSnap) => {
+      const currentSessionData = currentSessionSnap.data();
+      if (currentSessionData == null) {
+        return;
+      }
+      const {
+        CurrentlyAcceptingGuess,
+        CurrentWrongGuesses,
+        CurrentAnswers,
+      } = currentSessionData;
+      setText("sm_masterlist", `Current master: ${ref.id}`);
+      setText("sm_currentanswers", `Current Answers: ${CurrentAnswers}`);
+      setText(
+        "sm_wrongguesses",
+        `Current Wrong Guesses: ${CurrentWrongGuesses}`
+      );
+      setText(
+        "sm_acceptingguess",
+        `Accepting Guess: ${CurrentlyAcceptingGuess}`
+      );
+      document.getElementById(
+        "sm_masterlist_setmasterlistcurrentsession"
+      ).value = ref.path;
+      this.processCurrentSessionQuestion(currentSessionData);
+      this.processCurrentSessionContestant(currentSessionData);
+      this.processCurrentSessionUsers(currentSessionData);
     });
   }
   initMasterlist() {
@@ -95,35 +125,6 @@ class MegSessionManager {
     firebase
       .firestore()
       .doc("quizSessions/Masterlist")
-      .onSnapshot((doc) => {
-        const ref = doc.data().CurrentSession;
-        ref.onSnapshot((currentSessionSnap) => {
-          const currentSessionData = currentSessionSnap.data();
-          if (currentSessionData == null) {
-            return;
-          }
-          const {
-            CurrentGuess,
-            CurrentlyAcceptingGuess,
-            CurrentWrongGuesses,
-          } = currentSessionData;
-          setText("sm_masterlist", `Current master: ${ref.id}`);
-          setText("sm_currentguess", `Current Guess: ${CurrentGuess}`);
-          setText(
-            "sm_wrongguesses",
-            `Current Wrong Guesses: ${CurrentWrongGuesses}`
-          );
-          setText(
-            "sm_acceptingguess",
-            `Accepting Guess: ${CurrentlyAcceptingGuess}`
-          );
-          document.getElementById(
-            "sm_masterlist_setmasterlistcurrentsession"
-          ).value = ref.path;
-          this.processCurrentSessionQuestion(currentSessionData);
-          this.processCurrentSessionContestant(currentSessionData);
-          this.processCurrentSessionUsers(currentSessionData);
-        });
-      });
+      .onSnapshot((masterlist) => this.updateMasterlistHook(masterlist));
   }
 }
