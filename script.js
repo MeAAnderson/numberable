@@ -93,7 +93,7 @@ function displayLoginPage() {
   let userInput = document.getElementById("user-input");
   //TO DO server takes value as user name
   let User = userInput.value;
-
+  //TO DO admin assigns captain
   prompt.innerHTML = "Enter user name";
 }
 
@@ -123,7 +123,8 @@ function displayGame() {
   currentQuestion.style.visibility = "visible";
   currentQuestion.innerHTML = `${roundData[1]}`;
 
-  for (i = 2; i < roundData.length; i++) {
+  //for megan add animation
+  for (i = roundData.length; i > 2; i--) {
     answer = document.createElement("div");
     triangle.appendChild(answer);
     answer.innerHTML = roundData[i];
@@ -132,21 +133,31 @@ function displayGame() {
     answer.gridRow = [i];
     answer.style.visibility = "hidden";
   }
-
-  gameLoop();
+  setCurrentContestant();
+  function setCurrentContestant(){
+    //TO DO admin assigns user to round
+  }
+  if(roundCount == (finalRound -1)){
+    gameLoopFinal();
+  } else {
+  gameLoopContestant(currentContestant);
+  gameLoopPassive(passiveContestants);
 }
 
-function gameLoop() {
+function gameLoopContestant() {
+
   let gameInput = document.getElementById("game-input");
   let gamePrompt = document.getElementById("game-prompt");
   let gameChoices = document.getElementById("game-choices");
-
+  
+  if (corrects>4){
   gamePrompt.innerHTML = "Keep playing?";
   //for megan: why aren't these buttons calling the function
   gameChoices.innerHTML = `
-    <button onclick="keepPlaying()">yes</button>
+    // <button onclick="keepPlaying()">yes</button>
     <button onclick="moveOn()">no</button>
   `;
+  } else {
   function keepPlaying() {
     gamePrompt.innerHTML = "Enter your answer";
     gameChoices.style.visibility = "hidden";
@@ -156,11 +167,72 @@ function gameLoop() {
     sendUserGuess(userGuess);
   }
 }
+}
 
 function sendUserGuess(guess) {
   console.log(`Sending ${guess} to server.`);
   setCurrentGuess(guess);
 }
+
+//TO DO if guess is correct, send index of correct answer
+function correctAnswer(indexOfCorrect) {
+  roundData = data;
+  let currentCorrect = document.getElementById(`${roundData[indexOfCorrect]}`);
+  currentCorrect.style = "visible";
+  currentCorrect.id = "answered";
+  corrects += 1;
+  return corrects
+}
+
+//TO DO if guess is incorrect, send previous incorrects count & 
+//index of contestant in case of removal 
+//for megan: that ladder thing
+function wrongAnswer(incorrects, indexofCurrentContestant) {
+  let index = indexofCurrentContestant
+  incorrects += 1;
+  document.getElementById("wrong-triangle").style.visibility = "visible";
+  if (incorrects < 2) {
+    window.setTimeout(tryAgain, 1000);
+    incorrects += 1;
+  } else if (incorrects >= 2){
+
+    removeCurrentContestant(index);
+  }
+}
+
+function removeCurrentContestant(index){
+  let testTeam = ["user1", "user2", "user3", "user4", "user5"];
+      for (i=0; i<index; i++){
+        testTeam.push(testTeam[i]);
+        testTeam.shift();
+      }
+      testTeam.shift();
+}
+
+function tryAgain() {
+  document.getElementById("wrong-triangle").style.visibility = "hidden";
+}
+
+//TO DO this should be exposing answers from the bottom up as the 
+//admin presses a button
+function moveOn() {
+  let interact = getElementById("interact");
+  interact.visibility = "hidden"
+  let wrongTriangle = document.getElementById("wrong-triangle");
+  wrongTriangle.visibility = "hidden";
+
+  for (i = roundData.length; i > 2; i--) {
+    try {
+      answer = document.getElementById(`${roundData[i]}`);
+      answer.style.visibility = "visible";
+      answer.id = ("exposed");
+    } catch (err) {
+      break;
+    }
+  }
+}
+
+function gameLoopPassive() {
 
 //TO DO if guess is correct, send index of correct answer
 function correctAnswer(indexOfCorrect) {
@@ -185,14 +257,22 @@ function tryAgain() {
   document.getElementById("wrong-triangle").style.visibility = "hidden";
 }
 
+//TO DO this should be exposing answers from the bottom up as the 
+//admin presses a button
 function moveOn() {
+  let interact = getElementById("interact");
+  interact.visibility = "hidden"
+  let wrongTriangle = document.getElementById("wrong-triangle");
   wrongTriangle.visibility = "hidden";
-  for (i = 2; i < roundData.length; i++) {
+
+  for (i = roundData.length; i > 2; i--) {
     try {
       answer = document.getElementById(`${roundData[i]}`);
       answer.style.visibility = "visible";
+      answer.id = ("exposed");
     } catch (err) {
-      continue
+      break;
     }
   }
 }
+}}
