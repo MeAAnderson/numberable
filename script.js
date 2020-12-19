@@ -39,7 +39,6 @@ function setPageLayout() {
 function buildHeaderAnchors() {
   let header = document.getElementById("header");
   header.innerHTML = "";
-  header.style.visibility = "visible";
 
   let title = document.createElement("div");
   header.appendChild(title);
@@ -75,27 +74,33 @@ function buildInteractAnchors() {
   let gameInput = document.createElement("input");
   interact.appendChild(gameInput);
   gameInput.id = "game-input";
-  gameInput.type = "text";
 
   let gamePrompt = document.createElement("div");
   interact.appendChild(gamePrompt);
   gamePrompt.id = "game-prompt";
+
+  let gameChoices = document.createElement("div");
+  interact.appendChild(gameChoices);
+  gameChoices.id = "game-choices";
 }
 
 function displayLoginPage() {
   let content = document.getElementById("content");
+  content.style.visibility = "visible";
   let prompt = document.getElementById("prompt");
+  prompt.style.visibility = "visible";
 
-  //below should be the firestore login?
   let userInput = document.getElementById("user-input");
-  console.log(userInput);
-  
-  prompt.innerHTML = "Enter your answer";
+  //TO DO server takes value as user name
+  let User = userInput.value;
+
+  prompt.innerHTML = "Enter user name";
 }
 
 let roundData;
+
 function setRound(data) {
-  roundData = data;;
+  roundData = data;
   console.log(roundData);
   if (roundData == null) {
     displayLoginPage();
@@ -125,51 +130,31 @@ function displayGame() {
     answer.className = "answer";
     answer.id = roundData[i];
     answer.gridRow = [i];
+    answer.style.visibility = "hidden";
   }
 
   gameLoop();
 }
 
 function gameLoop() {
-  //below should send answers/choices to server
   let gameInput = document.getElementById("game-input");
-
   let gamePrompt = document.getElementById("game-prompt");
-  gamePrompt.innerHTML = "Enter your answer";
-}
+  let gameChoices = document.getElementById("game-choices");
 
-function wrongAnswer() {
-  incorrects += 1;
-  document.getElementById("wrong-triangle").style.visibility = "visible";
-  if (incorrects < 2) {
-    window.setTimeout(tryAgain, 1000);
-    incorrects += 1;
+  gamePrompt.innerHTML = "Keep playing?";
+  //for megan: why aren't these buttons calling the function
+  gameChoices.innerHTML = `
+    <button onclick="keepPlaying()">yes</button>
+    <button onclick="moveOn()">no</button>
+  `;
+  function keepPlaying() {
+    gamePrompt.innerHTML = "Enter your answer";
+    gameChoices.style.visibility = "hidden";
+    gameInput.style.visibility = "visible";
+    //TO DO server takes user guess for approval/rejection
+    let userGuess = gameInput.value;
+    sendUserGuess(userGuess);
   }
-}
-function tryAgain() {
-  document.getElementById("wrong-triangle").style.visibility = "hidden";
-}
-
-function displayGameA() {
-  let round = ["0", "1"];
-
-  const select = document.createElement("select");
-  select.style.visibility = "hidden";
-  document.createElement("guess").style.visibility = "visible";
-  document.body.appendChild(select);
-
-  const questionSection = document.createElement("questionSection");
-  questionSection.innerHTML = "";
-  question = document.createElement("div");
-  questionSection.append(question);
-  question.textContent = round[1];
-  document.body.appendChild(questionSection);
-
-  wrongAnswer = document.createElement("div");
-  wrongTriangle.appendChild(wrongAnswer);
-  wrongAnswer.textContent = round[i];
-  wrongAnswer.className = "wrongAnswer";
-  wrongAnswer.id = "wrong" + round[i];
 }
 
 function sendUserGuess(guess) {
@@ -177,23 +162,37 @@ function sendUserGuess(guess) {
   setCurrentGuess(guess);
 }
 
-function tryGuess() {
-  let round = roundData;
-  let userGuess = document.createElement("input").value;
-  sendUserGuess(userGuess);
-  let count = 0;
+//TO DO if guess is correct, send index of correct answer
+function correctAnswer(indexOfCorrect) {
+  roundData = data;
+  let currentCorrect = document.getElementById(`${roundData[indexOfCorrect]}`);
+  currentCorrect.style = "visible";
+  currentCorrect.id = "answered";
+}
 
-  for (i = 0; i < round.length; i++) {
-    if (userGuess === round[i]) {
-      console.log(userGuess + " correct");
-      a = document.createElement(userGuess);
-      a.style.visibility = "visible";
-      break;
-    } else {
-      count += 1;
-      if (count === round.length) {
-        wrongAnswer();
-      }
+//TO DO if guess is incorrect, send previous incorrects count
+//for megan: that ladder thing
+function wrongAnswer(incorrects) {
+  incorrects += 1;
+  document.getElementById("wrong-triangle").style.visibility = "visible";
+  if (incorrects < 2) {
+    window.setTimeout(tryAgain, 1000);
+    incorrects += 1;
+  }
+}
+
+function tryAgain() {
+  document.getElementById("wrong-triangle").style.visibility = "hidden";
+}
+
+function moveOn() {
+  wrongTriangle.visibility = "hidden";
+  for (i = 2; i < roundData.length; i++) {
+    try {
+      answer = document.getElementById(`${roundData[i]}`);
+      answer.style.visibility = "visible";
+    } catch (err) {
+      continue
     }
   }
 }
