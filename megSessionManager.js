@@ -14,7 +14,7 @@ class MegSessionManager {
         const values = Object.values(users);
         const buttons = Object.keys(users).map(
           (key) =>
-            `<button onclick="setCurrentContestant('${key}')">${users[key]}</button>`
+            `<button onclick="util_setCurrentContestant('${key}')">${users[key]}</button>`
         );
         setHTML(
           "sm_contestantbuttons",

@@ -39,11 +39,7 @@ function setPageLayout() {
 
 function buildHeaderAnchors() {
   let header = document.getElementById("header");
-  header.innerHTML = "";
-
-  let title = document.createElement("div");
-  header.appendChild(title);
-  title.id = "title";
+  header.innerHTML = `<div id="title"></div>`;
 }
 
 function buildInfoAnchors() {
@@ -205,18 +201,14 @@ function displayInfo(data) {
   }
 }
 
-function setCurrentContestant() {
-  let interact = document.getElementById("interact");
-  interact.style.visibility = "visible";
-
-  let title = document.getElementById("title");
-  title.innerHTML += "it's your round";
+function setCurrentContestant(iAmCurrentContestant) {
+  document.getElementById("interact").style.visibility = iAmCurrentContestant ? "visible" : "hidden";
+  document.getElementById("title").innerHTML = iAmCurrentContestant ? "it's your round" : "it's not your round";
+  document.getElementById("title").style.backgroundColor = iAmCurrentContestant ? "PaleGreen" : "Coral";
 }
 
-function userMakesGuess() {
-  let gameInput = document.getElementById("game-input");
-  let userGuess = gameInput.value;
-  sendUserGuess(userGuess);
+function submitUserInput() {
+  sendUserGuess(document.getElementById("user-input").value);
 }
 
 function sendUserGuess(guess) {

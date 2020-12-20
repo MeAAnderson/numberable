@@ -88,7 +88,7 @@ function setSubmitWrongAnswer() {
   incrementMasterSessionField("CurrentWrongGuesses", 1);
 }
 
-function setCurrentContestant(userPath) {
+function util_setCurrentContestant(userPath) {
   setMasterSessionFields({
     CurrentContestant: doc(userPath),
   });
