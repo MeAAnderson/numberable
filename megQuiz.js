@@ -56,17 +56,24 @@ class MegQuiz {
         doc.data().CurrentSession.onSnapshot((session) => {
           session.data().QuestionCollection.onSnapshot((collection) => {
             const CurrentQuestion = session.data().CurrentQuestion;
+            if (CurrentQuestion == -1) {
+              return;
+            }
             collection
               .data()
-              .Questions[CurrentQuestion].onSnapshot((question) => {
+              .Questions[CurrentQuestion].get()
+              .then((question) => {
                 if (CurrentQuestion == -1) {
                   setRound();
                 } else {
-                  setRound([
-                    question.id,
-                    question.data().Question,
-                    ...question.data().Answers,
-                  ],session.data().CurrentAnswers);
+                  setRound(
+                    [
+                      question.id,
+                      question.data().Question,
+                      ...question.data().Answers,
+                    ],
+                    session.data().CurrentAnswers
+                  );
                 }
               });
           });
@@ -85,15 +92,12 @@ class MegQuiz {
             .doc("quizUsers/" + firebase.auth().currentUser.uid);
           document.getElementById("available_game_name").innerText = session.id;
 
-          CurrentContestant.onSnapshot((turn) => {
-            document.getElementById("whose_turn").innerText = `Current Turn: ${
-              turn.data().Name
-            }`;
-            SetShowing(
-              "viewer_turn",
-              turn.id === firebase.auth().currentUser.uid
+          CurrentContestant?.get().then((contestant) => {
+            setCurrentContestant(
+              contestant.id === firebase.auth().currentUser.uid
             );
           });
+
           document.getElementById(
             "current_guess"
           ).innerText = `Current Guess: ${CurrentGuess}`;
