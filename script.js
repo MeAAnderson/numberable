@@ -51,6 +51,7 @@ function buildInfoAnchors() {
   info.innerHTML = "";
   info.innerHTML += `
   <div id="team-name"></div>
+  <div id="locked-in-prize"></div>
   <div id="now-playing"></div>
   <div id="contestants"></div>
   `;
@@ -78,69 +79,21 @@ function buildContentAnchors() {
 
 function buildInteractAnchors() {
   let interact = document.getElementById("interact");
+  interact.style.visibility = "hidden";
+  interact.innerHTML += `<div id="game-prompt" />`;
   interact.innerHTML += `<input id="game-input" />`;
   interact.innerHTML += `<button id="game-input-button" onclick="userMakesGuess()">submit</button>`;
-  displayInfo(teamData);
 }
 
-function displayLoginPage() {
-  let content = document.getElementById("content");
-  content.style.visibility = "visible";
-  let prompt = document.getElementById("prompt");
-  prompt.style.visibility = "visible";
-
-  let userInput = document.getElementById("user-input");
-  //TO DO server takes value as user name
-  let User = userInput.value;
-  //TO DO admin assigns captain
-  prompt.innerHTML = "Enter user name";
-
-  let teamNameInput = document.getElementById("input");
+function buildCurrentAnchors(){
+  let current = document.getElementById("current");
+  current.innerHTML = "";
 }
-let teamName;
+
+let teamName = "christmas travellers";;
 let captainName;
 
-let userData = ["isOnTeam", "livesRemaining"];
-let gamePrize;
-
-let roundData;
-let answersData;
-
-function setRound(data, answers) {
-  roundData = data;
-  answersData = answers;
-  displayGame();
-}
-
-function displayGame() {
-  let triangle = document.getElementById("triangle");
-  triangle.innerHTML = "";
-  triangle.style.gridTemplateRows = `repeat(${roundData.length - 2}, 1fr`;
-  triangle.style.visibility = "visible";
-
-  let wrongTriangle = document.getElementById("wrong-triangle");
-  wrongTriangle.innerHTML = "";
-  wrongTriangle.style.gridTemplateRows = `repeat(${roundData.length - 1}, 1fr`;
-
-  let currentQuestion = document.getElementById("title");
-  currentQuestion.style.visibility = "visible";
-  currentQuestion.innerHTML = `${roundData[1]}`;
-
-  //for megan add animation
-  for (i = roundData.length; i > 2; i--) {
-    answer = document.createElement("div");
-    triangle.appendChild(answer);
-    answer.innerHTML = roundData[i];
-    answer.className = "answer";
-    answer.id = roundData[i];
-    answer.gridRow = [i];
-    answer.style.visibility = answersData.includes(roundData[i])
-      ? "visible"
-      : "hidden";
-  }
-}
 let teamData;
-teamName = "christmas travellers";
 teamData = [
   {
     name: "james",
@@ -164,16 +117,77 @@ teamData = [
     lives: 0,
   },
 ];
+let userData = ["isOnTeam", "livesRemaining"];
+let totalPrize = "total prize";
+let roundPrize = "round prize";
+
+let roundData;
+let answersData;
+
+function setRound(data, answers) {
+  roundData = data;
+  answersData = answers;
+  displayGame();
+}
+
+function displayLoginPage() {
+  buildContentAnchors();
+  let content = document.getElementById("content");
+  content.style.visibility = "visible";
+
+  let userInput = document.getElementById("user-input");
+  let User = userInput.value;
+  prompt.innerHTML = "Enter user name";
+}
+
+function setCaptain(){
+  let prompt = document.getElementById("prompt");
+  prompt.innerHTML = "enter team name";
+  let teamNameInput = document.getElementById("user-input");
+  teamName = teamNameInput.value;
+}
+
+function displayGame() {
+  buildContentAnchors();
+  let triangle = document.getElementById("triangle");
+  triangle.innerHTML = "";
+  triangle.style.gridTemplateRows = `repeat(${roundData.length - 2}, 1fr`;
+  triangle.style.visibility = "visible";
+
+  let wrongTriangle = document.getElementById("wrong-triangle");
+  wrongTriangle.innerHTML = "";
+  wrongTriangle.style.gridTemplateRows = `repeat(${roundData.length - 1}, 1fr`;
+
+  let currentQuestion = document.getElementById("title");
+  currentQuestion.style.visibility = "visible";
+  currentQuestion.innerHTML = `${roundData[1]}`;
+
+  for (i = roundData.length; i > 2; i--) {
+    answer = document.createElement("div");
+    triangle.appendChild(answer);
+    answer.innerHTML = roundData[i];
+    answer.className = "answer";
+    answer.id = roundData[i];
+    answer.gridRow = [i];
+    answer.style.width = `${(i-1)*10}%`;
+    answer.style.visibility = answersData.includes(roundData[i])
+      ? "visible"
+      : "hidden";
+  }
+  
+  
+}
 
 function displayInfo(data) {
   document.getElementById("info").style.visibility = "visible";
 
   let teamNameSection = document.getElementById("team-name");
+  let lockedInPrizeSection = document.getElementById("locked-in-prize");
   let nowPlayingSection = document.getElementById("now-playing");
-  //nowPlayingSection.style.backgroundColor = "tomato";
   let contestantsSection = document.getElementById("contestants");
 
   teamNameSection.innerHTML = `${teamName} are playing`;
+  lockedInPrizeSection.innerHTML = `${totalPrize}`;
   nowPlayingSection.innerHTML = "";
   contestantsSection.innerHTML = "";
   for (i = 0; i < teamData.length; i++) {
@@ -210,8 +224,42 @@ function sendUserGuess(guess) {
   setCurrentGuess(guess);
 }
 
-function correctAnswer() {
+function bigRevealAnimation(indexOfCorrect) {
   //animation use index for the dings then displayGame();
+  let triangle = document.getElementById("triangle");
+  triangle.innerHTML = "";
+  triangle.style.gridTemplateRows = `repeat(${roundData.length - 2}, 1fr`;
+  triangle.style.visibility = "visible";
+
+  let currentQuestion = document.getElementById("title");
+  currentQuestion.style.visibility = "visible";
+  currentQuestion.innerHTML = `${roundData[1]}`;
+
+  //for megan add animation
+  for (i = indexOfCorrect; i > 2; i--) {
+    aniBox = document.createElement("div");
+    triangle.appendChild(aniBox);
+    aniBox.style.width = `${(i-1)*10}%`;
+    aniBox.style.backgroundColor = "blue";
+    }
+    setTimeout(displayGame(), 3000);
+}
+
+let livesRemaining = true;
+function wrongAnswer() {
+  document.getElementById("wrong-triangle").style.visibility = "visible";
+  if (livesRemaining) {
+    window.setTimeout(tryAgain, 1000);
+  }
+}
+
+function tryAgain() {
+  document.getElementById("wrong-triangle").style.visibility = "hidden";
+}
+
+function newRound (){
+  buildInteractAnchors();
+  buildCurrentAnchors();
 }
 //setCurrentContestant();
 //function setCurrentContestant() {
@@ -339,19 +387,7 @@ function correctAnswer() {
 
       //TO DO if guess is incorrect, send previous incorrects count
       //for megan: that ladder thing
-      function wrongAnswer(lives) {
-        document.getElementById("wrong-triangle").style.visibility = "visible";
-
-        if ((lives = 1)) {
-          window.setTimeout(tryAgain, 1000);
-          lives -= 1;
-        }
-      }
-
-      function tryAgain() {
-        document.getElementById("wrong-triangle").style.visibility = "hidden";
-      }
-
+      
       //TO DO this should be exposing answers from the bottom up as the
       //admin presses a button
       function moveOn() {
