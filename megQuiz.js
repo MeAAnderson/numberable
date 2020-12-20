@@ -66,7 +66,7 @@ class MegQuiz {
                     question.id,
                     question.data().Question,
                     ...question.data().Answers,
-                  ]);
+                  ],session.data().CurrentAnswers);
                 }
               });
           });
