@@ -5,33 +5,26 @@ function checkIt() {
 function setPageLayout() {
   let body = document.getElementsByTagName("body");
 
-  //current question, also title
   let header = document.createElement("div");
   document.body.appendChild(header);
   header.id = "header";
   buildHeaderAnchors();
 
-  //game information goes here. who's playing,
-  //whose round, prize from previous rounds
   let info = document.createElement("div");
   document.body.appendChild(info);
   info.id = "info";
   buildInfoAnchors();
 
-  //pyramid goes here
   let content = document.createElement("div");
   document.body.appendChild(content);
   content.id = "content";
   buildContentAnchors();
 
-  //guesses go in here
   let interact = document.createElement("div");
   document.body.appendChild(interact);
   interact.id = "interact";
   buildInteractAnchors();
 
-  //"this is where current lives
-  //+ correct out of ten/prize for the round so far goes
   let current = document.createElement("div");
   document.body.appendChild(current);
   current.id = "current";
@@ -90,33 +83,10 @@ function buildCurrentAnchors(){
   current.innerHTML = "";
 }
 
+//Assigned some variables in order to test the functions
 let teamName = "christmas travellers";;
 let captainName;
 
-let teamData;
-teamData = [
-  {
-    name: "james",
-    captain: true,
-    onTeam: true,
-    currentContestant: false,
-    lives: 0,
-  },
-  {
-    name: "megan",
-    captain: false,
-    onTeam: true,
-    currentContestant: true,
-    lives: 2,
-  },
-  {
-    name: "jacob",
-    captain: false,
-    onTeam: false,
-    currentContestant: false,
-    lives: 0,
-  },
-];
 let userData = ["isOnTeam", "livesRemaining"];
 let totalPrize = "total prize";
 let roundPrize = "round prize";
@@ -181,6 +151,9 @@ function displayGame() {
 function displayInfo(data) {
   document.getElementById("info").style.visibility = "visible";
 
+  let teamData;
+  teamData = data;
+  
   let teamNameSection = document.getElementById("team-name");
   let lockedInPrizeSection = document.getElementById("locked-in-prize");
   let nowPlayingSection = document.getElementById("now-playing");
@@ -246,6 +219,7 @@ function bigRevealAnimation(indexOfCorrect) {
 }
 
 let livesRemaining = true;
+
 function wrongAnswer() {
   document.getElementById("wrong-triangle").style.visibility = "visible";
   if (livesRemaining) {
@@ -261,152 +235,3 @@ function newRound (){
   buildInteractAnchors();
   buildCurrentAnchors();
 }
-//setCurrentContestant();
-//function setCurrentContestant() {
-//TO DO admin assigns user to round
-//}
-//if (roundCount == finalRound - 1) {
-//  gameLoopFinal();
-//} else {
-//  gameLoopContestant(currentContestant);
-//  gameLoopPassive(passiveContestants);
-//}
-
-//function gameLoopContestant() {
-//  let gameInput = document.getElementById("game-input");
-// let gamePrompt = document.getElementById("game-prompt");
-// let gameChoices = document.getElementById("game-choices");
-
-/*//if (corrects > 4) {
-     // gamePrompt.innerHTML = "Keep playing?";
-      //for megan: why aren't these buttons calling the function
-      gameChoices.innerHTML = `
-    // <button onclick="keepPlaying()">yes</button>
-    <button onclick="moveOn()">no</button>
-  `;
-    } else {
-      function keepPlaying() {
-        gamePrompt.innerHTML = "Enter your answer";
-        gameChoices.style.visibility = "hidden";
-        gameInput.style.visibility = "visible";
-        //TO DO server takes user guess for approval/rejection
-        let userGuess = gameInput.value;
-        sendUserGuess(userGuess);
-        //function when press enter
-      }
-    }*/
-//}
-
-//TO DO if guess is correct, send index of correct answer, previous corrects
-/*function correctAnswer(
-    roundData,
-    indexOfCorrect,
-    boolCaptain = false,
-    corrects,
-    roundPrize
-  ) {
-    let returnObj = [];
-
-    if (corrects <= 5) {
-      if (boolCaptain === true) {
-        //for megan get teamMate back or roundPrize+=1000?
-      } else {
-        roundPrize += 1000;
-      }
-      let currentCorrect = document.getElementById(
-        `${roundData[indexOfCorrect]}`
-      );
-      currentCorrect.style = "visible";
-      currentCorrect.id = "answered";
-      //for megan update prize displays
-      corrects += 1;
-      if ((corrects = roundData.length - 2)) {
-        moveOn();
-      }
-      returnObj.push(corrects, roundPrize);
-      return;
-    }
-
-    //TO DO if guess is incorrect, send previous incorrects count &
-    //index of contestant in case of removal
-    //for megan: that ladder thing
-    function wrongAnswer(lives, indexofCurrentContestant) {
-      let index = indexofCurrentContestant;
-
-      document.getElementById("wrong-triangle").style.visibility = "visible";
-      if (lives > 0) {
-        window.setTimeout(tryAgain, 1000);
-        lives -= 1;
-      } else if ((lives = 0)) {
-        removeCurrentContestant(index);
-      }
-    }
-
-    function removeCurrentContestant(index) {
-      let testTeam = ["user1", "user2", "user3", "user4", "user5"];
-      for (i = 0; i < index; i++) {
-        testTeam.push(testTeam[i]);
-        testTeam.shift();
-      }
-      testTeam.shift();
-    }
-
-    function tryAgain() {
-      document.getElementById("wrong-triangle").style.visibility = "hidden";
-    }
-
-    //TO DO this should be exposing answers from the bottom up as the
-    //admin presses a button
-    function moveOn() {
-      let interact = getElementById("interact");
-      interact.visibility = "hidden";
-      let wrongTriangle = document.getElementById("wrong-triangle");
-      wrongTriangle.visibility = "hidden";
-
-      for (i = roundData.length; i > 2; i--) {
-        try {
-          answer = document.getElementById(`${roundData[i]}`);
-          answer.style.visibility = "visible";
-          answer.id = "exposed";
-        } catch (err) {
-          break;
-        }
-      }
-    }
-
-    function gameLoopPassive() {
-      //TO DO if guess is correct, send index of correct answer
-      function correctAnswer(indexOfCorrect) {
-        roundData = data;
-        let currentCorrect = document.getElementById(
-          `${roundData[indexOfCorrect]}`
-        );
-        currentCorrect.style = "visible";
-        currentCorrect.id = "answered";
-      }
-
-      //TO DO if guess is incorrect, send previous incorrects count
-      //for megan: that ladder thing
-      
-      //TO DO this should be exposing answers from the bottom up as the
-      //admin presses a button
-      function moveOn() {
-        //animation then wait for admin input?
-        let interact = getElementById("interact");
-        interact.visibility = "hidden";
-        let wrongTriangle = document.getElementById("wrong-triangle");
-        wrongTriangle.visibility = "hidden";
-
-        for (i = roundData.length; i > 2; i--) {
-          try {
-            answer = document.getElementById(`${roundData[i]}`);
-            answer.style.visibility = "visible";
-            answer.id = "exposed";
-          } catch (err) {
-            break;
-          }
-        }
-      }
-    }
-  }
-}*/
