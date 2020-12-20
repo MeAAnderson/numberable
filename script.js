@@ -16,6 +16,7 @@ function setPageLayout() {
   let info = document.createElement("div");
   document.body.appendChild(info);
   info.id = "info";
+  buildInfoAnchors();
 
   //pyramid goes here
   let content = document.createElement("div");
@@ -45,18 +46,19 @@ function buildHeaderAnchors() {
   title.id = "title";
 }
 
+function buildInfoAnchors() {
+  let info = document.getElementById("info");
+  info.innerHTML = "";
+  info.innerHTML += `
+  <div id="team-name"></div>
+  <div id="now-playing"></div>
+  <div id="contestants"></div>
+  `;
+}
+
 function buildContentAnchors() {
   let content = document.getElementById("content");
   content.innerHTML = "";
-
-  let prompt = document.createElement("div");
-  content.appendChild(prompt);
-  prompt.id = "prompt";
-
-  let userInput = document.createElement("input");
-  content.appendChild(userInput);
-  userInput.type = "text";
-  userInput.id = "user-input";
 
   let triangle = document.createElement("div");
   content.appendChild(triangle);
@@ -65,23 +67,20 @@ function buildContentAnchors() {
   let wrongTriangle = document.createElement("div");
   content.appendChild(wrongTriangle);
   wrongTriangle.id = "wrong-triangle";
+
+  let prompt = document.createElement("div");
+  content.appendChild(prompt);
+  prompt.id = "user-prompt";
+
+  content.innerHTML += `<input id="user-input" />`;
+  content.innerHTML += `<button id="submit-user-input" onclick="submitUserInput()" />`;
 }
 
 function buildInteractAnchors() {
   let interact = document.getElementById("interact");
-  interact.innerHTML = "";
-
   interact.innerHTML += `<input id="game-input" />`;
-
   interact.innerHTML += `<button id="game-input-button" onclick="userMakesGuess()">submit</button>`;
-
-  /*let gamePrompt = document.createElement("div");
-  interact.appendChild(gamePrompt);
-  gamePrompt.id = "game-prompt";
-
-  let gameChoices = document.createElement("div");
-  interact.appendChild(gameChoices);
-  gameChoices.id = "game-choices";*/
+  displayInfo(teamData);
 }
 
 function displayLoginPage() {
@@ -95,19 +94,22 @@ function displayLoginPage() {
   let User = userInput.value;
   //TO DO admin assigns captain
   prompt.innerHTML = "Enter user name";
+
+  let teamNameInput = document.getElementById("input");
 }
+let teamName;
+let captainName;
+
+let userData = ["isOnTeam", "livesRemaining"];
+let gamePrize;
 
 let roundData;
 let answersData;
+
 function setRound(data, answers) {
   roundData = data;
   answersData = answers;
- 
-  if (roundData == null) {
-    displayLoginPage();
-  } else {
-    displayGame();
-  }
+  displayGame();
 }
 
 function displayGame() {
@@ -132,39 +134,102 @@ function displayGame() {
     answer.className = "answer";
     answer.id = roundData[i];
     answer.gridRow = [i];
-    answer.style.visibility = answersData.includes(roundData[i])?"visible": "hidden";
+    answer.style.visibility = answersData.includes(roundData[i])
+      ? "visible"
+      : "hidden";
   }
-
 }
+let teamData;
+teamName = "christmas travellers";
+teamData = [
+  {
+    name: "james",
+    captain: true,
+    onTeam: true,
+    currentContestant: false,
+    lives: 0,
+  },
+  {
+    name: "megan",
+    captain: false,
+    onTeam: true,
+    currentContestant: true,
+    lives: 2,
+  },
+  {
+    name: "jacob",
+    captain: false,
+    onTeam: false,
+    currentContestant: false,
+    lives: 0,
+  },
+];
+
+function displayInfo(data) {
+  document.getElementById("info").style.visibility = "visible";
+
+  let teamNameSection = document.getElementById("team-name");
+  let nowPlayingSection = document.getElementById("now-playing");
+  //nowPlayingSection.style.backgroundColor = "tomato";
+  let contestantsSection = document.getElementById("contestants");
+
+  teamNameSection.innerHTML = `${teamName} are playing`;
+  nowPlayingSection.innerHTML = "";
+  contestantsSection.innerHTML = "";
+  for (i = 0; i < teamData.length; i++) {
+    if (teamData[i].currentContestant) {
+      nowPlayingSection.innerHTML = `${teamData[i].name} is playing`;
+    } 
+      let contestant = document.createElement("div");
+      contestantsSection.appendChild(contestant);
+      contestant.id = `${teamData[i].name}`;
+      contestant.style.gridRow = `${(i+1)}`;
+      contestant.innerHTML = teamData[i].onTeam
+        ? `${teamData[i].name} is in the game`
+        : `${teamData[i].name} not in the game`;
+    
+  }
+}
+
+function setCurrentContestant() {
+  let interact = document.getElementById("interact");
+  interact.style.visibility = "visible";
+
+  let title = document.getElementById("title");
+  title.innerHTML += "it's your round";
+}
+
 function userMakesGuess() {
   let gameInput = document.getElementById("game-input");
   let userGuess = gameInput.value;
   sendUserGuess(userGuess);
-
 }
 
 function sendUserGuess(guess) {
   console.log(`Sending ${guess} to server.`);
   setCurrentGuess(guess);
 }
-  
-  //setCurrentContestant();
-  //function setCurrentContestant() {
-  //TO DO admin assigns user to round
-  //}
-  //if (roundCount == finalRound - 1) {
-  //  gameLoopFinal();
-  //} else {
-  //  gameLoopContestant(currentContestant);
-  //  gameLoopPassive(passiveContestants);
-  //}
 
-  //function gameLoopContestant() {
-  //  let gameInput = document.getElementById("game-input");
-  // let gamePrompt = document.getElementById("game-prompt");
-  // let gameChoices = document.getElementById("game-choices");
+function correctAnswer() {
+  //animation use index for the dings then displayGame();
+}
+//setCurrentContestant();
+//function setCurrentContestant() {
+//TO DO admin assigns user to round
+//}
+//if (roundCount == finalRound - 1) {
+//  gameLoopFinal();
+//} else {
+//  gameLoopContestant(currentContestant);
+//  gameLoopPassive(passiveContestants);
+//}
 
-  /*//if (corrects > 4) {
+//function gameLoopContestant() {
+//  let gameInput = document.getElementById("game-input");
+// let gamePrompt = document.getElementById("game-prompt");
+// let gameChoices = document.getElementById("game-choices");
+
+/*//if (corrects > 4) {
      // gamePrompt.innerHTML = "Keep playing?";
       //for megan: why aren't these buttons calling the function
       gameChoices.innerHTML = `
