@@ -5,13 +5,18 @@ function doc(document) {
 }
 
 function viewerNameInput() {
+  let Name = document.getElementById("viewerNameInput")?.value || "";
+  if (Name === "") {
+    Name = funnyName;
+  }
   doc("quizUsers/" + firebase.auth().currentUser.uid)
     .set(
       {
-        Name: document.getElementById("viewerNameInput").value,
+        Name,
       },
       { merge: true }
     )
+    .then(setInMasterSession)
     .catch(function (error) {
       console.error("Error setting username. ", error);
     });

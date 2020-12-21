@@ -3,42 +3,31 @@ function checkIt() {
 }
 
 function setPageLayout() {
-  let body = document.getElementsByTagName("body");
-
-  let header = document.createElement("div");
-  document.body.appendChild(header);
-  header.id = "header";
   buildHeaderAnchors();
-
-  let info = document.createElement("div");
-  document.body.appendChild(info);
-  info.id = "info";
   buildInfoAnchors();
-
-  let content = document.createElement("div");
-  document.body.appendChild(content);
-  content.id = "content";
   buildContentAnchors();
-
-  let interact = document.createElement("div");
-  document.body.appendChild(interact);
-  interact.id = "interact";
   buildInteractAnchors();
+  buildCurrentAnchors();
+}
 
-  let current = document.createElement("div");
-  document.body.appendChild(current);
-  current.id = "current";
+function findOrCreateElement(type, id) {
+  let elem = document.getElementById(id);
+  if (elem == null || elem == undefined) {
+    elem = document.createElement(type);
+    document.body.appendChild(elem);
+    elem.id = id;
+  }
+  return elem;
 }
 
 function buildHeaderAnchors() {
-  let header = document.getElementById("header");
+  const header = findOrCreateElement("div", "header");
   header.innerHTML = `<div id="title"></div>`;
 }
 
 function buildInfoAnchors() {
-  let info = document.getElementById("info");
-  info.innerHTML = "";
-  info.innerHTML += `
+  const info = findOrCreateElement("div", "info");
+  info.innerHTML = `
   <div id="team-name"></div>
   <div id="locked-in-prize"></div>
   <div id="now-playing"></div>
@@ -47,40 +36,31 @@ function buildInfoAnchors() {
 }
 
 function buildContentAnchors() {
-  let content = document.getElementById("content");
-  content.innerHTML = "";
-
-  let triangle = document.createElement("div");
-  content.appendChild(triangle);
-  triangle.id = "triangle";
-
-  let wrongTriangle = document.createElement("div");
-  content.appendChild(wrongTriangle);
-  wrongTriangle.id = "wrong-triangle";
-
-  let prompt = document.createElement("div");
-  content.appendChild(prompt);
-  prompt.id = "user-prompt";
-
-  content.innerHTML += `<input id="user-input" />`;
-  content.innerHTML += `<button id="submit-user-input" onclick="submitUserInput()" />`;
+  const content = findOrCreateElement("div", "content");
+  content.innerHTML = `
+  <div id="triangle"></div>
+  <div id="wrong-triangle"></div>
+  <div id="user-prompt"></div>
+  <input id="user-input" />
+  <button id="submit-user-input" onclick="submitUserInput()" >Guess</button>
+  `;
 }
 
 function buildInteractAnchors() {
-  let interact = document.getElementById("interact");
+  const interact = findOrCreateElement("div", "interact");
   interact.style.visibility = "hidden";
-  interact.innerHTML += `<div id="game-prompt" />`;
-  interact.innerHTML += `<input id="game-input" />`;
-  interact.innerHTML += `<button id="game-input-button" onclick="userMakesGuess()">submit</button>`;
+  interact.innerHTML = `<div id="game-prompt" />
+  <input id="game-input" />
+  <button id="game-input-button" onclick="userMakesGuess()">submit</button>`;
 }
 
-function buildCurrentAnchors(){
-  let current = document.getElementById("current");
+function buildCurrentAnchors() {
+  const current = findOrCreateElement("div", "current");
   current.innerHTML = "";
 }
 
 //Assigned some variables in order to test the functions
-let teamName = "christmas travellers";;
+let teamName = "christmas travellers";
 let captainName;
 
 let userData = ["isOnTeam", "livesRemaining"];
@@ -106,7 +86,7 @@ function displayLoginPage() {
   prompt.innerHTML = "Enter user name";
 }
 
-function setCaptain(){
+function setCaptain() {
   let prompt = document.getElementById("prompt");
   prompt.innerHTML = "enter team name";
   let teamNameInput = document.getElementById("user-input");
@@ -135,13 +115,11 @@ function displayGame() {
     answer.className = "answer";
     answer.id = roundData[i];
     answer.gridRow = [i];
-    answer.style.width = `${(i-1)*10}%`;
+    answer.style.width = `${(i - 1) * 10}%`;
     answer.style.visibility = answersData.includes(roundData[i])
       ? "visible"
       : "hidden";
   }
-  
-  
 }
 
 function displayInfo(data) {
@@ -149,7 +127,7 @@ function displayInfo(data) {
 
   let teamData;
   teamData = data;
-  
+
   let teamNameSection = document.getElementById("team-name");
   let lockedInPrizeSection = document.getElementById("locked-in-prize");
   let nowPlayingSection = document.getElementById("now-playing");
@@ -162,22 +140,27 @@ function displayInfo(data) {
   for (i = 0; i < teamData.length; i++) {
     if (teamData[i].currentContestant) {
       nowPlayingSection.innerHTML = `${teamData[i].name} is playing`;
-    } 
-      let contestant = document.createElement("div");
-      contestantsSection.appendChild(contestant);
-      contestant.id = `${teamData[i].name}`;
-      contestant.style.gridRow = `${(i+1)}`;
-      contestant.innerHTML = teamData[i].onTeam
-        ? `${teamData[i].name} is in the game`
-        : `${teamData[i].name} not in the game`;
-    
+    }
+    let contestant = document.createElement("div");
+    contestantsSection.appendChild(contestant);
+    contestant.id = `${teamData[i].name}`;
+    contestant.style.gridRow = `${i + 1}`;
+    contestant.innerHTML = teamData[i].onTeam
+      ? `${teamData[i].name} is in the game`
+      : `${teamData[i].name} not in the game`;
   }
 }
 
 function setCurrentContestant(iAmCurrentContestant) {
-  document.getElementById("interact").style.visibility = iAmCurrentContestant ? "visible" : "hidden";
-  document.getElementById("title").innerHTML = iAmCurrentContestant ? "it's your round" : "it's not your round";
-  document.getElementById("title").style.backgroundColor = iAmCurrentContestant ? "PaleGreen" : "Coral";
+  document.getElementById("interact").style.visibility = iAmCurrentContestant
+    ? "visible"
+    : "hidden";
+  document.getElementById("title").innerHTML = iAmCurrentContestant
+    ? "it's your round"
+    : "it's not your round";
+  document.getElementById("title").style.backgroundColor = iAmCurrentContestant
+    ? "PaleGreen"
+    : "Coral";
 }
 
 function submitUserInput() {
@@ -204,10 +187,10 @@ function bigRevealAnimation(indexOfCorrect) {
   for (i = indexOfCorrect; i > 2; i--) {
     aniBox = document.createElement("div");
     triangle.appendChild(aniBox);
-    aniBox.style.width = `${(i-1)*10}%`;
+    aniBox.style.width = `${(i - 1) * 10}%`;
     aniBox.style.backgroundColor = "blue";
-    }
-    setTimeout(displayGame(), 3000);
+  }
+  setTimeout(displayGame(), 3000);
 }
 
 let livesRemaining = true;
@@ -223,7 +206,7 @@ function tryAgain() {
   document.getElementById("wrong-triangle").style.visibility = "hidden";
 }
 
-function newRound (){
+function newRound() {
   buildInteractAnchors();
   buildCurrentAnchors();
 }
