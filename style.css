@@ -83,7 +83,7 @@ button {
   grid-row: 2;
   justify-items: center;
 }
-#user-name{
+#user-guess{
   grid-column: 3;
   grid-row: 2;
   background-color: chartreuse;
