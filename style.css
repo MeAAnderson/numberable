@@ -40,13 +40,14 @@ button {
 #user-prompt {
   grid-column: 1;
   grid-row: 1;
+  height: 2em;
   padding: 0.5em;
   background-color: chartreuse;
   border: rgb(213, 255, 171) solid 1px;
   border-radius: 10px;
 }
 #title {
-  grid-column: 2 / span 5;
+  grid-column: 2 / span 3;
   grid-row: 1;
   font-size: 1.25em;
   padding: 00.5em;
@@ -54,7 +55,15 @@ button {
   border: rgb(213, 255, 171) solid 1px;
   border-radius: 10px;
 }
-
+#own-user-name{
+  grid-column: 5;
+  grid-row: 1;
+  height: 2em;
+  padding: 00.5em;
+  background-color: chartreuse;
+  border: rgb(213, 255, 171) solid 1px;
+  border-radius: 10px;
+}
 /*start INFO page section*/
 #info {
   grid-column: 1;

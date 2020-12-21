@@ -1,7 +1,3 @@
-function checkIt() {
-  console.log("it works");
-}
-
 function setPageLayout() {
   buildHeaderAnchors();
   buildInfoAnchors();
@@ -25,8 +21,10 @@ function buildHeaderAnchors() {
   header.innerHTML = `
   <div id="title"></div>
   <div id="user-prompt"></div>
+  <div id="own-user-name"></div>
   <div id="wrong-answers"></div>
   `;
+  setOwnUserName(Name);
 }
 
 function buildInfoAnchors() {
@@ -188,7 +186,12 @@ function setCurrentContestant(
       : "aquamarine"
     : "silver";
 }
-
+function setOwnUserName(name){
+  let myname = name;
+  let ownUserNameSection = document.getElementById("own-user-name");
+  console.log("setting own");
+  ownUserNameSection.innerHTML = `your name is ${myname}!`;
+}
 function submitUserInput() {
   sendUserGuess(document.getElementById("user-input").value);
 
