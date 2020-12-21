@@ -44,48 +44,22 @@ class MegQuiz {
   initializeFields = () => {
     this.initViewer();
     this.initMasterSession();
-    this.initMasterQuestion();
     window.loginpage = new MegLoginPage();
   };
-  initMasterQuestion() {
-    firebase
-      .firestore()
-      .doc("quizSessions/Masterlist")
-      .onSnapshot(function (doc) {
-        doc.data().CurrentSession.onSnapshot((session) => {
-          session.data().QuestionCollection.onSnapshot((collection) => {
-            const CurrentQuestion = session.data().CurrentQuestion;
-            if (CurrentQuestion == -1) {
-              return;
-            }
-            collection
-              .data()
-              .Questions[CurrentQuestion].get()
-              .then((question) => {
-                if (CurrentQuestion == -1) {
-                  setRound();
-                } else {
-                  setRound(
-                    [
-                      question.id,
-                      question.data().Question,
-                      ...question.data().Answers,
-                    ],
-                    session.data().CurrentAnswers
-                  );
-                }
-              });
-          });
-        });
-      });
-  }
   initMasterSession() {
     firebase
       .firestore()
       .doc("quizSessions/Masterlist")
       .onSnapshot(function (doc) {
         doc.data().CurrentSession.onSnapshot((session) => {
-          const { Users, CurrentGuess, CurrentContestant, CurrentlyAcceptingGuess } = session.data();
+          const {
+            Users,
+            CurrentGuess,
+            CurrentContestant,
+            CurrentlyAcceptingGuess,
+            CurrentQuestion,
+            QuestionCollection,
+          } = session.data();
           const userRef = firebase
             .firestore()
             .doc("quizUsers/" + firebase.auth().currentUser.uid);
@@ -113,6 +87,26 @@ class MegQuiz {
               "firestore_setInMasterSession"
             ).style.display = "none";
           }
+
+          QuestionCollection.get().then((collect) =>
+            collect
+              .data()
+              .Questions[CurrentQuestion].get()
+              .then((question) => {
+                if (CurrentQuestion == -1) {
+                  setRound();
+                } else {
+                  setRound(
+                    [
+                      question.id,
+                      question.data().Question,
+                      ...question.data().Answers,
+                    ],
+                    session.data().CurrentAnswers
+                  );
+                }
+              })
+          );
         });
       });
   }
