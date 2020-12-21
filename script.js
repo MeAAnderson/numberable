@@ -24,7 +24,6 @@ function buildHeaderAnchors() {
   <div id="own-user-name"></div>
   <div id="wrong-answers"></div>
   `;
-  
 }
 
 function buildInfoAnchors() {
@@ -56,10 +55,6 @@ function buildInteractAnchors() {
   <button id="submit-user-input" onclick="submitUserInput()" >Guess</button>
   `;
 }
-
-function buildCurrentAnchors() {
-  const current = findOrCreateElement("div", "current");
-}
 //Assigned some variables in order to test the functions
 let teamName = "christmas travellers";
 let captainName;
@@ -88,6 +83,7 @@ function setCaptain() {
 
 function displayGame() {
   buildContentAnchors();
+  let content = document.getElementById("content");
   let triangle = findOrCreateElement("div", "triangle");
   triangle.innerHTML = "";
   triangle.style.gridTemplateRows = `repeat(${roundData.length}, 1fr`;
@@ -117,6 +113,16 @@ function displayGame() {
     answerBackground.style.visibility = answersData.includes(roundData[i])
       ? "visible"
       : "hidden";
+  }
+  for (i = 0; i < 10; i++) {
+    let prizeLevel = document.createElement("div");
+    content.appendChild(prizeLevel);
+    prizeLevel.className = "prize-level";
+    prizeLevel.id = `prize-level ${prizeLevel[i]}`;
+    prizeLevel.innerHTML = "1000";
+    prizeLevel.style.width = `${i + 1 * 5}vw`;
+    prizeLevel.style.gridRow = `${14 - i}`;
+    prizeLevel.style.visibility = prizeLevelReached >= i ? "visible" : "hidden";
   }
 }
 
@@ -149,10 +155,10 @@ function displayInfo(data) {
   }
 }
 
-let prizeLevelReached = 6;
+let prizeLevelReached = 10;
 
-function displayCurrentRoundInfo() {
-  const currentRoundInfo = findOrCreateElement("div", "current");
+/*function displayCurrentRoundInfo() {
+  const currentRoundInfo = findOrCreateElement("div", "content");
   currentRoundInfo.innerHTML = "";
   currentRoundInfo.style.visibility = "visible";
   for (i = 0; i < 10; i++) {
@@ -162,10 +168,10 @@ function displayCurrentRoundInfo() {
     prizeLevel.id = `prize-level ${prizeLevel[i]}`;
     prizeLevel.innerHTML = "1000";
     prizeLevel.style.width = `${i + 1 * 8}vw`;
-    prizeLevel.style.gridRow = `${10 - i}`;
+    prizeLevel.style.gridRow = `${14 - i}`;
     prizeLevel.style.visibility = prizeLevelReached >= i ? "visible" : "hidden";
   }
-}
+}*/
 
 function setCurrentContestant(
   iAmCurrentContestant,

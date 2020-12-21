@@ -17,7 +17,7 @@ body {
   border-style: none;
   display: grid;
   background-color: rgb(11, 11, 48);
-  grid-template-columns: 10vw 80vw 5vw;
+  grid-template-columns: 10vw 85vw;
   grid-template-rows: 10vh 80vh 10vh;
 }
 body > div {
@@ -33,7 +33,7 @@ button {
 }
 /*start HEADER page section*/
 #header {
-  grid-column: 1 / span 3;
+  grid-column: 1 / span 2;
   grid-row: 1;
   grid-template-rows: repeat(3, 1fr);
 }
@@ -180,5 +180,13 @@ button {
   grid-row: 2 / span 2;
 }
 .prize-level {
-  background-color: chartreuse;
+  color: rgb(213, 255, 171);
+  margin: 0.25em;
+  height: 1em;
+  grid-column: 5;
+  justify-self: right;
+  justify-content: right;
+  border-top: rgb(213, 255, 171) solid 6px;
+  border-right: rgb(213, 255, 171) solid 1px;
+  border-left: 15px transparent solid;
 }
