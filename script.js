@@ -179,9 +179,13 @@ function setCurrentContestant(
   document.getElementById("user-prompt").innerHTML = iAmCurrentContestant
     ? "it's your turn!"
     : `${nameOfPlayer}</br>is playing now!`;
-  document.getElementById("title").style.backgroundColor = iAmCurrentContestant
-    ? "chartreuse"
-    : "red";
+  document.getElementById(
+    "user-prompt"
+  ).style.backgroundColor = iAmCurrentContestant
+    ? currentlyGuessable
+      ? "chartreuse"
+      : "aquamarine"
+    : "silver";
 }
 
 function submitUserInput() {
@@ -215,7 +219,7 @@ function bigRevealAnimation(indexOfCorrect) {
 }
 
 function wrongAnswer(currentWrongGuesses) {
-  setText("wrong-answers", `Lives left: ${(1-currentWrongGuesses)}`);
+  setText("wrong-answers", `Lives left: ${1 - currentWrongGuesses}`);
 }
 
 function getWrongTriangle() {
