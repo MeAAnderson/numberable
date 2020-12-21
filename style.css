@@ -83,6 +83,11 @@ button {
   grid-row: 2;
   justify-items: center;
 }
+#user-name{
+  grid-column: 3;
+  grid-row: 2;
+  background-color: chartreuse;
+}
 #triangle,
 #wrong-triangle,
 #background-triangle,

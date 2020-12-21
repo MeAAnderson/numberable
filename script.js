@@ -186,13 +186,20 @@ function setCurrentContestant(
 
 function submitUserInput() {
   sendUserGuess(document.getElementById("user-input").value);
-}
 
 function sendUserGuess(guess) {
   console.log(`Sending ${guess} to server.`);
   setCurrentGuess(guess);
+  setUserGuessMessage(username, guess);
 }
-
+}
+function setUserGuessMessage(username, userguess){
+  let userGuessMessage = findOrCreateElement("div", "user-guess");
+  let content = findOrCreateElement("div", "content");
+  content.appendChild(userGuessMessage);
+  console.log(`${username} guessed ${userguess}`);
+  userGuessMessage.innerHTML = `${username} guessed ${userguess}`;
+}
 function bigRevealAnimation(indexOfCorrect) {
   //animation use index for the dings then displayGame();
   let triangle = document.getElementById("triangle");
