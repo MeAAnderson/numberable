@@ -4,7 +4,7 @@ function checkIt() {
 
 function setPageLayout() {
   let body = document.getElementsByTagName("body");
-
+  
   let header = document.createElement("div");
   document.body.appendChild(header);
   header.id = "header";
@@ -74,13 +74,13 @@ function buildInteractAnchors() {
   interact.innerHTML += `<button id="game-input-button" onclick="userMakesGuess()">submit</button>`;
 }
 
-function buildCurrentAnchors(){
+function buildCurrentAnchors() {
   let current = document.getElementById("current");
   current.innerHTML = "";
 }
 
 //Assigned some variables in order to test the functions
-let teamName = "christmas travellers";;
+let teamName = "christmas travellers";
 let captainName;
 
 let userData = ["isOnTeam", "livesRemaining"];
@@ -106,7 +106,7 @@ function displayLoginPage() {
   prompt.innerHTML = "Enter user name";
 }
 
-function setCaptain(){
+function setCaptain() {
   let prompt = document.getElementById("prompt");
   prompt.innerHTML = "enter team name";
   let teamNameInput = document.getElementById("user-input");
@@ -134,14 +134,12 @@ function displayGame() {
     answer.innerHTML = roundData[i];
     answer.className = "answer";
     answer.id = roundData[i];
-    answer.gridRow = [i];
-    answer.style.width = `${(i-1)*10}%`;
+    answer.gridRow = `${[i]-1}`;
+    answer.style.width = `${(i - 1) * 10}%`;
     answer.style.visibility = answersData.includes(roundData[i])
       ? "visible"
       : "hidden";
   }
-  
-  
 }
 
 function displayInfo(data) {
@@ -149,7 +147,7 @@ function displayInfo(data) {
 
   let teamData;
   teamData = data;
-  
+
   let teamNameSection = document.getElementById("team-name");
   let lockedInPrizeSection = document.getElementById("locked-in-prize");
   let nowPlayingSection = document.getElementById("now-playing");
@@ -162,22 +160,27 @@ function displayInfo(data) {
   for (i = 0; i < teamData.length; i++) {
     if (teamData[i].currentContestant) {
       nowPlayingSection.innerHTML = `${teamData[i].name} is playing`;
-    } 
-      let contestant = document.createElement("div");
-      contestantsSection.appendChild(contestant);
-      contestant.id = `${teamData[i].name}`;
-      contestant.style.gridRow = `${(i+1)}`;
-      contestant.innerHTML = teamData[i].onTeam
-        ? `${teamData[i].name} is in the game`
-        : `${teamData[i].name} not in the game`;
-    
+    }
+    let contestant = document.createElement("div");
+    contestantsSection.appendChild(contestant);
+    contestant.id = `${teamData[i].name}`;
+    contestant.style.gridRow = `${i + 1}`;
+    contestant.innerHTML = teamData[i].onTeam
+      ? `${teamData[i].name} is in the game`
+      : `${teamData[i].name} not in the game`;
   }
 }
 
 function setCurrentContestant(iAmCurrentContestant) {
-  document.getElementById("interact").style.visibility = iAmCurrentContestant ? "visible" : "hidden";
-  document.getElementById("title").innerHTML = iAmCurrentContestant ? "it's your round" : "it's not your round";
-  document.getElementById("title").style.backgroundColor = iAmCurrentContestant ? "PaleGreen" : "Coral";
+  document.getElementById("interact").style.visibility = iAmCurrentContestant
+    ? "visible"
+    : "hidden";
+  document.getElementById("title").innerHTML = iAmCurrentContestant
+    ? "it's your round"
+    : "it's not your round";
+  document.getElementById("title").style.backgroundColor = iAmCurrentContestant
+    ? "PaleGreen"
+    : "Coral";
 }
 
 function submitUserInput() {
@@ -204,10 +207,10 @@ function bigRevealAnimation(indexOfCorrect) {
   for (i = indexOfCorrect; i > 2; i--) {
     aniBox = document.createElement("div");
     triangle.appendChild(aniBox);
-    aniBox.style.width = `${(i-1)*10}%`;
+    aniBox.style.width = `${(i - 1) * 10}%`;
     aniBox.style.backgroundColor = "blue";
-    }
-    setTimeout(displayGame(), 3000);
+  }
+  setTimeout(displayGame(), 3000);
 }
 
 let livesRemaining = true;
@@ -223,7 +226,7 @@ function tryAgain() {
   document.getElementById("wrong-triangle").style.visibility = "hidden";
 }
 
-function newRound (){
+function newRound() {
   buildInteractAnchors();
   buildCurrentAnchors();
 }
