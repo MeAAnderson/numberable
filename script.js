@@ -25,6 +25,7 @@ function buildHeaderAnchors() {
   header.innerHTML = `
   <div id="title"></div>
   <div id="user-prompt"></div>
+  <div id="wrong-answers"></div>
   `;
 }
 
@@ -44,7 +45,7 @@ function buildContentAnchors() {
   <div id="outline-triangle"></div>
   <div id="triangle"></div>
   <div id="background-triangle"></div>
-  <div id="wrong-triangle"></div>
+  ${getWrongTriangle()}
   `;
 }
 
@@ -167,7 +168,11 @@ function displayCurrentRoundInfo() {
   }
 }
 
-function setCurrentContestant(iAmCurrentContestant, nameOfPlayer, currentlyGuessable) {
+function setCurrentContestant(
+  iAmCurrentContestant,
+  nameOfPlayer,
+  currentlyGuessable
+) {
   document.getElementById("header").style.visibility = "visibility";
   document.getElementById("interact").style.visibility =
     iAmCurrentContestant && currentlyGuessable ? "visible" : "hidden";
@@ -209,16 +214,16 @@ function bigRevealAnimation(indexOfCorrect) {
   setTimeout(displayGame(), 3000);
 }
 
-let livesRemaining = true;
+function wrongAnswer(currentWrongGuesses) {
+  setText("wrong-answers", `Lives left: ${(1-currentWrongGuesses)}`);
+}
 
-function wrongAnswer() {
-  document.getElementById("wrong-triangle").style.visibility = "visible";
-  if (livesRemaining) {
-    window.setTimeout(tryAgain, 1000);
-  }
+function getWrongTriangle() {
+  return `<div id="wrong-triangle" style="visibility:hidden;"></div>`;
 }
 
 function tryAgain() {
+  animatingWrongAnswer = false;
   document.getElementById("wrong-triangle").style.visibility = "hidden";
 }
 

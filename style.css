@@ -45,8 +45,16 @@ button {
   border: rgb(213, 255, 171) solid 1px;
   border-radius: 10px;
 }
+#wrong-answers {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 0.5em;
+  background-color: chartreuse;
+  border: rgb(213, 255, 171) solid 1px;
+  border-radius: 10px;
+}
 #title {
-  grid-column: 2 / span 5;
+  grid-column: 3 / span 5;
   grid-row: 1;
   font-size: 1.25em;
   padding: 00.5em;

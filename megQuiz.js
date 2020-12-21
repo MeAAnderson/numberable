@@ -85,11 +85,18 @@ class MegQuiz {
       .doc("quizSessions/Masterlist")
       .onSnapshot(function (doc) {
         doc.data().CurrentSession.onSnapshot((session) => {
-          const { Users, CurrentGuess, CurrentContestant, CurrentlyAcceptingGuess } = session.data();
+          const {
+            Users,
+            CurrentGuess,
+            CurrentContestant,
+            CurrentlyAcceptingGuess,
+            CurrentWrongGuesses,
+          } = session.data();
           const userRef = firebase
             .firestore()
             .doc("quizUsers/" + firebase.auth().currentUser.uid);
           document.getElementById("available_game_name").innerText = session.id;
+          wrongAnswer(CurrentWrongGuesses);
 
           CurrentContestant?.get().then((contestant) => {
             setCurrentContestant(
