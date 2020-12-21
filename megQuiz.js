@@ -2,6 +2,7 @@
 
 class MegQuiz {
   constructor() {
+    this.masterlistHook = null;
     document.getElementById("header_root").innerHTML = `
     <div style="visibility:hidden;border:#000 1px solid;margin:10px;position:fixed;top:0px;height:20px;">
       <div id="firestore_login" style="float:left;">
@@ -47,6 +48,8 @@ class MegQuiz {
     this.initMasterQuestion();
     window.loginpage = new MegLoginPage();
   };
+  updateMasterlist(masterlist) {
+  }
   initMasterQuestion() {
     firebase
       .firestore()
@@ -97,7 +100,6 @@ class MegQuiz {
             .doc("quizUsers/" + firebase.auth().currentUser.uid);
           document.getElementById("available_game_name").innerText = session.id;
           wrongAnswer(CurrentWrongGuesses);
-
           CurrentContestant?.get().then((contestant) => {
             setCurrentContestant(
               contestant.id === firebase.auth().currentUser.uid,
