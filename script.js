@@ -3,7 +3,7 @@ function setPageLayout() {
   buildInfoAnchors();
   buildContentAnchors();
   buildInteractAnchors();
-  buildCurrentAnchors();
+  entAnchors();
 }
 
 function findOrCreateElement(type, id) {
@@ -71,7 +71,6 @@ function setRound(data, answers) {
   answersData = answers;
   displayGame(roundData);
   displayInfo(roundData);
-  displayCurrentRoundInfo(roundData);
 }
 
 function setCaptain() {
@@ -252,5 +251,4 @@ function tryAgain() {
 
 function newRound() {
   buildInteractAnchors();
-  buildCurrentAnchors();
 }
