@@ -41,9 +41,6 @@ function buildContentAnchors() {
   <div id="triangle"></div>
   <div id="background-triangle"></div>
   <div id="wrong-triangle"></div>
-  <div id="user-prompt"></div>
-  <input id="user-input" />
-  <button id="submit-user-input" onclick="submitUserInput()" >Guess</button>
   `;
 }
 
@@ -51,9 +48,10 @@ function buildInteractAnchors() {
   const interact = findOrCreateElement("div", "interact");
   interact.style.visibility = "hidden";
   interact.innerHTML = `
-  <div id="game-prompt" /></div>
-  <input id="game-input" />
-  <button id="game-input-button" onclick="userMakesGuess()">submit</button>`;
+  <div id="user-prompt"></div>
+  <input id="user-input" />
+  <button id="submit-user-input" onclick="submitUserInput()" >Guess</button>
+  `;
 }
 
 function buildCurrentAnchors() {

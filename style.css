@@ -101,18 +101,6 @@ button{
   visibility: visible;
   border-bottom: 70vh darkmagenta solid;
 }
-#user-prompt {
-  grid-column: 1;
-  grid-row: 4 / span 3;
-}
-#user-input {
-  grid-column: 1;
-  grid-row: 7 / span 2;
-}
-#submit-user-input {
-  grid-column: 1;
-  grid-row: 9;
-}
 .answer {
   grid-column: 3;
   padding: 0.5vh;
@@ -143,15 +131,21 @@ button{
   grid-column: 3;
   grid-row: 2 / span 2;
 }
-#game-prompt {
+#user-prompt {
   grid-column: 2 / span 3;
   grid-row: 1;
 }
-#game-input {
-  grid-column: 2 / span 3;
+#user-input {
+  grid-column: 2 / span 2;
   grid-row: 2;
+  border: transparent;
+  border-radius: 3px;
+  margin: 2px;
 }
-#game-input-button {
+#submit-user-input {
   grid-column: 4;
   grid-row: 2;
+  border: transparent;
+  border-radius: 3px;
+  margin: 2px;
 }
