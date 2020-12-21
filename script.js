@@ -22,7 +22,8 @@ function findOrCreateElement(type, id) {
 
 function buildHeaderAnchors() {
   const header = findOrCreateElement("div", "header");
-  header.innerHTML = `<div id="title"></div>
+  header.innerHTML = `
+  <div id="title"></div>
   <div id="user-prompt"></div>
   `;
 }
@@ -73,9 +74,9 @@ let answersData;
 function setRound(data, answers) {
   roundData = data;
   answersData = answers;
-  displayGame();
-  displayInfo();
-  displayCurrentRoundInfo();
+  displayGame(roundData);
+  displayInfo(roundData);
+  displayCurrentRoundInfo(roundData);
 }
 
 function setCaptain() {
@@ -167,9 +168,10 @@ function displayCurrentRoundInfo() {
 }
 
 function setCurrentContestant(iAmCurrentContestant, currentlyGuessable) {
+  document.getElementById("header").style.visibility = "visibility";
   document.getElementById("interact").style.visibility =
     iAmCurrentContestant && currentlyGuessable ? "visible" : "hidden";
-  document.getElementById("title").innerHTML = iAmCurrentContestant
+  document.getElementById("user-prompt").innerHTML = iAmCurrentContestant
     ? "it's your round"
     : "it's not your round";
   document.getElementById("title").style.backgroundColor = iAmCurrentContestant
