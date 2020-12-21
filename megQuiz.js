@@ -94,6 +94,7 @@ class MegQuiz {
           CurrentContestant?.get().then((contestant) => {
             setCurrentContestant(
               contestant.id === firebase.auth().currentUser.uid,
+              contestant.data().Name,
               CurrentlyAcceptingGuess
             );
           });

@@ -167,13 +167,13 @@ function displayCurrentRoundInfo() {
   }
 }
 
-function setCurrentContestant(iAmCurrentContestant, currentlyGuessable) {
+function setCurrentContestant(iAmCurrentContestant, nameOfPlayer, currentlyGuessable) {
   document.getElementById("header").style.visibility = "visibility";
   document.getElementById("interact").style.visibility =
     iAmCurrentContestant && currentlyGuessable ? "visible" : "hidden";
   document.getElementById("user-prompt").innerHTML = iAmCurrentContestant
-    ? "it's your round"
-    : "it's not your round";
+    ? "it's your turn!"
+    : `${nameOfPlayer}</br>is playing now!`;
   document.getElementById("title").style.backgroundColor = iAmCurrentContestant
     ? "chartreuse"
     : "red";
