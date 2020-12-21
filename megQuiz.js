@@ -66,6 +66,7 @@ class MegQuiz {
           document.getElementById("available_game_name").innerText = session.id;
 
           CurrentContestant?.get().then((contestant) => {
+            setUserGuessMessage(contestant.data().Name, CurrentGuess);
             setCurrentContestant(
               contestant.id === firebase.auth().currentUser.uid,
               contestant.data().Name,
@@ -73,9 +74,6 @@ class MegQuiz {
             );
           });
 
-          document.getElementById(
-            "current_guess"
-          ).innerText = `Current Guess: ${CurrentGuess}`;
           if (!(Users || []).map((user) => user.path).includes(userRef.path)) {
             document.getElementById("isPlaying").style.display = "none";
             document.getElementById(
