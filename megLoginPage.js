@@ -41,7 +41,7 @@ class MegLoginPage {
             SetShowing("whole-screen", true);
           } else {
             const { Users } = currentSessionData;
-            if (Users.map(u => u.id).includes(user.id)) {
+            if ((Users || []).map(u => u.id).includes(user.id)) {
                 SetShowing("whole-screen", false);
             } else {
               setText("joinGameName", user.data().Name);

@@ -102,7 +102,7 @@ class MegQuiz {
           document.getElementById(
             "current_guess"
           ).innerText = `Current Guess: ${CurrentGuess}`;
-          if (!Users.map((user) => user.path).includes(userRef.path)) {
+          if (!(Users || []).map((user) => user.path).includes(userRef.path)) {
             document.getElementById("isPlaying").style.display = "none";
             document.getElementById(
               "firestore_setInMasterSession"
