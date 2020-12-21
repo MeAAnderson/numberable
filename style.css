@@ -2,8 +2,6 @@
   visibility: inherit;
   display: grid;
   text-align: center;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: rgb(16, 65, 16);
 }
@@ -21,13 +19,12 @@ body {
   background-color: rgb(11, 11, 48);
   grid-template-columns: 10vw 80vw 5vw;
   grid-template-rows: 10vh 80vh 10vh;
-  visibility: ;
 }
 body > div {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(20, 1fr);
-  visibility: ;
+
 }
 button {
   background-color: chartreuse;
@@ -101,6 +98,7 @@ button {
   border-left: 30vw solid transparent;
   border-right: 30vw solid transparent;
   border-top: unset;
+  visibility: hidden;
 }
 #outline-triangle {
   width: 20.25vw;
