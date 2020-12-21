@@ -164,8 +164,8 @@ function displayCurrentRoundInfo() {
   }
 }
 
-function setCurrentContestant(iAmCurrentContestant) {
-  document.getElementById("interact").style.visibility = iAmCurrentContestant
+function setCurrentContestant(iAmCurrentContestant, currentlyGuessable) {
+  document.getElementById("interact").style.visibility = (iAmCurrentContestant && currentlyGuessable)
     ? "visible"
     : "hidden";
   document.getElementById("title").innerHTML = iAmCurrentContestant
