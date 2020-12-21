@@ -42,6 +42,7 @@ function buildInfoAnchors() {
 function buildContentAnchors() {
   const content = findOrCreateElement("div", "content");
   content.innerHTML = `
+  <div id="user-guess"></div>
   <div id="outline-triangle"></div>
   <div id="triangle"></div>
   <div id="background-triangle"></div>
@@ -190,15 +191,17 @@ function submitUserInput() {
 function sendUserGuess(guess) {
   console.log(`Sending ${guess} to server.`);
   setCurrentGuess(guess);
-  setUserGuessMessage(username, guess);
 }
 }
+
 function setUserGuessMessage(username, userguess){
-  let userGuessMessage = findOrCreateElement("div", "user-guess");
+  let name = username;
+  let guess = userguess;
+  let userGuessMessage = document.getElementById("user-guess");
   let content = findOrCreateElement("div", "content");
   content.appendChild(userGuessMessage);
   console.log(`${username} guessed ${userguess}`);
-  userGuessMessage.innerHTML = `${username} guessed ${userguess}`;
+  userGuessMessage.innerHTML = `${name} guessed ${guess}`;
 }
 function bigRevealAnimation(indexOfCorrect) {
   //animation use index for the dings then displayGame();
