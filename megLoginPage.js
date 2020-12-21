@@ -14,17 +14,24 @@ class MegLoginPage {
                 <p id="joinGameName" class="j namey" type="text" align="center"></p>
                 <a class="submit" align="center" onclick="viewerNameInput()">Join</a>
             </div>
-            <p class="j forgot" align="center"><a class="j" href="#">0 Currently Playing</p>
+            <div id="joined-game-await" class="j form1" style="display:none;" >
+              <p class="j namey" type="text" align="center">Waiting for Host</p>
+              <div class="lds-ripple"><div></div><div></div></div>
+            </div>
+            <p class="j forgot" align="center"><a class="j" id="currently_playing" href="#">0 Currently Playing</p>
         </div>
     </div>
     `;
     this.masterlistHook = null;
     this.initMasterlist();
   }
-  setUserMissing(needsName) {
-    SetShowing("set-name-dialog", needsName);
-    SetShowing("join-game-dialog", !needsName);
+
+  setUserMissing(setName, joinGame, awaitGame) {
+    SetShowing("set-name-dialog", setName);
+    SetShowing("join-game-dialog", joinGame);
+    SetShowing("joined-game-await", awaitGame);
   }
+
   updateMasterlistHook(masterlist) {
     const ref = masterlist.data().CurrentSession;
     if (this.masterlistHook != null) {
@@ -36,16 +43,25 @@ class MegLoginPage {
       doc("quizUsers/" + firebase.auth().currentUser.uid)
         .get()
         .then((user) => {
+          const { Users, CurrentQuestion } = currentSessionData;
+          setText(
+            "currently_playing",
+            `${Users?.length || 0} Currently Playing`
+          );
           if (!user.exists) {
-            this.setUserMissing(true);
+            this.setUserMissing(true, false, false);
             SetShowing("whole-screen", true);
           } else {
-            const { Users } = currentSessionData;
-            if ((Users || []).map(u => u.id).includes(user.id)) {
+            if ((Users || []).map((u) => u.id).includes(user.id)) {
+              if (CurrentQuestion === -1) {
+                this.setUserMissing(false, false, true);
+                SetShowing("whole-screen", true);
+              } else {
                 SetShowing("whole-screen", false);
+              }
             } else {
               setText("joinGameName", user.data().Name);
-              this.setUserMissing(false);
+              this.setUserMissing(false, true, false);
               SetShowing("whole-screen", true);
             }
           }
