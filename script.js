@@ -36,57 +36,29 @@ function buildInfoAnchors() {
 }
 
 function buildContentAnchors() {
-<<<<<<< HEAD
-  let content = document.getElementById("content");
-  content.innerHTML = "";
-
-  let triangle = document.createElement("div");
-  content.appendChild(triangle);
-  triangle.id = "triangle";
-
-  let wrongTriangle = document.createElement("div");
-  content.appendChild(wrongTriangle);
-  wrongTriangle.id = "wrong-triangle";
-
-  let backgroundTriangle = document.createElement("div");
-  content.appendChild(backgroundTriangle);
-  backgroundTriangle.id = "background-triangle";
-
-  let prompt = document.createElement("div");
-  content.appendChild(prompt);
-  prompt.id = "user-prompt";
-
-  content.innerHTML += `<input id="user-input" />`;
-  content.innerHTML += `<button id="submit-user-input" onclick="submitUserInput()" />`;
-=======
   const content = findOrCreateElement("div", "content");
   content.innerHTML = `
   <div id="triangle"></div>
+  <div id="background-triangle"></div>
   <div id="wrong-triangle"></div>
   <div id="user-prompt"></div>
   <input id="user-input" />
   <button id="submit-user-input" onclick="submitUserInput()" >Guess</button>
   `;
->>>>>>> a35b4867485a67acb9c569ada4c1b83474459824
 }
 
 function buildInteractAnchors() {
   const interact = findOrCreateElement("div", "interact");
   interact.style.visibility = "hidden";
-  interact.innerHTML = `<div id="game-prompt" />
+  interact.innerHTML = `
+  <div id="game-prompt" /></div>
   <input id="game-input" />
   <button id="game-input-button" onclick="userMakesGuess()">submit</button>`;
 }
 
 function buildCurrentAnchors() {
-<<<<<<< HEAD
-  let current = document.getElementById("current");
-=======
   const current = findOrCreateElement("div", "current");
->>>>>>> a35b4867485a67acb9c569ada4c1b83474459824
-  current.innerHTML = "";
 }
-
 //Assigned some variables in order to test the functions
 let teamName = "christmas travellers";
 let captainName;
@@ -123,32 +95,23 @@ function setCaptain() {
 
 function displayGame() {
   buildContentAnchors();
-  let triangle = document.getElementById("triangle");
+  let triangle = findOrCreateElement("div", "triangle");
   triangle.innerHTML = "";
-  triangle.style.gridTemplateRows = `repeat(${roundData.length + 2}, 1fr`;
+  triangle.style.gridTemplateRows = `repeat(${roundData.length}, 1fr`;
   triangle.style.visibility = "visible";
 
-  let wrongTriangle = document.getElementById("wrong-triangle");
-  wrongTriangle.innerHTML = "";
-  wrongTriangle.style.gridTemplateRows = `repeat(${roundData.length + 2}, 1fr)`;
-
-  let currentQuestion = document.getElementById("title");
+  let currentQuestion = findOrCreateElement("div", "title");
   currentQuestion.style.visibility = "visible";
   currentQuestion.innerHTML = `${roundData[1]}`;
 
-  for (i = roundData.length; i > 1; i--) {
+  for (i = `${roundData.length - 1}`; i > 1; i--) {
     answer = document.createElement("div");
     triangle.appendChild(answer);
     answer.innerHTML = roundData[i];
     answer.className = "answer";
     answer.id = roundData[i];
-<<<<<<< HEAD
-    answer.style.gridRow = `${i + 3}`;
-    answer.style.width = `$${(i - 1) * 3 + 28}vw`;
-=======
-    answer.gridRow = [i];
-    answer.style.width = `${(i - 1) * 10}%`;
->>>>>>> a35b4867485a67acb9c569ada4c1b83474459824
+    answer.style.gridRow = `${i + 2}`;
+    answer.style.width = `${(i - 1) * 5.25 + 19}vw`;
     answer.style.visibility = answersData.includes(roundData[i])
       ? "visible"
       : "hidden";
@@ -156,8 +119,8 @@ function displayGame() {
     triangle.appendChild(answerBackground);
     answerBackground.className = "answer-background";
     answerBackground.id = `${roundData[i]}answer-background`;
-    answerBackground.style.gridRow = `${i + 3}`;
-    answerBackground.style.width = `${(i - 1) * 4 + 20}vw`;
+    answerBackground.style.gridRow = `${i + 2}`;
+    answerBackground.style.width = `${(i - 1) * 5.25 + 19}vw`;
     answerBackground.style.visibility = answersData.includes(roundData[i])
       ? "visible"
       : "hidden";
@@ -201,8 +164,8 @@ function setCurrentContestant(iAmCurrentContestant) {
     ? "it's your round"
     : "it's not your round";
   document.getElementById("title").style.backgroundColor = iAmCurrentContestant
-    ? "PaleGreen"
-    : "Coral";
+    ? "chartreuse"
+    : "red";
 }
 
 function submitUserInput() {
