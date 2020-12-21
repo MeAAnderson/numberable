@@ -73,7 +73,6 @@ class MegQuiz {
               CurrentlyAcceptingGuess
             );
           });
-
           if (!(Users || []).map((user) => user.path).includes(userRef.path)) {
             document.getElementById("isPlaying").style.display = "none";
             document.getElementById(
@@ -112,11 +111,7 @@ class MegQuiz {
     firebase
       .firestore()
       .doc("quizUsers/" + firebase.auth().currentUser.uid)
-      .onSnapshot(function (doc) {
-        document.getElementById("currentName").innerText = `Signed in as: ${
-          doc?.data()?.Name
-        }`;
-      });
+      .onSnapshot((doc) => setOwnUserName(doc?.data()?.Name));
   }
 }
 
