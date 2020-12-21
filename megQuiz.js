@@ -3,13 +3,11 @@
 class MegQuiz {
   constructor() {
     document.getElementById("header_root").innerHTML = `
-    <div style="border:#000 1px solid;margin:10px;position:fixed;top:0px;height:20px;">
+    <div style="visibility:hidden;border:#000 1px solid;margin:10px;position:fixed;top:0px;height:20px;">
       <div id="firestore_login" style="float:left;">
         <div id="currentName"  style="float:left;margin-right:10px;">
         </div>
         <div style="float:left;">Enter Name:</div>
-        <input id="viewerNameInput" type="text" />
-        <button onclick="viewerNameInput()">Change</button>
       </div>
       <div id="firestore_logout" style="float:left;">
         <button onclick="viewerLogOut()">Log Out</button>
@@ -47,6 +45,7 @@ class MegQuiz {
     this.initViewer();
     this.initMasterSession();
     this.initMasterQuestion();
+    window.loginpage = new MegLoginPage();
   };
   initMasterQuestion() {
     firebase
