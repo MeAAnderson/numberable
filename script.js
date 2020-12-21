@@ -73,6 +73,7 @@ function setRound(data, answers) {
   roundData = data;
   answersData = answers;
   displayGame();
+  displayInfo();
   displayCurrentRoundInfo();
 }
 
@@ -158,8 +159,8 @@ function displayCurrentRoundInfo() {
     prizeLevel.className = "prize-level";
     prizeLevel.id = `prize-level ${prizeLevel[i]}`;
     prizeLevel.innerHTML = "1000";
-    prizeLevel.style.width = `${i + 1 * 6}vw`;
-    prizeLevel.style.gridRow = `${15 - i}`;
+    prizeLevel.style.width = `${i + 1 * 8}vw`;
+    prizeLevel.style.gridRow = `${10 - i}`;
     prizeLevel.style.visibility = prizeLevelReached >= i ? "visible" : "hidden";
   }
 }
