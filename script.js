@@ -80,7 +80,6 @@ function setCaptain() {
 }
 
 function displayGame() {
-  buildContentAnchors();
   let content = document.getElementById("content");
   let triangle = findOrCreateElement("div", "triangle");
   triangle.innerHTML = "";
@@ -111,16 +110,6 @@ function displayGame() {
     answerBackground.style.visibility = answersData.includes(roundData[i])
       ? "visible"
       : "hidden";
-  }
-  for (i = 0; i < 10; i++) {
-    let prizeLevel = document.createElement("div");
-    content.appendChild(prizeLevel);
-    prizeLevel.className = "prize-level";
-    prizeLevel.id = `prize-level ${prizeLevel[i]}`;
-    prizeLevel.innerHTML = "1000";
-    prizeLevel.style.width = `${i + 1 * 5}vw`;
-    prizeLevel.style.gridRow = `${14 - i}`;
-    prizeLevel.style.visibility = prizeLevelReached >= i ? "visible" : "hidden";
   }
 }
 
@@ -153,23 +142,20 @@ function displayInfo(data) {
   }
 }
 
-let prizeLevelReached = 10;
-
-/*function displayCurrentRoundInfo() {
-  const currentRoundInfo = findOrCreateElement("div", "content");
-  currentRoundInfo.innerHTML = "";
+function displayCurrentRoundInfo(prizeLevelReached) {
+  let level = prizeLevelReached
+  const currentRoundInfo = document.getElementById("content");
   currentRoundInfo.style.visibility = "visible";
   for (i = 0; i < 10; i++) {
-    let prizeLevel = document.createElement("div");
+    let prizeLevel = findOrCreateElement("div", `prize-level ${i}`);
     currentRoundInfo.appendChild(prizeLevel);
     prizeLevel.className = "prize-level";
-    prizeLevel.id = `prize-level ${prizeLevel[i]}`;
     prizeLevel.innerHTML = "1000";
-    prizeLevel.style.width = `${i + 1 * 8}vw`;
+    prizeLevel.style.width = `${i + 1 * 4}vw`;
     prizeLevel.style.gridRow = `${14 - i}`;
-    prizeLevel.style.visibility = prizeLevelReached >= i ? "visible" : "hidden";
+    prizeLevel.style.visibility = level >= i ? "visible" : "hidden";
   }
-}*/
+}
 
 function setCurrentContestant(
   iAmCurrentContestant,
