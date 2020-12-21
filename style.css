@@ -50,6 +50,7 @@ button {
   grid-row: 1;
   font-size: 1.25em;
   padding: 00.5em;
+  background-color: chartreuse;
   border: rgb(213, 255, 171) solid 1px;
   border-radius: 10px;
 }

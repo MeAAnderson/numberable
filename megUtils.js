@@ -81,9 +81,7 @@ function arrayUnionMasterSessionField(field, value) {
 }
 
 function setSubmitCorrectAnswer(answer) {
-  setMasterSessionFields({
-    CurrentGuess: "",
-  });
+  setMasterSessionFields({ CurrentGuess: "" });
   arrayUnionMasterSessionField("CurrentAnswers", answer);
   incrementMasterSessionField("CurrentCorrectGuesses", 1);
 }
@@ -99,7 +97,7 @@ function util_setCurrentContestant(userPath) {
   });
 }
 function setCurrentGuess(guess) {
-  setMasterSessionFields({ CurrentGuess: guess });
+  setMasterSessionFields({ CurrentGuess: guess, CurrentlyAcceptingGuess: false });
 }
 
 function setSessionAcceptingGuess(accepting) {
