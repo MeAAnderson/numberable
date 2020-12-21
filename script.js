@@ -4,7 +4,7 @@ function checkIt() {
 
 function setPageLayout() {
   let body = document.getElementsByTagName("body");
-  
+
   let header = document.createElement("div");
   document.body.appendChild(header);
   header.id = "header";
@@ -57,6 +57,10 @@ function buildContentAnchors() {
   let wrongTriangle = document.createElement("div");
   content.appendChild(wrongTriangle);
   wrongTriangle.id = "wrong-triangle";
+
+  let backgroundTriangle = document.createElement("div");
+  content.appendChild(backgroundTriangle);
+  backgroundTriangle.id = "background-triangle";
 
   let prompt = document.createElement("div");
   content.appendChild(prompt);
@@ -117,26 +121,35 @@ function displayGame() {
   buildContentAnchors();
   let triangle = document.getElementById("triangle");
   triangle.innerHTML = "";
-  triangle.style.gridTemplateRows = `repeat(${roundData.length - 2}, 1fr`;
+  triangle.style.gridTemplateRows = `repeat(${roundData.length + 2}, 1fr`;
   triangle.style.visibility = "visible";
 
   let wrongTriangle = document.getElementById("wrong-triangle");
   wrongTriangle.innerHTML = "";
-  wrongTriangle.style.gridTemplateRows = `repeat(${roundData.length - 1}, 1fr`;
+  wrongTriangle.style.gridTemplateRows = `repeat(${roundData.length + 2}, 1fr)`;
 
   let currentQuestion = document.getElementById("title");
   currentQuestion.style.visibility = "visible";
   currentQuestion.innerHTML = `${roundData[1]}`;
 
-  for (i = roundData.length; i > 2; i--) {
+  for (i = roundData.length; i > 1; i--) {
     answer = document.createElement("div");
     triangle.appendChild(answer);
     answer.innerHTML = roundData[i];
     answer.className = "answer";
     answer.id = roundData[i];
-    answer.gridRow = `${[i]-1}`;
-    answer.style.width = `${(i - 1) * 10}%`;
+    answer.style.gridRow = `${i + 3}`;
+    answer.style.width = `$${(i - 1) * 3 + 28}vw`;
     answer.style.visibility = answersData.includes(roundData[i])
+      ? "visible"
+      : "hidden";
+    answerBackground = document.createElement("div");
+    triangle.appendChild(answerBackground);
+    answerBackground.className = "answer-background";
+    answerBackground.id = `${roundData[i]}answer-background`;
+    answerBackground.style.gridRow = `${i + 3}`;
+    answerBackground.style.width = `${(i - 1) * 4 + 20}vw`;
+    answerBackground.style.visibility = answersData.includes(roundData[i])
       ? "visible"
       : "hidden";
   }

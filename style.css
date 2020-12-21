@@ -1,6 +1,6 @@
 * {
   visibility: inherit;
-  border-style: solid;
+  border-style: ;
   display: grid;
   justify-items: stretch;
   align-items: stretch;
@@ -11,27 +11,19 @@
 body {
   display: grid;
   margin: auto;
-  grid-template-columns: 20% 60% 20%;
-  grid-template-rows: 10vw 60vw 30vw;
+  grid-template-columns: 10% 80% 10%;
+  grid-template-rows: 5vw 85vw 10vw;
   visibility: hidden;
 }
 #background {
   grid-column: 1 / span 3;
   grid-row: 1 / span 3;
   visibility: visible;
+  background-color: rgb(9, 9, 41);
   display: grid;
   grid-template-columns: repeat(25, 1fr);
   grid-template-rows: repeat(25, 1fr);
-  z-index: -2;
-  
-}
-#background-triangle {
-  justify-self: stretch;
-  visibility: visible;
-  z-index: -1;
-  border-bottom: 4vw darkmagenta solid;
-  border-left: 2vw solid transparent;
-  border-right: 2vw solid transparent;
+  z-index: -3;
 }
 body > div {
   display: grid;
@@ -49,6 +41,7 @@ body > div {
   grid-column: 2 / span 3;
   grid-row: 2;
 }
+
 /*start INFO page section*/
 #info {
   grid-column: 1;
@@ -79,12 +72,24 @@ body > div {
 }
 #triangle {
   grid-column: 1 / span 5;
-  grid-row: 1 / span 20;
+  grid-row: 20;
   padding: 1em;
 }
 #wrong-triangle {
   grid-column: 1 / span 5;
   grid-row: 1 / span 20;
+}
+#background-triangle {
+  grid-column: 1 / span 5;
+  grid-row: 20;
+  visibility: visible;
+  z-index: -2;
+  height: 0;
+
+  border-bottom: 75vw darkmagenta solid;
+  border-left: 33vw solid transparent;
+  border-right: 33vw solid transparent;
+  border-top: unset;
 }
 #user-prompt {
   grid-column: 2 / span 3;
@@ -99,15 +104,25 @@ body > div {
   grid-row: 9;
 }
 .answer {
-  
+  grid-column: 1;
+
   padding: 0.5em;
-  border: solid;
-  background-color: chartreuse;
+  border: transparent;
+
   justify-self: center;
   align-self: start;
 }
-.answer-background{
-
+.answer-background {
+  grid-column: 1;
+  align-self: start;
+  height: 0;
+  justify-self: center;
+  margin: 0.5vw;
+  border-bottom: 4vw chartreuse solid;
+  border-left: 2vw transparent solid;
+  border-right: 2vw transparent solid;
+  border-top: unset;
+  z-index: -1;
 }
 /*start new page section*/
 #interact {
