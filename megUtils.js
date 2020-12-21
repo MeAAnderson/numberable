@@ -81,15 +81,13 @@ function arrayUnionMasterSessionField(field, value) {
 }
 
 function setSubmitCorrectAnswer(answer) {
-  setMasterSessionFields({
-    CurrentGuess: "",
-  });
+  setMasterSessionFields({ CurrentGuess: "", CurrentlyAcceptingGuess: false });
   arrayUnionMasterSessionField("CurrentAnswers", answer);
   incrementMasterSessionField("CurrentCorrectGuesses", 1);
 }
 
 function setSubmitWrongAnswer() {
-  setMasterSessionFields({ CurrentGuess: "" });
+  setMasterSessionFields({ CurrentGuess: "", CurrentlyAcceptingGuess: false });
   incrementMasterSessionField("CurrentWrongGuesses", 1);
 }
 
