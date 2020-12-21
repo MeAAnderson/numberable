@@ -24,7 +24,7 @@ function buildHeaderAnchors() {
   <div id="own-user-name"></div>
   <div id="wrong-answers"></div>
   `;
-  setOwnUserName(Name);
+  
 }
 
 function buildInfoAnchors() {
