@@ -211,7 +211,7 @@ function bigRevealAnimation(indexOfCorrect) {
 
 let livesRemaining = true;
 
-function wrongAnswer() {
+function wrongAnswer(livesRemaining) {
   document.getElementById("wrong-triangle").style.visibility = "visible";
   if (livesRemaining) {
     window.setTimeout(tryAgain, 1000);
