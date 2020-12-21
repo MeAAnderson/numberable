@@ -85,7 +85,7 @@ class MegQuiz {
       .doc("quizSessions/Masterlist")
       .onSnapshot(function (doc) {
         doc.data().CurrentSession.onSnapshot((session) => {
-          const { Users, CurrentGuess, CurrentContestant, CurrentlyAceptingGuess } = session.data();
+          const { Users, CurrentGuess, CurrentContestant, CurrentlyAcceptingGuess } = session.data();
           const userRef = firebase
             .firestore()
             .doc("quizUsers/" + firebase.auth().currentUser.uid);
@@ -94,7 +94,7 @@ class MegQuiz {
           CurrentContestant?.get().then((contestant) => {
             setCurrentContestant(
               contestant.id === firebase.auth().currentUser.uid,
-              CurrentlyAceptingGuess
+              CurrentlyAcceptingGuess
             );
           });
 
