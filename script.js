@@ -3,7 +3,6 @@ function setPageLayout() {
   buildInfoAnchors();
   buildContentAnchors();
   buildInteractAnchors();
-  entAnchors();
 }
 
 function findOrCreateElement(type, id) {
