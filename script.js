@@ -38,6 +38,7 @@ function buildInfoAnchors() {
 function buildContentAnchors() {
   const content = findOrCreateElement("div", "content");
   content.innerHTML = `
+  <div id="outline-triangle"></div>
   <div id="triangle"></div>
   <div id="background-triangle"></div>
   <div id="wrong-triangle"></div>
@@ -72,16 +73,7 @@ function setRound(data, answers) {
   roundData = data;
   answersData = answers;
   displayGame();
-}
-
-function displayLoginPage() {
-  buildContentAnchors();
-  let content = document.getElementById("content");
-  content.style.visibility = "visible";
-
-  let userInput = document.getElementById("user-input");
-  let User = userInput.value;
-  prompt.innerHTML = "Enter user name";
+  displayCurrentRoundInfo();
 }
 
 function setCaptain() {
@@ -109,7 +101,7 @@ function displayGame() {
     answer.className = "answer";
     answer.id = roundData[i];
     answer.style.gridRow = `${i + 2}`;
-    answer.style.width = `${(i - 1) * 5.25 + 19}vw`;
+    answer.style.width = `${(i - 1) * 4.5 + 22}vw`;
     answer.style.visibility = answersData.includes(roundData[i])
       ? "visible"
       : "hidden";
@@ -118,7 +110,7 @@ function displayGame() {
     answerBackground.className = "answer-background";
     answerBackground.id = `${roundData[i]}answer-background`;
     answerBackground.style.gridRow = `${i + 2}`;
-    answerBackground.style.width = `${(i - 1) * 5.25 + 19}vw`;
+    answerBackground.style.width = `${(i - 1) * 4.5 + 22}vw`;
     answerBackground.style.visibility = answersData.includes(roundData[i])
       ? "visible"
       : "hidden";
@@ -151,6 +143,24 @@ function displayInfo(data) {
     contestant.innerHTML = teamData[i].onTeam
       ? `${teamData[i].name} is in the game`
       : `${teamData[i].name} not in the game`;
+  }
+}
+
+let prizeLevelReached = 6;
+
+function displayCurrentRoundInfo() {
+  const currentRoundInfo = findOrCreateElement("div", "current");
+  currentRoundInfo.innerHTML = "";
+  currentRoundInfo.style.visibility = "visible";
+  for (i = 0; i < 10; i++) {
+    let prizeLevel = document.createElement("div");
+    currentRoundInfo.appendChild(prizeLevel);
+    prizeLevel.className = "prize-level";
+    prizeLevel.id = `prize-level ${prizeLevel[i]}`;
+    prizeLevel.innerHTML = "1000";
+    prizeLevel.style.width = `${i + 1 * 6}vw`;
+    prizeLevel.style.gridRow = `${15 - i}`;
+    prizeLevel.style.visibility = prizeLevelReached >= i ? "visible" : "hidden";
   }
 }
 
