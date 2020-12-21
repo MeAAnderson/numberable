@@ -30,7 +30,6 @@ function buildInfoAnchors() {
   info.innerHTML = `
   <div id="team-name"></div>
   <div id="locked-in-prize"></div>
-  <div id="now-playing"></div>
   <div id="contestants"></div>
   `;
 }
@@ -38,7 +37,6 @@ function buildInfoAnchors() {
 function buildContentAnchors() {
   const content = findOrCreateElement("div", "content");
   content.innerHTML = `
-  <div id="user-guess"></div>
   <div id="outline-triangle"></div>
   <div id="triangle"></div>
   <div id="background-triangle"></div>
@@ -80,13 +78,12 @@ function setCaptain() {
 }
 
 function displayGame() {
-  let content = document.getElementById("content");
-  let triangle = findOrCreateElement("div", "triangle");
+  let triangle = document.getElementById("triangle");
   triangle.innerHTML = "";
   triangle.style.gridTemplateRows = `repeat(${roundData.length}, 1fr`;
   triangle.style.visibility = "visible";
 
-  let currentQuestion = findOrCreateElement("div", "title");
+  let currentQuestion = document.getElementById("title");
   currentQuestion.style.visibility = "visible";
   currentQuestion.innerHTML = `${roundData[1]}`;
 
@@ -114,27 +111,22 @@ function displayGame() {
 }
 
 function displayInfo(data) {
-  document.getElementById("info").style.visibility = "visible";
-
   let teamData;
   teamData = data;
 
   let teamNameSection = document.getElementById("team-name");
   let lockedInPrizeSection = document.getElementById("locked-in-prize");
-  let nowPlayingSection = document.getElementById("now-playing");
   let contestantsSection = document.getElementById("contestants");
 
   teamNameSection.innerHTML = `${teamName} are playing`;
   lockedInPrizeSection.innerHTML = `${totalPrize}`;
-  nowPlayingSection.innerHTML = "";
   contestantsSection.innerHTML = "";
   for (i = 0; i < teamData.length; i++) {
     if (teamData[i].currentContestant) {
       nowPlayingSection.innerHTML = `${teamData[i].name} is playing`;
     }
-    let contestant = document.createElement("div");
+    let contestant = findOrCreateElement("div", `contestant ${i}`);
     contestantsSection.appendChild(contestant);
-    contestant.id = `${teamData[i].name}`;
     contestant.style.gridRow = `${i + 1}`;
     contestant.innerHTML = teamData[i].onTeam
       ? `${teamData[i].name} is in the game`
@@ -143,7 +135,7 @@ function displayInfo(data) {
 }
 
 function displayCurrentRoundInfo(prizeLevelReached) {
-  let level = prizeLevelReached
+  let level = prizeLevelReached;
   const currentRoundInfo = document.getElementById("content");
   currentRoundInfo.style.visibility = "visible";
   for (i = 0; i < 10; i++) {
@@ -176,49 +168,30 @@ function setCurrentContestant(
       : "aquamarine"
     : "silver";
 }
-function setOwnUserName(name){
+function setOwnUserName(name) {
   let myname = name;
   let ownUserNameSection = document.getElementById("own-user-name");
-  console.log("setting own");
   ownUserNameSection.innerHTML = `your name is ${myname}!`;
 }
 function submitUserInput() {
   sendUserGuess(document.getElementById("user-input").value);
 
-function sendUserGuess(guess) {
-  console.log(`Sending ${guess} to server.`);
-  setCurrentGuess(guess);
-}
+  function sendUserGuess(guess) {
+    console.log(`Sending ${guess} to server.`);
+    setCurrentGuess(guess);
+  }
 }
 
-function setUserGuessMessage(username, userguess){
+function setUserGuessMessage(username, userguess) {
   let name = username;
   let guess = userguess;
-  let userGuessMessage = document.getElementById("user-guess");
-  let content = findOrCreateElement("div", "content");
+  let userGuessMessage = findOrCreateElement("div", "user-guess");
+  let content = document.getElementById("content");
   content.appendChild(userGuessMessage);
-  console.log(`${username} guessed ${userguess}`);
-  userGuessMessage.innerHTML = `${name} guessed ${guess}`;
+  userGuessMessage.innerHTML = `${name} guessed: ${guess}`;
 }
-function bigRevealAnimation(indexOfCorrect) {
-  //animation use index for the dings then displayGame();
-  let triangle = document.getElementById("triangle");
-  triangle.innerHTML = "";
-  triangle.style.gridTemplateRows = `repeat(${roundData.length - 2}, 1fr`;
-  triangle.style.visibility = "visible";
-
-  let currentQuestion = document.getElementById("title");
-  currentQuestion.style.visibility = "visible";
-  currentQuestion.innerHTML = `${roundData[1]}`;
-
-  //for megan add animation
-  for (i = indexOfCorrect; i > 2; i--) {
-    aniBox = document.createElement("div");
-    triangle.appendChild(aniBox);
-    aniBox.style.width = `${(i - 1) * 10}%`;
-    aniBox.style.backgroundColor = "blue";
-  }
-  setTimeout(displayGame(), 3000);
+function clearUserGuessMessage() {
+  remove(findOrCreateElement("div", "user-guess"));
 }
 
 function wrongAnswer(currentWrongGuesses) {
@@ -232,8 +205,4 @@ function getWrongTriangle() {
 function tryAgain() {
   animatingWrongAnswer = false;
   document.getElementById("wrong-triangle").style.visibility = "hidden";
-}
-
-function newRound() {
-  buildInteractAnchors();
 }
