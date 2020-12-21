@@ -3,42 +3,31 @@ function checkIt() {
 }
 
 function setPageLayout() {
-  let body = document.getElementsByTagName("body");
-
-  let header = document.createElement("div");
-  document.body.appendChild(header);
-  header.id = "header";
   buildHeaderAnchors();
-
-  let info = document.createElement("div");
-  document.body.appendChild(info);
-  info.id = "info";
   buildInfoAnchors();
-
-  let content = document.createElement("div");
-  document.body.appendChild(content);
-  content.id = "content";
   buildContentAnchors();
-
-  let interact = document.createElement("div");
-  document.body.appendChild(interact);
-  interact.id = "interact";
   buildInteractAnchors();
+  buildCurrentAnchors();
+}
 
-  let current = document.createElement("div");
-  document.body.appendChild(current);
-  current.id = "current";
+function findOrCreateElement(type, id) {
+  let elem = document.getElementById(id);
+  if (elem == null || elem == undefined) {
+    elem = document.createElement(type);
+    document.body.appendChild(elem);
+    elem.id = id;
+  }
+  return elem;
 }
 
 function buildHeaderAnchors() {
-  let header = document.getElementById("header");
+  const header = findOrCreateElement("div", "header");
   header.innerHTML = `<div id="title"></div>`;
 }
 
 function buildInfoAnchors() {
-  let info = document.getElementById("info");
-  info.innerHTML = "";
-  info.innerHTML += `
+  const info = findOrCreateElement("div", "info");
+  info.innerHTML = `
   <div id="team-name"></div>
   <div id="locked-in-prize"></div>
   <div id="now-playing"></div>
@@ -47,6 +36,7 @@ function buildInfoAnchors() {
 }
 
 function buildContentAnchors() {
+<<<<<<< HEAD
   let content = document.getElementById("content");
   content.innerHTML = "";
 
@@ -68,18 +58,32 @@ function buildContentAnchors() {
 
   content.innerHTML += `<input id="user-input" />`;
   content.innerHTML += `<button id="submit-user-input" onclick="submitUserInput()" />`;
+=======
+  const content = findOrCreateElement("div", "content");
+  content.innerHTML = `
+  <div id="triangle"></div>
+  <div id="wrong-triangle"></div>
+  <div id="user-prompt"></div>
+  <input id="user-input" />
+  <button id="submit-user-input" onclick="submitUserInput()" >Guess</button>
+  `;
+>>>>>>> a35b4867485a67acb9c569ada4c1b83474459824
 }
 
 function buildInteractAnchors() {
-  let interact = document.getElementById("interact");
+  const interact = findOrCreateElement("div", "interact");
   interact.style.visibility = "hidden";
-  interact.innerHTML += `<div id="game-prompt" />`;
-  interact.innerHTML += `<input id="game-input" />`;
-  interact.innerHTML += `<button id="game-input-button" onclick="userMakesGuess()">submit</button>`;
+  interact.innerHTML = `<div id="game-prompt" />
+  <input id="game-input" />
+  <button id="game-input-button" onclick="userMakesGuess()">submit</button>`;
 }
 
 function buildCurrentAnchors() {
+<<<<<<< HEAD
   let current = document.getElementById("current");
+=======
+  const current = findOrCreateElement("div", "current");
+>>>>>>> a35b4867485a67acb9c569ada4c1b83474459824
   current.innerHTML = "";
 }
 
@@ -138,8 +142,13 @@ function displayGame() {
     answer.innerHTML = roundData[i];
     answer.className = "answer";
     answer.id = roundData[i];
+<<<<<<< HEAD
     answer.style.gridRow = `${i + 3}`;
     answer.style.width = `$${(i - 1) * 3 + 28}vw`;
+=======
+    answer.gridRow = [i];
+    answer.style.width = `${(i - 1) * 10}%`;
+>>>>>>> a35b4867485a67acb9c569ada4c1b83474459824
     answer.style.visibility = answersData.includes(roundData[i])
       ? "visible"
       : "hidden";
