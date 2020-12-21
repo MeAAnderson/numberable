@@ -22,7 +22,9 @@ function findOrCreateElement(type, id) {
 
 function buildHeaderAnchors() {
   const header = findOrCreateElement("div", "header");
-  header.innerHTML = `<div id="title"></div>`;
+  header.innerHTML = `<div id="title"></div>
+  <div id="user-prompt"></div>
+  `;
 }
 
 function buildInfoAnchors() {
@@ -49,7 +51,6 @@ function buildInteractAnchors() {
   const interact = findOrCreateElement("div", "interact");
   interact.style.visibility = "hidden";
   interact.innerHTML = `
-  <div id="user-prompt"></div>
   <input id="user-input" />
   <button id="submit-user-input" onclick="submitUserInput()" >Guess</button>
   `;
@@ -166,9 +167,8 @@ function displayCurrentRoundInfo() {
 }
 
 function setCurrentContestant(iAmCurrentContestant, currentlyGuessable) {
-  document.getElementById("interact").style.visibility = (iAmCurrentContestant && currentlyGuessable)
-    ? "visible"
-    : "hidden";
+  document.getElementById("interact").style.visibility =
+    iAmCurrentContestant && currentlyGuessable ? "visible" : "hidden";
   document.getElementById("title").innerHTML = iAmCurrentContestant
     ? "it's your round"
     : "it's not your round";
