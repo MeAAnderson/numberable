@@ -86,26 +86,26 @@ class MegQuiz {
             ).style.display = "none";
           }
 
-          QuestionCollection.get().then((collect) =>
+          QuestionCollection.get().then((collect) => {
+            const { CurrentQuestion } = collect;
+            if (CurrentQuestion == -1) {
+              setRound();
+            }
             collect
               .data()
               //TODO -1 check this
               .Questions[CurrentQuestion].get()
-              .then((question) => {
-                if (CurrentQuestion == -1) {
-                  setRound();
-                } else {
-                  setRound(
-                    [
-                      question.id,
-                      question.data().Question,
-                      ...question.data().Answers,
-                    ],
-                    session.data().CurrentAnswers
-                  );
-                }
-              })
-          );
+              .then((question) =>
+                setRound(
+                  [
+                    question.id,
+                    question.data().Question,
+                    ...question.data().Answers,
+                  ],
+                  session.data().CurrentAnswers
+                )
+              );
+          });
         });
       });
   }
