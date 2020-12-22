@@ -98,7 +98,7 @@ function displayGame() {
 
 function displayInfo(totalPrize, teamData, prizeLevelReached) {
   displayLockedInPrize(totalPrize);
-  displayContestantst(teamData);
+  displayContestants(teamData);
   displayCurrentRoundInfo(prizeLevelReached);
 }
 
