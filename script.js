@@ -102,7 +102,7 @@ function displayInfo(totalPrize, teamData, prizeLevelReached) {
   displayCurrentRoundInfo(prizeLevelReached);
 }
 
-function displayLockedInPrize() {
+function displayLockedInPrize(totalPrize) {
   let prize = totalPrize;
   document.getElementById(
     "locked-in-prize"
