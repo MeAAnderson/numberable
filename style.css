@@ -40,8 +40,8 @@ button {
   grid-column: 1;
   grid-row: 1;
   align-self: stretch;
-  background-color: rgb(213, 255, 171);
-  border: rgb(213, 255, 171) solid 1px;
+  background-color: aquamarine;
+  border: aquamarine solid 1px;
   border-radius: 10px;
   align-content: center;
 }
@@ -54,7 +54,7 @@ button {
   margin-left: 0.25em;
   margin-right: 1em;
   background-color: chartreuse;
-  border: rgb(213, 255, 171) solid 1px;
+  border: aquamarine solid 1px;
   border-radius: 10px;
   align-content: center;
 }
@@ -62,8 +62,8 @@ button {
   grid-column: 1;
   grid-row: 2;
   margin-top: .25em;
-  background-color: rgb(213, 255, 171);
-  border: rgb(213, 255, 171) solid 1px;
+  background-color: aquamarine;
+  border: aquamarine solid 1px;
   border-radius: 10px;
   align-content: center;
 }
@@ -77,12 +77,23 @@ button {
   grid-column: 1 / span 5;
   grid-row: 2 / span 2;
   align-content: center;
+  border-top: aquamarine solid 6px;
+  border-left: aquamarine solid 1px;
+  border-right: 15px transparent solid;
+  color: aquamarine;
+  background-color: rgb(69, 1, 100);
 }
 #contestants {
   grid-column: 1 / span 5;
   grid-row: 5 / span 14;
   display: grid;
   grid-template-rows: repeat(7, 1fr);
+  align-content: center;
+}
+.contestant{
+  background-color: aquamarine;
+  border: aquamarine solid 1px;
+  border-radius: 10px;
   align-content: center;
 }
 /*start new page section*/
@@ -96,7 +107,7 @@ button {
   grid-row: 2;
   height: 4em;
   background-color: chartreuse;
-  border: rgb(213, 255, 171) solid 1px;
+  border: aquamarine solid 1px;
   border-radius: 10px;
   align-content: center;
 }
@@ -121,7 +132,7 @@ button {
   width: 20.25vw;
   align-self: flex-end;
   height: 0;
-  border-bottom: 79.25vh rgb(213, 255, 171) solid;
+  border-bottom: 79.25vh aquamarine solid;
   border-left: 30.25vw solid transparent;
   border-right: 30.25vw solid transparent;
   border-top: unset;
@@ -157,14 +168,14 @@ button {
   z-index: -1;
 }
 .prize-level {
-  color: rgb(213, 255, 171);
+  color: aquamarine;
   margin: 0.25em;
   height: 1em;
   grid-column: 5;
   justify-self: right;
   justify-content: right;
-  border-top: rgb(213, 255, 171) solid 6px;
-  border-right: rgb(213, 255, 171) solid 1px;
+  border-top: aquamarine solid 6px;
+  border-right: aquamarine solid 1px;
   border-left: 15px transparent solid;
 }
 
@@ -177,14 +188,14 @@ button {
 #user-input {
   grid-column: 2 / span 2;
   grid-row: 2;
-  border: rgb(213, 255, 171) solid 1px;
+  border: aquamarine solid 1px;
   border-radius: 3px;
   margin: 2px;
 }
 #submit-user-input {
   grid-column: 4;
   grid-row: 2;
-  border: rgb(213, 255, 171) solid 1px;
+  border: aquamarine solid 1px;
   border-radius: 3px;
   margin: 2px;
 }

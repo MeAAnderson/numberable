@@ -52,13 +52,7 @@ function buildInteractAnchors() {
   `;
 }
 //Assigned some variables in order to test the functions
-let teamName = "christmas travellers";
 let captainName;
-
-let userData = ["isOnTeam", "livesRemaining"];
-let totalPrize = "total prize";
-let roundPrize = "round prize";
-
 let roundData;
 let answersData;
 
@@ -66,7 +60,7 @@ function setRound(data, answers) {
   roundData = data;
   answersData = answers;
   displayGame(roundData);
-  displayInfo(roundData);
+  displayInfo();
 }
 
 function displayGame() {
@@ -102,22 +96,20 @@ function displayGame() {
   }
 }
 
-function displayInfo() {
-  displayLockedInPrize();
-  displayContestants();
-  displayCurrentRoundInfo(8);
+function displayInfo(totalPrize, teamData, prizeLevelReached) {
+  displayLockedInPrize(totalPrize);
+  displayContestantst(teamData);
+  displayCurrentRoundInfo(prizeLevelReached);
 }
 
-function displayLockedInPrize(totalPrize = 0) {
+function displayLockedInPrize() {
   let prize = totalPrize;
   document.getElementById(
     "locked-in-prize"
   ).innerHTML = `playing for: ${prize}`;
 }
 
-function displayContestants(
-  teamData = [{ nameOfPlayer: "megan", isOnTeam: true }]
-) {
+function displayContestants(){
   let data = teamData;
   let contestantsSection = document.getElementById("contestants");
   contestantsSection.innerHTML = "";
@@ -125,14 +117,18 @@ function displayContestants(
   for (i = 0; i < data.length; i++) {
     let contestant = findOrCreateElement("div", `${data[i].nameOfPlayer}`);
     contestantsSection.appendChild(contestant);
+    contestant.className = "contestant";
     contestant.style.gridRow = `${i + 1}`;
     contestant.innerHTML = data[i].isOnTeam
       ? `${teamData[i].nameOfPlayer} is in the game`
-      : `${teamData[i].nameOfPlayer} not in the game`;
+      : `${teamData[i].nameOfPlayer} is not in the game`;
+      contestant.style.backgroundColor = data[i].isOnTeam
+      ? `aquamarine`
+      : `silver`;
   }
 }
 
-function displayCurrentRoundInfo(prizeLevelReached) {
+function displayCurrentRoundInfo(prizeLevelReached = -1) {
   let level = prizeLevelReached;
   const currentRoundInfo = document.getElementById("content");
   currentRoundInfo.style.visibility = "visible";
