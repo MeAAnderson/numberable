@@ -58,13 +58,14 @@ class MegQuiz {
             CurrentContestant,
             CurrentlyAcceptingGuess,
             CurrentQuestion,
+            CurrentWrongGuesses,
             QuestionCollection,
           } = session.data();
           const userRef = firebase
             .firestore()
             .doc("quizUsers/" + firebase.auth().currentUser.uid);
           document.getElementById("available_game_name").innerText = session.id;
-
+          wrongAnswer(CurrentWrongGuesses);
           CurrentContestant?.get().then((contestant) => {
             setUserGuessMessage(contestant.data().Name, CurrentGuess);
             setCurrentContestant(
@@ -88,6 +89,7 @@ class MegQuiz {
           QuestionCollection.get().then((collect) =>
             collect
               .data()
+              //TODO -1 check this
               .Questions[CurrentQuestion].get()
               .then((question) => {
                 if (CurrentQuestion == -1) {

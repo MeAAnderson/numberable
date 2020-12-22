@@ -200,6 +200,5 @@ function getWrongTriangle() {
 }
 
 function tryAgain() {
-  animatingWrongAnswer = false;
   document.getElementById("wrong-triangle").style.visibility = "hidden";
 }
