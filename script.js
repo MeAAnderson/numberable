@@ -128,7 +128,7 @@ function displayContestants(teamData){
   }
 }
 
-function displayCurrentRoundInfo(prizeLevelReached = -1) {
+function displayCurrentRoundInfo(prizeLevelReached = 0) {
   let level = prizeLevelReached;
   const currentRoundInfo = document.getElementById("content");
   currentRoundInfo.style.visibility = "visible";
