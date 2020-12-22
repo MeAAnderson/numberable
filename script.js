@@ -98,7 +98,7 @@ function displayGame() {
 
 function displayInfo(totalPrize, teamData, prizeLevelReached) {
   displayLockedInPrize(totalPrize);
-  displayContestants(teamData);
+  displayContestants(["teamData"]);
   displayCurrentRoundInfo(prizeLevelReached);
 }
 
@@ -109,7 +109,7 @@ function displayLockedInPrize(totalPrize) {
   ).innerHTML = `playing for: ${prize}`;
 }
 
-function displayContestants(){
+function displayContestants(teamData){
   let data = teamData;
   let contestantsSection = document.getElementById("contestants");
   contestantsSection.innerHTML = "";
@@ -134,6 +134,7 @@ function displayCurrentRoundInfo(prizeLevelReached = -1) {
   currentRoundInfo.style.visibility = "visible";
   for (i = 0; i < level; i++) {
     let prizeLevel = findOrCreateElement("div", `prize-level ${i}`);
+    console.log(`prize-level ${i}`);
     currentRoundInfo.appendChild(prizeLevel);
     prizeLevel.className = "prize-level";
     prizeLevel.innerHTML = "1000";
@@ -141,7 +142,7 @@ function displayCurrentRoundInfo(prizeLevelReached = -1) {
     prizeLevel.style.gridRow = `${14 - i}`;
     prizeLevel.style.visibility = level >= i ? "visible" : "hidden";
   }
-  document.getElementById(`prize-level ${level-1}`).style.backgroundColor =
+  findOrCreateElement(`prize-level ${level-1}`).style.backgroundColor =
     " rgb(69, 1, 100)";
 }
 
