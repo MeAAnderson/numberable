@@ -43,6 +43,7 @@ button {
   background-color: rgb(213, 255, 171);
   border: rgb(213, 255, 171) solid 1px;
   border-radius: 10px;
+  align-content: center;
 }
 #title {
   grid-column: 2 / span 4;
@@ -55,6 +56,7 @@ button {
   background-color: chartreuse;
   border: rgb(213, 255, 171) solid 1px;
   border-radius: 10px;
+  align-content: center;
 }
 #own-user-name {
   grid-column: 1;
@@ -63,26 +65,25 @@ button {
   background-color: rgb(213, 255, 171);
   border: rgb(213, 255, 171) solid 1px;
   border-radius: 10px;
+  align-content: center;
 }
 /*start INFO page section*/
 #info {
   grid-column: 1;
   grid-row: 2 / span 2;
-  font-size: 0.75em;
-}
-#team-name {
-  grid-column: 1 / span 5;
-  grid-row: 1 / span 2;
+  font-size: 1em;
 }
 #locked-in-prize {
   grid-column: 1 / span 5;
-  grid-row: 3 / span 2;
+  grid-row: 2 / span 2;
+  align-content: center;
 }
 #contestants {
   grid-column: 1 / span 5;
   grid-row: 5 / span 14;
   display: grid;
   grid-template-rows: repeat(7, 1fr);
+  align-content: center;
 }
 /*start new page section*/
 #content {
@@ -97,6 +98,7 @@ button {
   background-color: chartreuse;
   border: rgb(213, 255, 171) solid 1px;
   border-radius: 10px;
+  align-content: center;
 }
 #triangle,
 #wrong-triangle,
@@ -137,7 +139,7 @@ button {
 #background-triangle {
   z-index: -2;
   visibility: visible;
-  border-bottom: 79vh rgb(83, 1, 83) solid;
+  border-bottom: 79vh rgb(69, 1, 100) solid;
 }
 .answer {
   grid-column: 3;
@@ -154,6 +156,18 @@ button {
   border-top: unset;
   z-index: -1;
 }
+.prize-level {
+  color: rgb(213, 255, 171);
+  margin: 0.25em;
+  height: 1em;
+  grid-column: 5;
+  justify-self: right;
+  justify-content: right;
+  border-top: rgb(213, 255, 171) solid 6px;
+  border-right: rgb(213, 255, 171) solid 1px;
+  border-left: 15px transparent solid;
+}
+
 /*start new page section*/
 #interact {
   grid-column: 2;
@@ -173,20 +187,4 @@ button {
   border: rgb(213, 255, 171) solid 1px;
   border-radius: 3px;
   margin: 2px;
-}
-/*start new page section*/
-#current {
-  grid-column: 3;
-  grid-row: 2 / span 2;
-}
-.prize-level {
-  color: rgb(213, 255, 171);
-  margin: 0.25em;
-  height: 1em;
-  grid-column: 5;
-  justify-self: right;
-  justify-content: right;
-  border-top: rgb(213, 255, 171) solid 6px;
-  border-right: rgb(213, 255, 171) solid 1px;
-  border-left: 15px transparent solid;
 }

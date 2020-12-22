@@ -28,7 +28,6 @@ function buildHeaderAnchors() {
 function buildInfoAnchors() {
   const info = findOrCreateElement("div", "info");
   info.innerHTML = `
-  <div id="team-name"></div>
   <div id="locked-in-prize"></div>
   <div id="contestants"></div>
   `;
@@ -70,13 +69,6 @@ function setRound(data, answers) {
   displayInfo(roundData);
 }
 
-function setCaptain() {
-  let prompt = document.getElementById("prompt");
-  prompt.innerHTML = "enter team name";
-  let teamNameInput = document.getElementById("user-input");
-  teamName = teamNameInput.value;
-}
-
 function displayGame() {
   let triangle = document.getElementById("triangle");
   triangle.innerHTML = "";
@@ -110,27 +102,33 @@ function displayGame() {
   }
 }
 
-function displayInfo(data) {
-  let teamData;
-  teamData = data;
+function displayInfo() {
+  displayLockedInPrize();
+  displayContestants();
+  displayCurrentRoundInfo(8);
+}
 
-  let teamNameSection = document.getElementById("team-name");
-  let lockedInPrizeSection = document.getElementById("locked-in-prize");
+function displayLockedInPrize(totalPrize = 0) {
+  let prize = totalPrize;
+  document.getElementById(
+    "locked-in-prize"
+  ).innerHTML = `playing for: ${prize}`;
+}
+
+function displayContestants(
+  teamData = [{ nameOfPlayer: "megan", isOnTeam: true }]
+) {
+  let data = teamData;
   let contestantsSection = document.getElementById("contestants");
-
-  teamNameSection.innerHTML = `${teamName} are playing`;
-  lockedInPrizeSection.innerHTML = `${totalPrize}`;
   contestantsSection.innerHTML = "";
-  for (i = 0; i < teamData.length; i++) {
-    if (teamData[i].currentContestant) {
-      nowPlayingSection.innerHTML = `${teamData[i].name} is playing`;
-    }
-    let contestant = findOrCreateElement("div", `contestant ${i}`);
+
+  for (i = 0; i < data.length; i++) {
+    let contestant = findOrCreateElement("div", `${data[i].nameOfPlayer}`);
     contestantsSection.appendChild(contestant);
     contestant.style.gridRow = `${i + 1}`;
-    contestant.innerHTML = teamData[i].onTeam
-      ? `${teamData[i].name} is in the game`
-      : `${teamData[i].name} not in the game`;
+    contestant.innerHTML = data[i].isOnTeam
+      ? `${teamData[i].nameOfPlayer} is in the game`
+      : `${teamData[i].nameOfPlayer} not in the game`;
   }
 }
 
@@ -138,7 +136,7 @@ function displayCurrentRoundInfo(prizeLevelReached) {
   let level = prizeLevelReached;
   const currentRoundInfo = document.getElementById("content");
   currentRoundInfo.style.visibility = "visible";
-  for (i = 0; i < 10; i++) {
+  for (i = 0; i < level; i++) {
     let prizeLevel = findOrCreateElement("div", `prize-level ${i}`);
     currentRoundInfo.appendChild(prizeLevel);
     prizeLevel.className = "prize-level";
@@ -147,6 +145,8 @@ function displayCurrentRoundInfo(prizeLevelReached) {
     prizeLevel.style.gridRow = `${14 - i}`;
     prizeLevel.style.visibility = level >= i ? "visible" : "hidden";
   }
+  document.getElementById(`prize-level ${level-1}`).style.backgroundColor =
+    " rgb(69, 1, 100)";
 }
 
 function setCurrentContestant(
