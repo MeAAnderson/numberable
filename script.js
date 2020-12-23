@@ -209,7 +209,20 @@ function setUserGuessMessage(username, userguess) {
 }
 
 function wrongAnswer(currentWrongGuesses) {
-  setText("wrong-answers", `Lives left: ${1 - currentWrongGuesses}`);
+  switch (currentWrongGuesses) {
+    case 0:
+      setText("wrong-answers", `Lives left: ${1 - currentWrongGuesses}`);
+      break;
+    case 1:
+      setText("wrong-answers", "No lives left!");
+      findOrCreateElement("div", "wrong-answers").style.backgroundColor = "red";
+      break;
+    case 2:
+      setText("wrong-answers", "You're off the team!");
+      break;
+    default:
+      setText("wrong-answers", `Lives left: ${1 - currentWrongGuesses}`);
+  }
 }
 
 function getWrongTriangle() {
@@ -218,15 +231,4 @@ function getWrongTriangle() {
 
 function tryAgain() {
   document.getElementById("wrong-triangle").style.visibility = "hidden";
-}
-//TODO admin needs a button for revealAnswers
-function revealAnswers(list) {
-  for (i = 0; i < 10; i++) {
-    let answer = findOrCreateElement("div", `answer ${i}`);
-    let answerBackground = findOrCreateElement("div", `answer-background ${i}`);
-    if ((answer.style.visibility = "hidden")) {
-      answer.style.visibility = "visible";
-      answerBackground.style.visibility = "visible";
-    }
-  }
 }
