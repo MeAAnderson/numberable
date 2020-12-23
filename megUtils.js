@@ -36,13 +36,8 @@ function setSessionNextQuestion() {
   resetCurrentValuesInMasterSesssion();
 }
 
-function setMasterlistCurrentSession() {
-  setMasterlist(
-    doc(
-      document.getElementById("sm_masterlist_setmasterlistcurrentsession").value
-    ),
-    () => {}
-  );
+function setMasterlistCurrentSession(direction) {
+  collection
 }
 
 function setMasterlist(masterRef, thenFn) {
