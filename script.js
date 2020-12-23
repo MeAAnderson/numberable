@@ -142,7 +142,6 @@ function displayCurrentRoundInfo(prizeLevelReached = 0) {
   currentRoundInfo.style.visibility = "visible";
   for (i = 0; i < level; i++) {
     let prizeLevel = findOrCreateElement("div", `prize-level ${i}`);
-    console.log(`prize-level ${i}`);
     currentRoundInfo.appendChild(prizeLevel);
     prizeLevel.className = "prize-level";
     prizeLevel.innerHTML = "1000";
@@ -219,7 +218,7 @@ function getWrongTriangle() {
 function tryAgain() {
   document.getElementById("wrong-triangle").style.visibility = "hidden";
 }
-
+//TODO admin needs a button for revealAnswers
 function revealAnswers() {
   for (i = 0; i < 10; i++) {
     let answer = findOrCreateElement("div", `answer ${i}`);
@@ -227,7 +226,7 @@ function revealAnswers() {
     if ((answer.style.visibility = "hidden")) {
       answer.style.visibility = "visible";
       answerBackground.style.visibility = "visible";
-      break;
+      console.log("hello");
     }
   }
 }
