@@ -56,7 +56,7 @@ let captainName;
 
 function setRound(data, answers) {
   if (data == null) {
-    
+    return;
   }
   displayGame(data, answers);
   displayInfo(0, [], 0);
