@@ -212,6 +212,7 @@ function wrongAnswer(currentWrongGuesses) {
       setText("wrong-answers", `Lives left: ${1 - currentWrongGuesses}`);
       findOrCreateElement("div", "wrong-answers").style.backgroundColor =
         "chartreuse";
+      findOrCreateElement("div", "wrong-triangle").style.visibility = "hidden";
       break;
     case 1:
       setText("wrong-answers", "No lives left!");
@@ -219,14 +220,18 @@ function wrongAnswer(currentWrongGuesses) {
       break;
     case 2:
       setText("wrong-answers", "You're off the team!");
+      findOrCreateElement("div", "wrong-triangle").style.visibility = "visible";
       break;
     default:
-      setText("wrong-answers", `Lives left: ${1 - currentWrongGuesses}`);
+      setText("wrong-answers", "");
+      findOrCreateElement("div", "wrong-answers").style.backgroundColor =
+        "chartreuse";
+      findOrCreateElement("div", "wrong-triangle").style.visibility = "hidden";
   }
 }
 
 function getWrongTriangle() {
-  return `<div id="wrong-triangle" style="visibility:hidden;"></div>`;
+  //return `<div id="wrong-triangle" style="visibility:hidden;"></div>`;
 }
 
 function tryAgain() {
