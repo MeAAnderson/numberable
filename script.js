@@ -226,7 +226,6 @@ function revealAnswers() {
     if ((answer.style.visibility = "hidden")) {
       answer.style.visibility = "visible";
       answerBackground.style.visibility = "visible";
-      console.log("hello");
     }
   }
 }
