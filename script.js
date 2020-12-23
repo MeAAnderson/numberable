@@ -124,13 +124,13 @@ function displayContestants(teamData) {
     contestant.className = "contestant";
     contestant.style.gridRow = `${i + 1}`;
     contestant.innerHTML = data[i].isOnTeam
-      ? `${teamData[i].nameOfPlayer} is in the game`
-      : `${teamData[i].nameOfPlayer} is not in the game`;
+      ? `${teamData[i].nameOfPlayer} is In`
+      : `${teamData[i].nameOfPlayer} is Out`;
     contestant.style.backgroundColor = data[i].isOnTeam
       ? `aquamarine`
       : `silver`;
     contestant.innerHTML = data[i].isCaptain
-      ? `${data[i].nameOfPlayer} is the captain`
+      ? `Captain ${data[i].nameOfPlayer}`
       : contestant.innerHTML;
   }
 }
