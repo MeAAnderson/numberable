@@ -55,9 +55,13 @@ class MegSessionManager {
         Questions[CurrentQuestion].get().then((question) => {
           const { Question, Answers } = question.data();
           setHTML("sm_guessoptions", wrongAns);
+          setHTML("sm_revealoptions", '');
           setText("sm_currentquestion", `Current Question: ${Question}`);
           Answers.forEach((answer) => {
             const disabled = CurrentAnswers.includes(answer) ? "disabled" : "";
+            document.getElementById(
+              "sm_revealoptions"
+              ).innerHTML += `<button onclick="setRevealAnswer('${answer}')" ${disabled}>${answer}</button>`;
             document.getElementById(
               "sm_guessoptions"
             ).innerHTML += `<button onclick="setSubmitCorrectAnswer('${answer}')" ${disabled}>${answer}</button>`;
