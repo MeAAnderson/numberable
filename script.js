@@ -78,7 +78,6 @@ function displayGame(roundData, answersData, revealData) {
   currentQuestion.style.visibility = "visible";
   currentQuestion.innerHTML = `${roundData[1]}`;
 
-  console.log(revealData);
   for (i = `${roundData.length - 1}`; i > 1; i--) {
     const shouldShow =
       answersData.includes(roundData[i]) || revealData.includes(roundData[i]);

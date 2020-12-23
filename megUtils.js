@@ -119,6 +119,7 @@ function resetCurrentValuesInMasterSesssion() {
     CurrentlyAcceptingGuess: false,
     //QuestionCollection:
     //Users:
+    RevealAnswers: [],
   });
 }
 
