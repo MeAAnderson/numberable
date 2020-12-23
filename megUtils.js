@@ -80,6 +80,10 @@ function arrayUnionMasterSessionField(field, value) {
   });
 }
 
+function setRevealAnswer(answer) {
+  arrayUnionMasterSessionField("RevealAnswers", answer);
+}
+
 function setSubmitCorrectAnswer(answer) {
   setMasterSessionFields({ CurrentGuess: "" });
   arrayUnionMasterSessionField("CurrentAnswers", answer);
