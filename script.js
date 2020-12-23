@@ -188,7 +188,7 @@ function setUserGuessMessage(username, userguess) {
   userGuessMessage.innerHTML = `${name} guessed: ${guess}`;
 }
 function clearUserGuessMessage() {
-  remove(findOrCreateElement("div", "user-guess"));
+  findOrCreateElement("user-guess").style.visibility = "hidden";
 }
 
 function wrongAnswer(currentWrongGuesses) {
