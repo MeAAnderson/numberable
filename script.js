@@ -51,22 +51,24 @@ function buildInteractAnchors() {
   <button id="submit-user-input" onclick="submitUserInput()" >Guess</button>
   `;
 }
-//Assigned some variables in order to test the functions
-let captainName;
 
 function setRound(data, answers) {
   if (data == null) {
     return;
   }
   displayGame(data, answers);
-  displayInfo(0, [], 0);
+  //TODO call with data in the fashion below and the info section works
+  displayInfo(
+    250000,
+    [
+      { nameOfPlayer: "megan", isOnTeam: true, isCaptain: true },
+      { nameOfPlayer: "james", isOnTeam: false, isCaptain: false },
+    ],
+    10
+  );
 }
 
-<<<<<<< HEAD
-function displayGame(roundData) {
-=======
 function displayGame(roundData, answersData) {
->>>>>>> f8e351a3f095d420308c205bf2692f7f00f70290
   let triangle = document.getElementById("triangle");
   triangle.innerHTML = "";
   triangle.style.gridTemplateRows = `repeat(${roundData.length}, 1fr`;
@@ -101,7 +103,7 @@ function displayGame(roundData, answersData) {
 
 function displayInfo(totalPrize, teamData, prizeLevelReached) {
   displayLockedInPrize(totalPrize);
-  displayContestants(["teamData"]);
+  displayContestants(teamData);
   displayCurrentRoundInfo(prizeLevelReached);
 }
 
@@ -128,6 +130,9 @@ function displayContestants(teamData) {
     contestant.style.backgroundColor = data[i].isOnTeam
       ? `aquamarine`
       : `silver`;
+    contestant.innerHTML = data[i].isCaptain
+      ? `${data[i].nameOfPlayer} is the captain`
+      : contestant.innerHTML;
   }
 }
 
