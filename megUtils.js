@@ -100,6 +100,11 @@ function util_setCurrentContestant(userPath) {
     CurrentContestant: doc(userPath),
   });
 }
+function util_setCurrentCaptain(userPath) {
+  setMasterSessionFields({
+    CurrentCaptain: doc(userPath),
+  });
+}
 function setCurrentGuess(guess) {
   setMasterSessionFields({ CurrentGuess: guess, CurrentlyAcceptingGuess: false });
 }
@@ -112,6 +117,7 @@ function resetCurrentValuesInMasterSesssion() {
   setMasterSessionFields({
     CurrentAnswers: [],
     //CurrentContestant:
+    //CurrentCaptain: 
     CurrentCorrectGuesses: 0,
     CurrentGuess: "",
     //CurrentQuestion: -1,

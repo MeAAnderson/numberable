@@ -5,20 +5,34 @@ class MegSessionManager {
     this.masterlistHook = null;
     this.initMasterlist();
   }
-  processCurrentSessionUsers({ Users }) {
+  processCurrentSessionUsers({ Users, CurrentContestant, CurrentCaptain }) {
     let users = {};
     setHTML("sm_contestantbuttons", "Select Current Contestant:");
+    setHTML("sm_captainbuttons", "Select Current Captain:");
+
     Users?.forEach((userRef) =>
       userRef.get().then((userSnap) => {
         users[userRef.path] = userSnap.data()?.Name || "undefined";
         const values = Object.values(users);
         const buttons = Object.keys(users).map(
           (key) =>
-            `<button onclick="util_setCurrentContestant('${key}')">${users[key]}</button>`
+            `<button onclick="util_setCurrentContestant('${key}')" ${
+              CurrentContestant?.path === key ? "disabled" : ""
+            }>${users[key]}</button>`
         );
         setHTML(
           "sm_contestantbuttons",
           `Select Current Contestant: ${buttons}`
+        );
+        const captainbuttons = Object.keys(users).map(
+          (key) =>
+            `<button onclick="util_setCurrentCaptain('${key}')" ${
+              CurrentCaptain?.path === key ? "disabled" : ""
+            }>${users[key]}</button>`
+        );
+        setHTML(
+          "sm_captainbuttons",
+          `Select Current Captain: ${captainbuttons}`
         );
       })
     );
@@ -56,13 +70,16 @@ class MegSessionManager {
         Questions[CurrentQuestion].get().then((question) => {
           const { Question, Answers } = question.data();
           setHTML("sm_guessoptions", wrongAns);
-          setHTML("sm_revealoptions", '');
+          setHTML("sm_revealoptions", "");
           setText("sm_currentquestion", `Current Question: ${Question}`);
           Answers.forEach((answer) => {
-            const disabled = (CurrentAnswers.includes(answer) || RevealAnswers.includes(answer)) ? "disabled" : "";
+            const disabled =
+              CurrentAnswers.includes(answer) || RevealAnswers.includes(answer)
+                ? "disabled"
+                : "";
             document.getElementById(
               "sm_revealoptions"
-              ).innerHTML += `<button onclick="setRevealAnswer('${answer}')" ${disabled}>${answer}</button>`;
+            ).innerHTML += `<button onclick="setRevealAnswer('${answer}')" ${disabled}>${answer}</button>`;
             document.getElementById(
               "sm_guessoptions"
             ).innerHTML += `<button onclick="setSubmitCorrectAnswer('${answer}')" ${disabled}>${answer}</button>`;
