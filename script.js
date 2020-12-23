@@ -39,7 +39,7 @@ function buildContentAnchors() {
   <div id="outline-triangle"></div>
   <div id="triangle"></div>
   <div id="background-triangle"></div>
-  ${getWrongTriangle()}
+  <div id="wrong-triangle"></div>
   `;
 }
 
@@ -125,13 +125,13 @@ function displayContestants(teamData) {
     contestant.className = "contestant";
     contestant.style.gridRow = `${i + 1}`;
     contestant.innerHTML = data[i].isOnTeam
-      ? `${teamData[i].nameOfPlayer} is in the game`
-      : `${teamData[i].nameOfPlayer} is not in the game`;
+      ? `${teamData[i].nameOfPlayer} is In`
+      : `${teamData[i].nameOfPlayer} is Out`;
     contestant.style.backgroundColor = data[i].isOnTeam
       ? `aquamarine`
       : `silver`;
     contestant.innerHTML = data[i].isCaptain
-      ? `${data[i].nameOfPlayer} is the captain`
+      ? `Captain ${data[i].nameOfPlayer}`
       : contestant.innerHTML;
   }
 }
@@ -140,13 +140,13 @@ function displayCurrentRoundInfo(prizeLevelReached = 0) {
   let level = prizeLevelReached;
   const currentRoundInfo = document.getElementById("content");
   currentRoundInfo.style.visibility = "visible";
-  for (i = 0; i < level; i++) {
+  for (i = 1; i < level; i++) {
     let prizeLevel = findOrCreateElement("div", `prize-level ${i}`);
     currentRoundInfo.appendChild(prizeLevel);
     prizeLevel.className = "prize-level";
     prizeLevel.innerHTML = "1000";
-    prizeLevel.style.width = `${i + 1 * 4}vw`;
-    prizeLevel.style.gridRow = `${14 - i}`;
+    prizeLevel.style.width = `${i * 1.25 + 3}vw`;
+    prizeLevel.style.gridRow = `${12 - i}`;
     prizeLevel.style.visibility = level >= i ? "visible" : "hidden";
   }
   findOrCreateElement(`prize-level ${level - 1}`).style.backgroundColor =
@@ -207,25 +207,29 @@ function setUserGuessMessage(username, userguess) {
 }
 
 function wrongAnswer(currentWrongGuesses) {
-  setText("wrong-answers", `Lives left: ${1 - currentWrongGuesses}`);
-}
-
-function getWrongTriangle() {
-  return `<div id="wrong-triangle" style="visibility:hidden;"></div>`;
+  switch (currentWrongGuesses) {
+    case 0:
+      setText("wrong-answers", `Lives left: ${1 - currentWrongGuesses}`);
+      findOrCreateElement("div", "wrong-answers").style.backgroundColor =
+        "chartreuse";
+      findOrCreateElement("div", "wrong-triangle").style.visibility = "hidden";
+      break;
+    case 1:
+      setText("wrong-answers", "No lives left!");
+      findOrCreateElement("div", "wrong-answers").style.backgroundColor = "red";
+      break;
+    case 2:
+      setText("wrong-answers", "You're off the team!");
+      findOrCreateElement("div", "wrong-triangle").style.visibility = "visible";
+      break;
+    default:
+      setText("wrong-answers", "");
+      findOrCreateElement("div", "wrong-answers").style.backgroundColor =
+        "chartreuse";
+      findOrCreateElement("div", "wrong-triangle").style.visibility = "hidden";
+  }
 }
 
 function tryAgain() {
   document.getElementById("wrong-triangle").style.visibility = "hidden";
-}
-//TODO admin needs a button for revealAnswers
-function revealAnswers(list) {
-  for (i = 0; i < 10; i++) {
-    let answer = findOrCreateElement("div", `answer ${i}`);
-    let answerBackground = findOrCreateElement("div", `answer-background ${i}`);
-    if ((answer.style.visibility = "hidden")) {
-      answer.style.visibility = "visible";
-      answerBackground.style.visibility = "visible";
-      console.log("hello");
-    }
-  }
 }
