@@ -74,7 +74,7 @@ class MegSessionManager {
           setText("sm_currentquestion", `Current Question: ${Question}`);
           Answers.forEach((answer) => {
             const disabled =
-              CurrentAnswers.includes(answer) || RevealAnswers.includes(answer)
+              CurrentAnswers?.includes(answer) || RevealAnswers?.includes(answer)
                 ? "disabled"
                 : "";
             document.getElementById(
