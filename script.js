@@ -78,7 +78,7 @@ function displayGame() {
     triangle.appendChild(answer);
     answer.innerHTML = roundData[i];
     answer.className = "answer";
-    answer.id = roundData[i];
+    answer.id = `answer ${i}`;
     answer.style.gridRow = `${i + 2}`;
     answer.style.width = `${(i - 1) * 4.5 + 22}vw`;
     answer.style.visibility = answersData.includes(roundData[i])
@@ -87,7 +87,7 @@ function displayGame() {
     answerBackground = document.createElement("div");
     triangle.appendChild(answerBackground);
     answerBackground.className = "answer-background";
-    answerBackground.id = `${roundData[i]}answer-background`;
+    answerBackground.id = `answer-background ${i}`;
     answerBackground.style.gridRow = `${i + 2}`;
     answerBackground.style.width = `${(i - 1) * 4.5 + 22}vw`;
     answerBackground.style.visibility = answersData.includes(roundData[i])
@@ -109,7 +109,7 @@ function displayLockedInPrize(totalPrize) {
   ).innerHTML = `playing for: ${prize}`;
 }
 
-function displayContestants(teamData){
+function displayContestants(teamData) {
   let data = teamData;
   let contestantsSection = document.getElementById("contestants");
   contestantsSection.innerHTML = "";
@@ -122,7 +122,7 @@ function displayContestants(teamData){
     contestant.innerHTML = data[i].isOnTeam
       ? `${teamData[i].nameOfPlayer} is in the game`
       : `${teamData[i].nameOfPlayer} is not in the game`;
-      contestant.style.backgroundColor = data[i].isOnTeam
+    contestant.style.backgroundColor = data[i].isOnTeam
       ? `aquamarine`
       : `silver`;
   }
@@ -142,29 +142,40 @@ function displayCurrentRoundInfo(prizeLevelReached = 0) {
     prizeLevel.style.gridRow = `${14 - i}`;
     prizeLevel.style.visibility = level >= i ? "visible" : "hidden";
   }
-  findOrCreateElement(`prize-level ${level-1}`).style.backgroundColor =
+  findOrCreateElement(`prize-level ${level - 1}`).style.backgroundColor =
     " rgb(69, 1, 100)";
 }
 
+//TO DO add nowPlayingContestant = null button to admin page and/or
+//call setCurrentContestant(null) when setting new round/
 function setCurrentContestant(
   iAmCurrentContestant,
   nameOfPlayer,
   currentlyGuessable
 ) {
-  document.getElementById("header").style.visibility = "visibility";
-  document.getElementById("interact").style.visibility =
-    iAmCurrentContestant && currentlyGuessable ? "visible" : "hidden";
-  document.getElementById("user-prompt").innerHTML = iAmCurrentContestant
-    ? "it's your turn!"
-    : `${nameOfPlayer}</br>is playing now!`;
-  document.getElementById(
-    "user-prompt"
-  ).style.backgroundColor = iAmCurrentContestant
-    ? currentlyGuessable
-      ? "chartreuse"
-      : "aquamarine"
-    : "silver";
+  if (nameOfPlayer == null) {
+    findOrCreateElement("user-prompt").style.visibility = "hidden";
+    findOrCreateElement("user-guess").style.visibility = "visible";
+  } else {
+    document.getElementById("header").style.visibility = "visibility";
+    document.getElementById("interact").style.visibility =
+      iAmCurrentContestant && currentlyGuessable ? "visible" : "hidden";
+    document.getElementById("user-guess").innerHTML = currentlyGuessable
+      ? "waiting for guess"
+      : document.getElementById("user-guess").innerHTML;
+    document.getElementById("user-prompt").innerHTML = iAmCurrentContestant
+      ? "it's your turn!"
+      : `${nameOfPlayer}</br>is playing now!`;
+    document.getElementById(
+      "user-prompt"
+    ).style.backgroundColor = iAmCurrentContestant
+      ? currentlyGuessable
+        ? "chartreuse"
+        : "aquamarine"
+      : "silver";
+  }
 }
+
 function setOwnUserName(name) {
   let myname = name;
   let ownUserNameSection = document.getElementById("own-user-name");
@@ -185,10 +196,11 @@ function setUserGuessMessage(username, userguess) {
   let userGuessMessage = findOrCreateElement("div", "user-guess");
   let content = document.getElementById("content");
   content.appendChild(userGuessMessage);
-  userGuessMessage.innerHTML = `${name} guessed: ${guess}`;
-}
-function clearUserGuessMessage() {
-  findOrCreateElement("user-guess").style.visibility = "hidden";
+  userGuessMessage.innerHTML = (guess == "" || null)
+    ? "Waiting to play"
+    : `${name} guessed: ${guess}`;
+    document.getElementById("user-guess").innerHTML+= `
+    <button type="button" onclick="reavealAnswers()"></button>`;
 }
 
 function wrongAnswer(currentWrongGuesses) {
@@ -201,4 +213,15 @@ function getWrongTriangle() {
 
 function tryAgain() {
   document.getElementById("wrong-triangle").style.visibility = "hidden";
+}
+
+function reavealAnswers(){
+  for (i=0; i<10; i++){
+    let answer = findOrCreateElement("div", `answer ${i}`);
+    let answerBackground = findOrCreateElement("div", `answer-background ${i}`);
+    if (answer.style.visibility = "hidden"){} 
+      answer.style.visibility = "visible";
+      answerBackground.style.visibility = "visible";
+      break;
+  }
 }
