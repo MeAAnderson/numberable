@@ -56,8 +56,8 @@ class MegQuiz {
             Users,
             CurrentGuess,
             CurrentContestant,
-            CurrentlyAcceptingGuess,
             CurrentQuestion,
+            CurrentlyAcceptingGuess,
             CurrentWrongGuesses,
             QuestionCollection,
           } = session.data();
@@ -87,24 +87,24 @@ class MegQuiz {
           }
 
           QuestionCollection.get().then((collect) => {
-            const { CurrentQuestion } = collect;
-            if (CurrentQuestion == -1) {
+            const questions = collect.data().Questions;
+            if (
+              CurrentQuestion < 0 ||
+              CurrentQuestion >= questions.length
+            ) {
               setRound();
+              return;
             }
-            collect
-              .data()
-              //TODO -1 check this
-              .Questions[CurrentQuestion].get()
-              .then((question) =>
-                setRound(
-                  [
-                    question.id,
-                    question.data().Question,
-                    ...question.data().Answers,
-                  ],
-                  session.data().CurrentAnswers
-                )
-              );
+            questions[CurrentQuestion].get().then((question) =>
+              setRound(
+                [
+                  question.id,
+                  question.data().Question,
+                  ...question.data().Answers,
+                ],
+                session.data().CurrentAnswers
+              )
+            );
           });
         });
       });
