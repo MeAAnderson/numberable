@@ -63,7 +63,7 @@ function setRound(data, answers) {
   displayInfo();
 }
 
-function displayGame() {
+function displayGame(roundData) {
   let triangle = document.getElementById("triangle");
   triangle.innerHTML = "";
   triangle.style.gridTemplateRows = `repeat(${roundData.length}, 1fr`;
@@ -196,11 +196,8 @@ function setUserGuessMessage(username, userguess) {
   let userGuessMessage = findOrCreateElement("div", "user-guess");
   let content = document.getElementById("content");
   content.appendChild(userGuessMessage);
-  userGuessMessage.innerHTML = (guess == "" || null)
-    ? "Waiting to play"
-    : `${name} guessed: ${guess}`;
-    document.getElementById("user-guess").innerHTML+= `
-    <button type="button" onclick="reavealAnswers()"></button>`;
+  userGuessMessage.innerHTML =
+    guess == "" || null ? "Waiting to play" : `${name} guessed: ${guess}`;
 }
 
 function wrongAnswer(currentWrongGuesses) {
@@ -215,13 +212,14 @@ function tryAgain() {
   document.getElementById("wrong-triangle").style.visibility = "hidden";
 }
 
-function reavealAnswers(){
-  for (i=0; i<10; i++){
+function revealAnswers() {
+  for (i = 0; i < 10; i++) {
     let answer = findOrCreateElement("div", `answer ${i}`);
     let answerBackground = findOrCreateElement("div", `answer-background ${i}`);
-    if (answer.style.visibility = "hidden"){} 
+    if ((answer.style.visibility = "hidden")) {
       answer.style.visibility = "visible";
       answerBackground.style.visibility = "visible";
       break;
+    }
   }
 }
