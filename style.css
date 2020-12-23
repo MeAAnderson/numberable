@@ -68,7 +68,7 @@ button {
 #wrong-answers {
   grid-column: 5;
   grid-row: 1 / span 2;
-  height: 5em;
+  height: 5.5em;
   margin: .25em;
   margin-right: .75em;
   background-color: chartreuse;
