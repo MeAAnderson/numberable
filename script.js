@@ -53,17 +53,20 @@ function buildInteractAnchors() {
 }
 //Assigned some variables in order to test the functions
 let captainName;
-let roundData;
-let answersData;
 
 function setRound(data, answers) {
-  roundData = data;
-  answersData = answers;
-  displayGame(roundData);
-  displayInfo();
+  if (data == null) {
+    return;
+  }
+  displayGame(data, answers);
+  displayInfo(0, [], 0);
 }
 
+<<<<<<< HEAD
 function displayGame(roundData) {
+=======
+function displayGame(roundData, answersData) {
+>>>>>>> f8e351a3f095d420308c205bf2692f7f00f70290
   let triangle = document.getElementById("triangle");
   triangle.innerHTML = "";
   triangle.style.gridTemplateRows = `repeat(${roundData.length}, 1fr`;
