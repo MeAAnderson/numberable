@@ -107,6 +107,7 @@ button {
   border: aquamarine solid 1px;
   border-radius: 10px;
   align-content: center;
+  margin: .25em;
 }
 /*start new page section*/
 #content {
@@ -144,7 +145,7 @@ button {
   width: 20.25vw;
   align-self: flex-end;
   height: 0;
-  border-bottom: 79.25vh aquamarine solid;
+  border-bottom: 69.25vh aquamarine solid;
   border-left: 30.25vw solid transparent;
   border-right: 30.25vw solid transparent;
   border-top: unset;
@@ -157,12 +158,12 @@ button {
 }
 #wrong-triangle {
   z-index: 2;
-  border-bottom: 79vh red solid;
+  border-bottom: 69vh red solid;
 }
 #background-triangle {
   z-index: -2;
   visibility: visible;
-  border-bottom: 79vh rgb(69, 1, 100) solid;
+  border-bottom: 69vh rgb(69, 1, 100) solid;
 }
 .answer {
   grid-column: 3;

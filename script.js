@@ -39,6 +39,7 @@ function buildContentAnchors() {
   <div id="outline-triangle"></div>
   <div id="triangle"></div>
   <div id="background-triangle"></div>
+  <div id="wrong-triangle"></div>
   `;
 }
 
