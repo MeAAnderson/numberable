@@ -212,6 +212,8 @@ function wrongAnswer(currentWrongGuesses) {
   switch (currentWrongGuesses) {
     case 0:
       setText("wrong-answers", `Lives left: ${1 - currentWrongGuesses}`);
+      findOrCreateElement("div", "wrong-answers").style.backgroundColor =
+        "chartreuse";
       break;
     case 1:
       setText("wrong-answers", "No lives left!");
