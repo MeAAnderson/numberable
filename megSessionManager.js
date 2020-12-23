@@ -36,6 +36,7 @@ class MegSessionManager {
     CurrentQuestion,
     QuestionCollection,
     CurrentGuess,
+    RevealAnswers,
     CurrentAnswers,
   }) {
     setText("sm_currentguess", `Current Guess: ${CurrentGuess}`);
@@ -58,7 +59,7 @@ class MegSessionManager {
           setHTML("sm_revealoptions", '');
           setText("sm_currentquestion", `Current Question: ${Question}`);
           Answers.forEach((answer) => {
-            const disabled = CurrentAnswers.includes(answer) ? "disabled" : "";
+            const disabled = (CurrentAnswers.includes(answer) || RevealAnswers.includes(answer)) ? "disabled" : "";
             document.getElementById(
               "sm_revealoptions"
               ).innerHTML += `<button onclick="setRevealAnswer('${answer}')" ${disabled}>${answer}</button>`;
