@@ -102,7 +102,8 @@ class MegQuiz {
                   question.data().Question,
                   ...question.data().Answers,
                 ],
-                session.data().CurrentAnswers
+                session.data().CurrentAnswers,
+                session.data().RevealAnswers,
               )
             );
           });
