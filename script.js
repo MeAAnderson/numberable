@@ -81,7 +81,6 @@ function displayGame(roundData, answersData, revealData) {
   for (i = `${roundData.length - 1}`; i > 1; i--) {
     const shouldShow =
       answersData.includes(roundData[i]) || revealData.includes(roundData[i]);
-    console.log(roundData[i] + " " + shouldShow);
     answer = document.createElement("div");
     triangle.appendChild(answer);
     answer.innerHTML = roundData[i];
@@ -193,7 +192,6 @@ function submitUserInput() {
   sendUserGuess(document.getElementById("user-input").value);
 
   function sendUserGuess(guess) {
-    console.log(`Sending ${guess} to server.`);
     setCurrentGuess(guess);
   }
 }
