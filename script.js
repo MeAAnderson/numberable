@@ -52,11 +52,11 @@ function buildInteractAnchors() {
   `;
 }
 
-function setRound(data, answers) {
+function setRound(data, answers, reveal) {
   if (data == null) {
     return;
   }
-  displayGame(data, answers);
+  displayGame(data, answers, reveal);
   //TODO call with data in the fashion below and the info section works
   displayInfo(
     250000,
@@ -68,7 +68,7 @@ function setRound(data, answers) {
   );
 }
 
-function displayGame(roundData, answersData) {
+function displayGame(roundData, answersData, revealData) {
   let triangle = document.getElementById("triangle");
   triangle.innerHTML = "";
   triangle.style.gridTemplateRows = `repeat(${roundData.length}, 1fr`;
@@ -78,7 +78,11 @@ function displayGame(roundData, answersData) {
   currentQuestion.style.visibility = "visible";
   currentQuestion.innerHTML = `${roundData[1]}`;
 
+  console.log(revealData);
   for (i = `${roundData.length - 1}`; i > 1; i--) {
+    const shouldShow =
+      answersData.includes(roundData[i]) || revealData.includes(roundData[i]);
+    console.log(roundData[i] + " " + shouldShow);
     answer = document.createElement("div");
     triangle.appendChild(answer);
     answer.innerHTML = roundData[i];
@@ -86,18 +90,16 @@ function displayGame(roundData, answersData) {
     answer.id = `answer ${i}`;
     answer.style.gridRow = `${i + 2}`;
     answer.style.width = `${(i - 1) * 4.5 + 22}vw`;
-    answer.style.visibility = answersData.includes(roundData[i])
-      ? "visible"
-      : "hidden";
+    answer.style.visibility = shouldShow ? "visible" : "hidden";
     answerBackground = document.createElement("div");
     triangle.appendChild(answerBackground);
-    answerBackground.className = "answer-background";
+    answerBackground.className = revealData.includes(roundData[i])
+      ? "reveal-background"
+      : "answer-background";
     answerBackground.id = `answer-background ${i}`;
     answerBackground.style.gridRow = `${i + 2}`;
     answerBackground.style.width = `${(i - 1) * 4.5 + 22}vw`;
-    answerBackground.style.visibility = answersData.includes(roundData[i])
-      ? "visible"
-      : "hidden";
+    answerBackground.style.visibility = shouldShow ? "visible" : "hidden";
   }
 }
 
@@ -219,7 +221,7 @@ function tryAgain() {
   document.getElementById("wrong-triangle").style.visibility = "hidden";
 }
 //TODO admin needs a button for revealAnswers
-function revealAnswers() {
+function revealAnswers(list) {
   for (i = 0; i < 10; i++) {
     let answer = findOrCreateElement("div", `answer ${i}`);
     let answerBackground = findOrCreateElement("div", `answer-background ${i}`);

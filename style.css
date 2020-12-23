@@ -176,6 +176,16 @@ button {
   border-top: unset;
   z-index: -1;
 }
+.reveal-background {
+  grid-column: 3;
+  height: 0;
+  filter: blur(1px);
+  border-bottom: 4vh aquamarine solid;
+  border-left: 1.5vw transparent solid;
+  border-right: 1.5vw transparent solid;
+  border-top: unset;
+  z-index: -1;
+}
 .prize-level {
   color: aquamarine;
   margin: 0.25em;
