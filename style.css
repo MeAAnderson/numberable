@@ -18,7 +18,7 @@ body {
   display: grid;
   background-color: rgb(11, 11, 48);
   grid-template-columns: 10vw 85vw;
-  grid-template-rows: 20vh 70vh 10vh;
+  grid-template-rows: 15vh 70vh 15vh;
 }
 body > div {
   display: grid;
@@ -53,6 +53,7 @@ button {
   background-color: chartreuse;
   border: rgb(213, 255, 171) solid 1px;
   border-radius: 10px;
+  align-content: center;
 }
 #title {
   grid-column: 3 / span 5;
@@ -84,18 +85,20 @@ button {
 }
 #locked-in-prize {
   grid-column: 1 / span 5;
-  grid-row: 2 / span 2;
+  grid-row: 2 / span 3;
   align-content: center;
+  padding: 0.5em;
+  margin: .25em;
   border-top: aquamarine solid 6px;
   border-left: aquamarine solid 1px;
   border-right: 15px transparent solid;
   color: aquamarine;
-  background-color: rgb(69, 1, 100);
 }
 #contestants {
   grid-column: 1 / span 5;
   grid-row: 5 / span 14;
   display: grid;
+  margin: .25em;
   grid-template-rows: repeat(7, 1fr);
   align-content: center;
 }

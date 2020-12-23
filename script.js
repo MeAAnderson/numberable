@@ -39,7 +39,6 @@ function buildContentAnchors() {
   <div id="outline-triangle"></div>
   <div id="triangle"></div>
   <div id="background-triangle"></div>
-  ${getWrongTriangle()}
   `;
 }
 
@@ -140,13 +139,13 @@ function displayCurrentRoundInfo(prizeLevelReached = 0) {
   let level = prizeLevelReached;
   const currentRoundInfo = document.getElementById("content");
   currentRoundInfo.style.visibility = "visible";
-  for (i = 0; i < level; i++) {
+  for (i = 1; i < level; i++) {
     let prizeLevel = findOrCreateElement("div", `prize-level ${i}`);
     currentRoundInfo.appendChild(prizeLevel);
     prizeLevel.className = "prize-level";
     prizeLevel.innerHTML = "1000";
-    prizeLevel.style.width = `${i + 1 * 4}vw`;
-    prizeLevel.style.gridRow = `${14 - i}`;
+    prizeLevel.style.width = `${i * 1.25 + 3}vw`;
+    prizeLevel.style.gridRow = `${12 - i}`;
     prizeLevel.style.visibility = level >= i ? "visible" : "hidden";
   }
   findOrCreateElement(`prize-level ${level - 1}`).style.backgroundColor =
@@ -228,10 +227,6 @@ function wrongAnswer(currentWrongGuesses) {
         "chartreuse";
       findOrCreateElement("div", "wrong-triangle").style.visibility = "hidden";
   }
-}
-
-function getWrongTriangle() {
-  //return `<div id="wrong-triangle" style="visibility:hidden;"></div>`;
 }
 
 function tryAgain() {
