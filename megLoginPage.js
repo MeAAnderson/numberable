@@ -12,7 +12,7 @@ class MegLoginPage {
             </div>
             <div id="join-game-dialog" class="j form1" style="display:none;" >
                 <p id="joinGameName" class="j namey" type="text" align="center"></p>
-                <a class="submit" align="center" onclick="viewerNameInput()">Join</a>
+                <a class="submit" align="center" onclick="setInMasterSession()">Join</a>
             </div>
             <div id="joined-game-await" class="j form1" style="display:none;" >
               <p class="j namey" type="text" align="center">Waiting for Host</p>
