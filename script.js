@@ -190,6 +190,7 @@ function setOwnUserName(name) {
 }
 function submitUserInput() {
   sendUserGuess(document.getElementById("user-input").value);
+  document.getElementById("user-input").value = "";
 
   function sendUserGuess(guess) {
     setCurrentGuess(guess);
