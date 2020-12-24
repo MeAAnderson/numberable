@@ -117,7 +117,8 @@ button {
 #user-guess {
   grid-column: 3;
   grid-row: 3;
-  height: 3em;
+  min-height: 3em;
+  padding: .25em;
   background-color: chartreuse;
   border: aquamarine solid 1px;
   border-radius: 10px;

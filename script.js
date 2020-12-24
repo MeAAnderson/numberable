@@ -182,7 +182,7 @@ function setCurrentContestant(
 function setOwnUserName(name) {
   let myname = name;
   let ownUserNameSection = document.getElementById("own-user-name");
-  ownUserNameSection.innerHTML = `your name is ${myname}!`;
+  ownUserNameSection.innerHTML = `your are ${myname}!`;
 }
 function submitUserInput() {
   sendUserGuess(document.getElementById("user-input").value);
