@@ -40,7 +40,6 @@ class MegLoginPage {
 
     this.masterlistHook = ref.onSnapshot((currentSessionSnap) => {
       const currentSessionData = currentSessionSnap.data();
-      SetShowing("whole-screen", true);
       doc("quizUsers/" + firebase.auth().currentUser.uid)
         .get()
         .then((user) => {
@@ -67,7 +66,9 @@ class MegLoginPage {
             }
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          console.error(err);
+        });
     });
   }
   initMasterlist() {
