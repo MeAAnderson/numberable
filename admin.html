@@ -23,11 +23,12 @@
       firebase.initializeApp(firebaseConfig);
       firebase.analytics();
     </script>
+    <script src="megConst.js"></script>
 
     <div
       style="background-color: rgb(166, 216, 162); padding: 5px; margin: 5px"
     >
-      <h3 onclick="ToggleShow('session_manager_content')">Session Manager</h3>
+      <h3>Session Manager</h3>
       <div id="session_manager_content">
         <div
           style="
@@ -45,6 +46,14 @@
           id="sm_masterlist"
           style="background-color: rgb(230, 140, 124); padding: 5px"
         ></div>
+        <div style="background-color: rgb(124, 182, 230); padding: 5px">
+          <div id="sm_finish_the_round"></div>
+          <div id="sm_total_prize"></div>
+        </div>
+        <div style="background-color: rgb(230, 172, 124); padding: 5px">
+          <div>Reveal answers (After round):</div>
+          <div id="sm_revealoptions"></div>
+        </div>
         <div style="background-color: rgb(228, 230, 124); padding: 5px">
           <div id="sm_currentquestion"></div>
           <button onclick="setSessionPreviousQuestion()">Prev Question</button>
@@ -61,8 +70,6 @@
         <div style="background-color: rgb(124, 152, 230); padding: 5px">
           <div id="sm_currentguess"></div>
           <div id="sm_guessoptions"></div>
-          <div>Reveal answers (After round):</div>
-          <div id="sm_revealoptions"></div>
         </div>
         <div
           id="sm_wrongguesses"

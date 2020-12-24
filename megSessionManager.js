@@ -54,14 +54,13 @@ class MegSessionManager {
     CurrentAnswers,
   }) {
     setText("sm_currentguess", `Current Guess: ${CurrentGuess}`);
-    const wrongAns = `<button onclick="setSubmitWrongAnswer()">Wrong Answer</button>`;
     if (QuestionCollection == null || QuestionCollection.empty) {
       setText("sm_currentquestion", `Question Collection undefined`);
     }
     QuestionCollection.get().then((collection) => {
       const { Questions } = collection.data();
       if (CurrentQuestion < 0 || CurrentQuestion >= Questions.length) {
-        setHTML("sm_guessoptions", wrongAns);
+        setHTML("sm_guessoptions", "");
         setText(
           "sm_currentquestion",
           `Current Question: null (${CurrentQuestion})`
@@ -69,12 +68,13 @@ class MegSessionManager {
       } else {
         Questions[CurrentQuestion].get().then((question) => {
           const { Question, Answers } = question.data();
-          setHTML("sm_guessoptions", wrongAns);
+          setHTML("sm_guessoptions", "");
           setHTML("sm_revealoptions", "");
           setText("sm_currentquestion", `Current Question: ${Question}`);
           Answers.forEach((answer) => {
             const disabled =
-              CurrentAnswers?.includes(answer) || RevealAnswers?.includes(answer)
+              CurrentAnswers?.includes(answer) ||
+              RevealAnswers?.includes(answer)
                 ? "disabled"
                 : "";
             document.getElementById(
@@ -102,12 +102,14 @@ class MegSessionManager {
         CurrentlyAcceptingGuess,
         CurrentWrongGuesses,
         CurrentAnswers,
+        TotalPrize
       } = currentSessionData;
       setText("sm_masterlist", `Current master: ${ref.id}`);
       setText("sm_currentanswers", `Current Answers: ${CurrentAnswers}`);
-      setText(
+      setHTML(
         "sm_wrongguesses",
-        `Current Wrong Guesses: ${CurrentWrongGuesses}`
+        `Current Wrong Guesses: ${CurrentWrongGuesses}
+        <button onclick="setSubmitWrongAnswer()">Wrong Answer</button>`
       );
       setText(
         "sm_acceptingguess",
@@ -116,6 +118,16 @@ class MegSessionManager {
       document.getElementById(
         "sm_masterlist_setmasterlistcurrentsession"
       ).value = ref.path;
+      setHTML("sm_total_prize", `Total prize: ${TotalPrize}`);
+      setHTML(
+        "sm_finish_the_round",
+        `
+      Finish the round:
+      <button onclick="bankTheMoney()">Bank the Money</button>
+      <button onclick="playerEliminated()">Player Eliminated</button>
+      `
+      );
+      //
       this.processCurrentSessionQuestion(currentSessionData);
       this.processCurrentSessionContestant(currentSessionData);
       this.processCurrentSessionUsers(currentSessionData);

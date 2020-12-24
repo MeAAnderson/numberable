@@ -104,6 +104,7 @@ class MegQuiz {
                 ],
                 session.data().CurrentAnswers,
                 session.data().RevealAnswers,
+                session.data().TotalPrize,
               )
             );
           });

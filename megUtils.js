@@ -72,10 +72,11 @@ function incrementMasterSessionField(field, value) {
       .catch((err) => console.log(err));
   });
 }
-function arrayUnionMasterSessionField(field, value) {
+function arrayUnionMasterSessionField(field, value, callback) {
   withMasterSessionRef((ref) => {
     ref
       .update(field, firebase.firestore.FieldValue.arrayUnion(value))
+      .then(callback)
       .catch((err) => console.log(err));
   });
 }
@@ -84,10 +85,20 @@ function setRevealAnswer(answer) {
   arrayUnionMasterSessionField("RevealAnswers", answer);
 }
 
+function bankTheMoney() {
+  withMasterSessionRef((ref) => {
+    ref.get().then((session) => {
+      const allAnswers = session.data().CurrentAnswers.length;
+      incrementMasterSessionField("TotalPrize", POINTS_LADDER[allAnswers - 1]);
+    });
+  });
+}
+
+function playerEliminated() {}
+
 function setSubmitCorrectAnswer(answer) {
   setMasterSessionFields({ CurrentGuess: "" });
   arrayUnionMasterSessionField("CurrentAnswers", answer);
-  incrementMasterSessionField("CurrentCorrectGuesses", 1);
 }
 
 function setSubmitWrongAnswer() {
@@ -106,7 +117,10 @@ function util_setCurrentCaptain(userPath) {
   });
 }
 function setCurrentGuess(guess) {
-  setMasterSessionFields({ CurrentGuess: guess, CurrentlyAcceptingGuess: false });
+  setMasterSessionFields({
+    CurrentGuess: guess,
+    CurrentlyAcceptingGuess: false,
+  });
 }
 
 function setSessionAcceptingGuess(accepting) {
@@ -117,8 +131,7 @@ function resetCurrentValuesInMasterSesssion() {
   setMasterSessionFields({
     CurrentAnswers: [],
     //CurrentContestant:
-    //CurrentCaptain: 
-    CurrentCorrectGuesses: 0,
+    //CurrentCaptain:
     CurrentGuess: "",
     //CurrentQuestion: -1,
     CurrentWrongGuesses: 0,
@@ -142,6 +155,7 @@ function createNewSession() {
           .set({
             QuestionCollection: qc.ref,
             CurrentQuestion: -1,
+            TotalPrize: 0,
           })
           .then(() => {
             setMasterlist(newMaster, resetCurrentValuesInMasterSesssion);
