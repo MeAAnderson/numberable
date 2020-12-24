@@ -18,7 +18,7 @@ body {
   display: grid;
   background-color: rgb(11, 11, 48);
   grid-template-columns: 10vw 88vw;
-  grid-template-rows: 15vh 70vh 15vh;
+  grid-template-rows: 15vh 65vh 20vh;
 }
 body > div {
   display: grid;
@@ -38,7 +38,7 @@ button {
 #user-prompt {
   grid-column: 1;
   grid-row: 1;
-  height: 2.5em;
+  height: 2.25em;
   margin: .25em;
   background-color: aquamarine;
   border: aquamarine solid 1px;
@@ -48,7 +48,7 @@ button {
 #own-user-name {
   grid-column: 1;
   grid-row: 2;
-  height: 2.5em;
+  height: 2.25em;
   margin: .25em;
   background-color: aquamarine;
   border: aquamarine solid 1px;
@@ -68,7 +68,7 @@ button {
 #wrong-answers {
   grid-column: 5;
   grid-row: 1 / span 2;
-  height: 5.5em;
+  height: 5em;
   margin: .25em;
   margin-right: .75em;
   background-color: chartreuse;
@@ -116,8 +116,8 @@ button {
 }
 #user-guess {
   grid-column: 3;
-  grid-row: 2;
-  height: 4em;
+  grid-row: 3;
+  height: 3em;
   background-color: chartreuse;
   border: aquamarine solid 1px;
   border-radius: 10px;
@@ -144,7 +144,7 @@ button {
   width: 20.25vw;
   align-self: flex-end;
   height: 0;
-  border-bottom: 69.25vh aquamarine solid;
+  border-bottom: 64.25vh aquamarine solid;
   border-left: 30.25vw solid transparent;
   border-right: 30.25vw solid transparent;
   border-top: unset;
@@ -157,12 +157,12 @@ button {
 }
 #wrong-triangle {
   z-index: 2;
-  border-bottom: 69vh red solid;
+  border-bottom: 64vh red solid;
 }
 #background-triangle {
   z-index: -2;
   visibility: visible;
-  border-bottom: 69vh rgb(69, 1, 100) solid;
+  border-bottom: 64vh rgb(69, 1, 100) solid;
 }
 .answer {
   grid-column: 3;
