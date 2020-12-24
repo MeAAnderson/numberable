@@ -159,27 +159,24 @@ function setCurrentContestant(
   nameOfPlayer,
   currentlyGuessable
 ) {
-  if (nameOfPlayer == null) {
-    findOrCreateElement("user-prompt").style.visibility = "hidden";
-    findOrCreateElement("user-guess").style.visibility = "visible";
-  } else {
-    document.getElementById("header").style.visibility = "visibility";
-    document.getElementById("interact").style.visibility =
-      iAmCurrentContestant && currentlyGuessable ? "visible" : "hidden";
-    document.getElementById("user-guess").innerHTML = currentlyGuessable
-      ? "waiting for guess"
-      : document.getElementById("user-guess").innerHTML;
-    document.getElementById("user-prompt").innerHTML = iAmCurrentContestant
-      ? "it's your turn!"
-      : `${nameOfPlayer}</br>is playing now!`;
-    document.getElementById(
-      "user-prompt"
-    ).style.backgroundColor = iAmCurrentContestant
-      ? currentlyGuessable
-        ? "chartreuse"
-        : "aquamarine"
-      : "silver";
-  }
+  document.getElementById("interact").style.visibility =
+    iAmCurrentContestant && currentlyGuessable ? "visible" : "hidden";
+  document.getElementById("user-guess").innerHTML = currentlyGuessable
+    ? "waiting for guess"
+    : document.getElementById("user-guess").innerHTML;
+  document.getElementById("user-prompt").innerHTML = iAmCurrentContestant
+    ? "it's your turn!"
+    : `${nameOfPlayer}</br>playing now!`;
+  document.getElementById(
+    "user-prompt"
+  ).style.backgroundColor = iAmCurrentContestant
+    ? currentlyGuessable
+      ? "chartreuse"
+      : "aquamarine"
+    : "silver";
+  document.getElementById("user-prompt").innerHTML = currentlyGuessable
+    ? document.getElementById("user-prompt").innerHTML
+    : "";
 }
 
 function setOwnUserName(name) {
@@ -209,9 +206,9 @@ function setUserGuessMessage(username, userguess) {
 function wrongAnswer(currentWrongGuesses) {
   switch (currentWrongGuesses) {
     case 0:
-      setText("wrong-answers", `Lives left: ${1 - currentWrongGuesses}`);
+      setText("wrong-answers", `One life left`);
       findOrCreateElement("div", "wrong-answers").style.backgroundColor =
-        "chartreuse";
+        "aquamarine";
       findOrCreateElement("div", "wrong-triangle").style.visibility = "hidden";
       break;
     case 1:
@@ -225,7 +222,7 @@ function wrongAnswer(currentWrongGuesses) {
     default:
       setText("wrong-answers", "");
       findOrCreateElement("div", "wrong-answers").style.backgroundColor =
-        "chartreuse";
+        "aquamarine";
       findOrCreateElement("div", "wrong-triangle").style.visibility = "hidden";
   }
 }
