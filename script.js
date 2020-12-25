@@ -109,12 +109,11 @@ function displayInfo(totalPrize, teamData, prizeLevelReached) {
 
 function displayLockedInPrize(totalPrize) {
   let prize = totalPrize;
-  document.getElementById(
-    "locked-in-prize"
-  ).innerHTML = `playing for: ${prize}`;
+  document.getElementById("locked-in-prize").innerHTML =
+    prize == null ? "" : `Playing for: ${prize}`;
 }
 
-function displayContestants(teamData) {
+/*function displayContestants(teamData) {
   let data = teamData;
   let contestantsSection = document.getElementById("contestants");
   contestantsSection.innerHTML = "";
@@ -134,7 +133,7 @@ function displayContestants(teamData) {
       ? `Captain ${data[i].nameOfPlayer}`
       : contestant.innerHTML;
   }
-}
+}*/
 
 function displayCurrentRoundInfo(prizeLevelReached = 0) {
   const currentRoundInfo = document.getElementById("content");
@@ -143,13 +142,14 @@ function displayCurrentRoundInfo(prizeLevelReached = 0) {
     let prizeLevel = findOrCreateElement("div", `prize-level-${i}`);
     currentRoundInfo.appendChild(prizeLevel);
     prizeLevel.className = "prize-level";
-    prizeLevel.innerHTML = (POINTS_LADDER[i] > 0 ? POINTS_LADDER[i] : '');
+    prizeLevel.innerHTML = POINTS_LADDER[i] > 0 ? POINTS_LADDER[i] : "";
     prizeLevel.style.width = `${i * 1.25 + 3}vw`;
     prizeLevel.style.gridRow = `${12 - i}`;
     prizeLevel.style.visibility = prizeLevelReached > i ? "visible" : "hidden";
   }
-  findOrCreateElement(`prize-level-${prizeLevelReached - 1}`).style.backgroundColor =
-    " rgb(69, 1, 100)";
+  findOrCreateElement(
+    `prize-level-${prizeLevelReached - 1}`
+  ).style.backgroundColor = " rgb(69, 1, 100)";
 }
 
 //TO DO add nowPlayingContestant = null button to admin page and/or
@@ -162,10 +162,10 @@ function setCurrentContestant(
   document.getElementById("interact").style.visibility =
     iAmCurrentContestant && currentlyGuessable ? "visible" : "hidden";
   document.getElementById("user-guess").innerHTML = currentlyGuessable
-    ? "waiting for guess"
+    ? "Waiting for guess"
     : document.getElementById("user-guess").innerHTML;
   document.getElementById("user-prompt").innerHTML = iAmCurrentContestant
-    ? "it's your turn!"
+    ? "It's your turn!"
     : `${nameOfPlayer}</br>playing now!`;
   document.getElementById(
     "user-prompt"
@@ -182,7 +182,7 @@ function setCurrentContestant(
 function setOwnUserName(name) {
   let myname = name;
   let ownUserNameSection = document.getElementById("own-user-name");
-  ownUserNameSection.innerHTML = `your are ${myname}!`;
+  ownUserNameSection.innerHTML = `You are ${myname}!`;
 }
 function submitUserInput() {
   sendUserGuess(document.getElementById("user-input").value);

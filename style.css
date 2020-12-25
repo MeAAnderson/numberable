@@ -175,8 +175,8 @@ button {
   height: 0;
   filter: blur(1px);
   border-bottom: 4vh chartreuse solid;
-  border-left: 1.5vw transparent solid;
-  border-right: 1.5vw transparent solid;
+  border-left: 1.75vw transparent solid;
+  border-right: 1.75vw transparent solid;
   border-top: unset;
   z-index: -1;
 }
@@ -185,8 +185,8 @@ button {
   height: 0;
   filter: blur(1px);
   border-bottom: 4vh aquamarine solid;
-  border-left: 1.5vw transparent solid;
-  border-right: 1.5vw transparent solid;
+  border-left: 1.75vw transparent solid;
+  border-right: 1.75vw transparent solid;
   border-top: unset;
   z-index: -1;
 }
